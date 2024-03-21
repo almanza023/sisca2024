@@ -1,0 +1,472 @@
+<div class="grid">
+    <div class="col-12">
+        <p-toast></p-toast>
+        <div class="card p-fluid">
+            <div class="grid">
+                <div class="col-12 md:col-3 lg:col-6">
+                    <h3>{{ nombreModulo }}</h3>
+                </div>
+            </div>
+
+            <form
+            [formGroup]="form"
+            (ngSubmit)="onSubmit()"
+            class="p-grid p-fluid"
+        >
+
+            <div class="grid">
+                <div class="col-12 md:col-3 lg:col-3">
+                    <label for="nombres" class="label-bold">Nombres</label>
+                    <input
+                                required
+                                type="text"
+                                id="nombres"
+                                formControlName="nombres"
+                                pInputText
+                    />
+                    <div
+                                *ngIf="
+                                    form.get('nombres').invalid &&
+                                    (form.get('nombres').dirty ||
+                                        form.get('nombres').touched)
+                                "
+                            >
+                                <small
+                                    class="text-danger"
+                                    *ngIf="form.get('nombres').errors"
+                                    >El Nombre es requerido</small
+                                >
+                            </div>
+                </div>
+
+                <div class="col-12 md:col-3 lg:col-3">
+                    <label for="apellidos" class="label-bold">Apellidos</label>
+                    <input
+                    required
+                    type="text"
+                    id="apellidos"
+                    formControlName="apellidos"
+                    pInputText
+        />
+        <div
+                    *ngIf="
+                        form.get('apellidos').invalid &&
+                        (form.get('apellidos').dirty ||
+                            form.get('apellidos').touched)
+                    "
+                >
+                    <small
+                        class="text-danger"
+                        *ngIf="form.get('apellidos').errors"
+                        >El apellidos es requerido</small
+                    >
+                </div>
+                </div>
+
+                <div class="col-12 md:col-3 lg:col-3">
+                    <label for="tipo_doc" class="label-bold">Tipo Documento</label>
+                    <app-selector-generico [items]="itemsTipoDoc" #tipodoc
+                        (itemSeleccionado)="getValores($event, 'tipo_doc')"
+                    ></app-selector-generico>
+                    <div
+                    *ngIf="
+                        form.get('tipo_doc').invalid &&
+                        (form.get('tipo_doc').dirty ||
+                            form.get('tipo_doc').touched)
+                    "
+                >
+                    <small
+                        class="text-danger"
+                        *ngIf="form.get('tipo_doc').errors"
+                        >La Opción en Tipo de Documento es requerida</small
+                    >
+                </div>
+                </div>
+
+                <div class="col-12 md:col-3 lg:col-3">
+                    <label for="num_doc" class="label-bold">Número Documento</label>
+                    <input
+                    required
+                    type="number"
+                    id="num_doc"
+                    formControlName="num_doc"
+                    pInputText
+        />
+        <div
+                    *ngIf="
+                        form.get('num_doc').invalid &&
+                        (form.get('num_doc').dirty ||
+                            form.get('num_doc').touched)
+                    "
+                >
+                    <small
+                        class="text-danger"
+                        *ngIf="form.get('num_doc').errors"
+                        >El Número de Documento es requerido</small
+                    >
+                </div>
+                </div>
+
+            </div>
+
+            <div class="grid">
+                <div class="col-12 md:col-3 lg:col-3">
+                    <label for="fecha_nac" class="label-bold">Fecha de Nacimiento</label>
+                    <input
+                                required
+                                type="date"
+                                id="fecha_nac"
+                                formControlName="fecha_nac"
+                                pInputText
+                    />
+                    <div
+                                *ngIf="
+                                    form.get('fecha_nac').invalid &&
+                                    (form.get('fecha_nac').dirty ||
+                                        form.get('fecha_nac').touched)
+                                "
+                            >
+                                <small
+                                    class="text-danger"
+                                    *ngIf="form.get('fecha_nac').errors"
+                                    >La Fecha de nacimiento es requerida</small
+                                >
+                            </div>
+                </div>
+
+                <div class="col-12 md:col-3 lg:col-3">
+                    <label for="lugar_nac" class="label-bold">Lugar de Nacimiento</label>
+                    <input
+                    required
+                    type="text"
+                    id="lugar_nac"
+                    formControlName="lugar_nac"
+                    pInputText
+        />
+        <div
+                    *ngIf="
+                        form.get('lugar_nac').invalid &&
+                        (form.get('lugar_nac').dirty ||
+                            form.get('lugar_nac').touched)
+                    "
+                >
+                    <small
+                        class="text-danger"
+                        *ngIf="form.get('lugar_nac').errors"
+                        >El Lugar de Nacimiento es requerido</small
+                    >
+                </div>
+                </div>
+
+                <div class="col-12 md:col-3 lg:col-3">
+                    <label for="estrato" class="label-bold">Estrato</label>
+                    <input
+                    required
+                    type="number"
+                    id="estrato"
+                    formControlName="estrato"
+                    pInputText
+        />
+        <div
+                    *ngIf="
+                        form.get('estrato').invalid &&
+                        (form.get('estrato').dirty ||
+                            form.get('estrato').touched)
+                    "
+                >
+                    <small
+                        class="text-danger"
+                        *ngIf="form.get('estrato').errors"
+                        >El estrato es requerido</small
+                    >
+                </div>
+                </div>
+
+                <div class="col-12 md:col-3 lg:col-3">
+                    <label for="direccion" class="label-bold">Dirección</label>
+                    <input
+                    required
+                    type="text"
+                    id="direccion"
+                    formControlName="direccion"
+                    pInputText
+        />
+        <div
+                    *ngIf="
+                        form.get('direccion').invalid &&
+                        (form.get('direccion').dirty ||
+                            form.get('direccion').touched)
+                    "
+                >
+                    <small
+                        class="text-danger"
+                        *ngIf="form.get('direccion').errors"
+                        >La dirección es requerida </small
+                    >
+                </div>
+                </div>
+
+            </div>
+
+            <div class="grid">
+                <div class="col-12 md:col-3 lg:col-3">
+                    <label for="eps" class="label-bold">EPS</label>
+                    <input
+                                required
+                                type="text"
+                                id="eps"
+                                formControlName="eps"
+                                pInputText
+                    />
+                    <div
+                                *ngIf="
+                                    form.get('eps').invalid &&
+                                    (form.get('eps').dirty ||
+                                        form.get('eps').touched)
+                                "
+                            >
+                                <small
+                                    class="text-danger"
+                                    *ngIf="form.get('eps').errors"
+                                    >La EPS es requerida</small
+                                >
+                            </div>
+                </div>
+
+                <div class="col-12 md:col-3 lg:col-3">
+                    <label for="zona" class="label-bold">Zona</label>
+                    <app-selector-generico [items]="itemsZona" #zona
+                    (itemSeleccionado)="getValores($event, 'zona')"
+                ></app-selector-generico>
+        <div
+                    *ngIf="
+                        form.get('zona').invalid &&
+                        (form.get('zona').dirty ||
+                            form.get('zona').touched)
+                    "
+                >
+                    <small
+                        class="text-danger"
+                        *ngIf="form.get('zona').errors"
+                        >La Zona es requerida</small
+                    >
+                </div>
+                </div>
+
+                <div class="col-12 md:col-3 lg:col-3">
+                    <label for="nombre_acudiente" class="label-bold">Tipo Sangre</label>
+                    <app-selector-generico [items]="itemsTipoSangre" #tiposangre
+                    (itemSeleccionado)="getValores($event, 'tipo_sangre')"
+                ></app-selector-generico>
+        <div
+                    *ngIf="
+                        form.get('tipo_sangre').invalid &&
+                        (form.get('tipo_sangre').dirty ||
+                            form.get('tipo_sangre').touched)
+                    "
+                >
+                    <small
+                        class="text-danger"
+                        *ngIf="form.get('tipo_sangre').errors"
+                        >El Tipo de Sangre es requerido</small
+                    >
+                </div>
+                </div>
+
+                <div class="col-12 md:col-3 lg:col-3">
+                    <label for="desplazado" class="label-bold">Dezplazado</label>
+                    <app-selector-generico [items]="itemsSiNo" #desplazado
+                        (itemSeleccionado)="getValores($event, 'desplazado')"
+                    ></app-selector-generico>
+        <div
+                    *ngIf="
+                        form.get('desplazado').invalid &&
+                        (form.get('desplazado').dirty ||
+                            form.get('desplazado').touched)
+                    "
+                >
+                    <small
+                        class="text-danger"
+                        *ngIf="form.get('desplazado').errors"
+                        >La dirección es requerida </small
+                    >
+                </div>
+                </div>
+
+            </div>
+
+            <div class="grid">
+                <div class="col-12 md:col-3 lg:col-3">
+                    <label for="nombre_madre" class="label-bold">Nombre Madre</label>
+                    <input
+                                required
+                                type="text"
+                                id="nombre_madre"
+                                formControlName="nombre_madre"
+                                pInputText
+                    />
+
+                </div>
+
+                <div class="col-12 md:col-3 lg:col-3">
+                    <label for="nombre_padre" class="label-bold">Nombre Padre</label>
+                    <input
+                    required
+                    type="text"
+                    id="nombre_padre"
+                    formControlName="nombre_padre"
+                    pInputText
+        />
+
+                </div>
+
+                <div class="col-12 md:col-3 lg:col-3">
+                    <label for="nombre_acudiente" class="label-bold">Nombre Acudiente</label>
+                    <input
+                    required
+                    type="text"
+                    id="nombre_acudiente"
+                    formControlName="nombre_acudiente"
+                    pInputText
+        />
+        <div
+                    *ngIf="
+                        form.get('nombre_acudiente').invalid &&
+                        (form.get('nombre_acudiente').dirty ||
+                            form.get('nombre_acudiente').touched)
+                    "
+                >
+                    <small
+                        class="text-danger"
+                        *ngIf="form.get('nombre_acudiente').errors"
+                        >El Nombre del Acudiente es requerido</small
+                    >
+                </div>
+                </div>
+
+                <div class="col-12 md:col-3 lg:col-3">
+                    <label for="nombre_acudiente" class="label-bold">Teléfono Acudiente</label>
+                    <input
+                    required
+                    type="number"
+                    id="telefono_acudiente"
+                    formControlName="telefono_acudiente"
+                    pInputText
+        />
+        <div
+                    *ngIf="
+                        form.get('telefono_acudiente').invalid &&
+                        (form.get('telefono_acudiente').dirty ||
+                            form.get('telefono_acudiente').touched)
+                    "
+                >
+                    <small
+                        class="text-danger"
+                        *ngIf="form.get('telefono_acudiente').errors"
+                        >El Teléfono del acudiente es requerido </small
+                    >
+                </div>
+                </div>
+
+            </div>
+
+            <div class="grid">
+                <div class="col-12 md:col-3 lg:col-3">
+                    <label for="sede_id" class="label-bold">Sede</label>
+                    <app-selector-sede
+                        (itemSeleccionado)="getValores($event, 'sede')"
+                    ></app-selector-sede>
+                    <div
+                    *ngIf="
+                        form.get('sede_id').invalid &&
+                        (form.get('sede_id').dirty ||
+                            form.get('sede_id').touched)
+                    "
+                >
+                    <small
+                        class="text-danger"
+                        *ngIf="form.get('sede_id').errors"
+                        >El sede_id es requerido</small
+                    >
+                </div>
+                </div>
+
+                <div class="col-12 md:col-3 lg:col-3">
+                    <label for="nombre_padre" class="label-bold">Grado</label>
+                    <app-selector-grados
+                        (itemSeleccionado)="getValores($event, 'grado')"
+                    ></app-selector-grados>
+                    <div
+                    *ngIf="
+                        form.get('grado_id').invalid &&
+                        (form.get('grado_id').dirty ||
+                            form.get('grado_id').touched)
+                    "
+                >
+                    <small
+                        class="text-danger"
+                        *ngIf="form.get('grado_id').errors"
+                        >El Grado es requerido</small
+                    >
+                </div>
+                </div>
+
+                <div class="col-12 md:col-3 lg:col-3">
+                    <label for="folio" class="label-bold">Folio</label>
+                    <input
+                    required
+                    type="text"
+                    id="folio"
+                    formControlName="folio"
+                    pInputText
+        />
+        <div
+                    *ngIf="
+                        form.get('folio').invalid &&
+                        (form.get('folio').dirty ||
+                            form.get('folio').touched)
+                    "
+                >
+                    <small
+                        class="text-danger"
+                        *ngIf="form.get('folio').errors"
+                        >El Folio es requerido</small
+                    >
+                </div>
+                </div>
+
+                <div class="col-12 md:col-3 lg:col-3">
+                    <label for="repitente" class="label-bold">Repitente</label>
+                    <app-selector-generico [items]="itemsSiNo" #repitente
+                        (itemSeleccionado)="getValores($event, 'repitente')"
+                    ></app-selector-generico>
+                    <div
+                    *ngIf="
+                        form.get('repitente').invalid &&
+                        (form.get('repitente').dirty ||
+                            form.get('repitente').touched)
+                    "
+                >
+                    <small
+                        class="text-danger"
+                        *ngIf="form.get('repitente').errors"
+                        >La Opción Repitente es requerida</small
+                    >
+                </div>
+                </div>
+
+            </div>
+
+            <!-- Botón de enviar -->
+            <div class="grid">
+                <div class="col-12 md:col-3 lg:col-3">
+                    <button type="submit" icon="pi pi-check" class="p-button-info" pButton> Guardar</button>
+                </div>
+                <div class="col-12 md:col-3 lg:col-3">
+                    <button type="submit" [routerLink]="['/matriculas']" routerLinkActive="router-link-active"   class="p-button-danger" pButton> Volver</button>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>

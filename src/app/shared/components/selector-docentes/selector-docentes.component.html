@@ -1,0 +1,7 @@
+<p-dropdown [options]="items" optionLabel="nombres" appendTo="body" [filter]="true" [(ngModel)]="seleccionado" filterBy="nombres,apellidos,documento" [showClear]="true" placeholder="Seleccione una Opción" (onChange)="onChange($event)">
+    <ng-template let-item pTemplate="item">
+        <div class="flex align-items-center gap-2">
+            <div>{{item.nombres+' '+item.apellidos }}</div>
+        </div>
+    </ng-template>
+</p-dropdown>

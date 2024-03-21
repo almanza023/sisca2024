@@ -1,0 +1,13 @@
+<p-calendar
+appendTo="body"  
+[showButtonBar]="true"
+[(ngModel)]="rangeDates" 
+selectionMode="range" 
+inputId="range"
+dateFormat="dd/mm/yy"
+[showIcon]="true"
+(onSelect)="onSelect($event)"
+[styleClass]="'custom-height'"
+(onClearClick)="onClear($event)"
+></p-calendar>
+

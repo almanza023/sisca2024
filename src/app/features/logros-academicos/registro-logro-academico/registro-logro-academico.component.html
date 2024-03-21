@@ -1,0 +1,279 @@
+<div class="grid">
+    <div class="col-12">
+        <p-toast></p-toast>
+        <div class="card p-fluid">
+            <div class="grid">
+                <div class="col-12 md:col-6 lg:col-6">
+                    <h3>{{ nombreModulo }}</h3>
+                </div>
+            </div>
+
+            <form
+            [formGroup]="form"
+            (ngSubmit)="onSubmit()"
+            class="p-grid p-fluid"
+        >
+
+            <div class="grid">
+                <!-- Columna 1 -->
+                <div class="col-12 md:col-4 lg:col-3">
+                    <label for="tipo" class="label-bold">Sede</label>
+                    <app-selector-sede
+                        (itemSeleccionado)="getValores($event, 'sede')"
+                    ></app-selector-sede>
+                    <div
+                                *ngIf="
+                                    form.get('sede_id').invalid &&
+                                    (form.get('sede_id').dirty ||
+                                        form.get('sede_id').touched)
+                                "
+                            >
+                                <small
+                                    class="text-danger"
+                                    *ngIf="form.get('sede_id').errors"
+                                    >La Sede es requerida</small
+                                >
+                            </div>
+                </div>
+                <!-- Columna 2 -->
+                <div class="col-12 md:col-6 lg:col-3">
+                    <label for="grado" class="label-bold">Grado</label>
+                    <app-selector-grados
+                        (itemSeleccionado)="getValores($event, 'grado')"
+                    ></app-selector-grados>
+                    <div
+                                *ngIf="
+                                    form.get('grado_id').invalid &&
+                                    (form.get('grado_id').dirty ||
+                                        form.get('grado_id').touched)
+                                "
+                            >
+                                <small
+                                    class="text-danger"
+                                    *ngIf="form.get('grado_id').errors"
+                                    >El Grado es requerido</small
+                                >
+                            </div>
+                </div>
+                <div class="col-12 md:col-6 lg:col-3">
+                    <label for="asignatura" class="label-bold">Aréa/Asignatura</label>
+                    <app-selector-asignaturas
+                        (itemSeleccionado)="getValores($event, 'asignatura')"
+                    ></app-selector-asignaturas>
+                    <div
+                                *ngIf="
+                                    form.get('asignatura_id').invalid &&
+                                    (form.get('asignatura_id').dirty ||
+                                        form.get('asignatura_id').touched)
+                                "
+                            >
+                                <small
+                                    class="text-danger"
+                                    *ngIf="form.get('asignatura_id').errors"
+                                    >La Asignatura es requerida</small
+                                >
+                            </div>
+                </div>
+
+                <div class="col-12 md:col-3 lg:col-3">
+                    <label for="docente" class="label-bold">Periodo</label>
+                    <app-selector-periodo
+                        (itemSeleccionado)="getValores($event, 'periodo')"
+                    ></app-selector-periodo>
+                    <div
+                                *ngIf="
+                                    form.get('periodo_id').invalid &&
+                                    (form.get('periodo_id').dirty ||
+                                        form.get('periodo_id').touched)
+                                "
+                            >
+                                <small
+                                    class="text-danger"
+                                    *ngIf="form.get('periodo_id').errors"
+                                    >El Periodo es requerido</small
+                                >
+                            </div>
+                </div>
+            </div>
+            <div class="grid">
+                <div class="col-12 md:col-6 lg:col-3">
+                    <label for="ihs" class="label-bold">Tipo Logro</label>
+                    <app-selector-tipo-logro-academico
+                    (itemSeleccionado)="getValores($event, 'tipo_logro')"
+                ></app-selector-tipo-logro-academico>
+                    <div
+                                *ngIf="
+                                    form.get('tipo_logro_id').invalid &&
+                                    (form.get('tipo_logro_id').dirty ||
+                                        form.get('tipo_logro_id').touched)
+                                "
+                            >
+                                <small
+                                    class="text-danger"
+                                    *ngIf="form.get('tipo_logro_id').errors"
+                                    >El Tipo Logro es requerido</small
+                                >
+                            </div>
+                </div>
+
+                <div class="col-12 md:col-6 lg:col-9">
+                    <label for="porcentaje" class="label-bold">Descripción</label>
+                    <textarea pInputTextarea  formControlName="descripcion"></textarea>
+        <div
+                    *ngIf="
+                        form.get('descripcion').invalid &&
+                        (form.get('descripcion').dirty ||
+                            form.get('descripcion').touched)
+                    "
+                >
+                    <small
+                        class="text-danger"
+                        *ngIf="form.get('descripcion').errors"
+                        >La Descripción es requerida</small
+                    >
+                </div>
+                </div>
+            </div>
+
+            <!-- Botón de enviar -->
+            <div class="grid">
+                <div class="col-12 md:col-3 lg:col-3">
+                    <button type="submit" icon="pi pi-check" class="p-button-info" pButton> Guardar</button>
+                </div>
+                <div class="col-12 md:col-3 lg:col-3">
+                    <form
+                    [formGroup]="formBuscar"
+                    (ngSubmit)="onSubmitBuscar()"
+                >
+                    <button type="submit" icon="pi pi-search" class="p-button-warning" pButton> Buscar</button>
+
+                </form>
+            </div>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <p-table #dt [value]="data" [columns]="cols" [rows]="10" [globalFilterFields]="[
+            'sede.nombre',
+            'grado.descripcion',
+            'asignatura.nombre',
+            'docente.nombres',
+            'id',
+            'estado',
+        ]" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10, 20, 30]" [showCurrentPageReport]="true" [rowHover]="true" responsiveLayout="scroll" currentPageReportTemplate="Mostrando {first} to {last} de {totalRecords} registros" dataKey="id">
+        <ng-template pTemplate="caption">
+            <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                <h5 class="m-0">Información General</h5>
+                <span class="block mt-2 md:mt-0 p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input (input)="onGlobalFilter(dt, $event)"
+                        pInputText
+                        type="text"
+                        placeholder="Buscar..."
+                        class="w-full sm:w-auto">
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="id">
+                    Código
+                    <p-sortIcon field="id"></p-sortIcon>
+                </th>
+                <th pSortableColumn="sede.nombre">
+                    Sede
+                    <p-sortIcon field="sede.nombre"></p-sortIcon>
+                </th>
+                <th pSortableColumn="grado.descripcion">
+                    Grado
+                    <p-sortIcon field="grado.descripcion"></p-sortIcon>
+                </th>
+                <th pSortableColumn="asignatura.nombre">
+                   Aréa/Asignatura
+                    <p-sortIcon field="asignatura.nombre"></p-sortIcon>
+                </th>
+                <th pSortableColumn="periodo.descripcion">
+                    Periodo
+                    <p-sortIcon field="periodo.descripcion"></p-sortIcon>
+                </th>
+                <th pSortableColumn="tipo.descripcion">
+                    Tipo Logro
+                     <p-sortIcon field="tipo.descripcion"></p-sortIcon>
+                 </th>
+                <th pSortableColumn="descripcion">
+                   Descripcion
+                    <p-sortIcon field="descripcion"></p-sortIcon>
+                </th>
+
+                <th pSortableColumn="estado">
+                    Estado
+                    <p-sortIcon field="estado"></p-sortIcon>
+                </th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr>
+                <td style="width: 10%; min-width: 5rem">
+                    <span class="p-column-title">Código</span> {{ item.id }}
+                </td>
+                <td style="width: 32%; min-width: 10rem">
+                    <span class="p-column-title">Sede</span> {{ item.sede.nombre }}
+                </td>
+                <td style="width: 22%; min-width: 10rem">
+                    <span class="p-column-title">Grado</span> {{ item.grado.descripcion }}
+                </td>
+                <td style="width: 22%; min-width: 10rem">
+                    <span class="p-column-title">Aréa/Asignatura</span> {{ item.asignatura.nombre }}
+                </td>
+                <td style="width: 22%; min-width: 5rem">
+                    <span class="p-column-title">Periodo</span> {{ item.periodo.numero }}
+                </td>
+                <td style="width: 22%; min-width: 10rem">
+                    <span class="p-column-title">Tipo Logro</span> {{ item.tipo.nombre }}
+                </td>
+                <td style="width: 22%; min-width: 20rem">
+                    <span class="p-column-title">Descripción</span> {{ item.descripcion }}
+                </td>
+                <td style="width: 26%; min-width: 10rem">
+                    <span class="p-column-title">Estado</span> {{ item.estado=="1"?'ACTIVO':'BLOQUEADO'}}
+                </td>
+
+                <td>
+                    <div class="flex">
+                        <button (click)="edit(item)" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"></button>
+                        <p-button (click)="bloqueoCliente(item)"   icon="pi pi-check"
+                            styleClass="p-button-rounded p-button-warning"></p-button>
+
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+        </div>
+
+
+        <p-dialog [(visible)]="deleteProductDialog" [modal]="true" [style]="{ width: '450px' }" header="Confirmar">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="carga">
+					Esta seguro de Elminar el Registro ?		</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button (click)="confirmDelete()" pButton pRipple icon="pi pi-check" class="p-button-success" label="Aceptar"></button>
+                <button (click)="deleteProductDialog = false" pButton pRipple icon="pi pi-times" class="p-button-danger" label="Cancelar"></button>
+
+            </ng-template>
+        </p-dialog>
+
+
+
+
+    </div>
+</div>

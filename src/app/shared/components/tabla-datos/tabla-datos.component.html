@@ -1,0 +1,133 @@
+<p-table #dt [value]="datos" [columns]="cols" [rows]="20" [globalFilterFields]="[
+    'numerodocumento',
+    'nombrecompleto',
+    'telefono',
+    'puesto.descripcion',
+    'barrio.descripcion',
+    'mesa',
+]" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10, 20, 30, 40, 50]" [showCurrentPageReport]="true" [rowHover]="true" responsiveLayout="scroll" currentPageReportTemplate="Mostrando {first} to {last} de {totalRecords} registros" dataKey="id">
+    <ng-template pTemplate="caption">
+
+
+        <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+            <h5 class="m-0">Información General</h5>
+            <span class="block mt-2 md:mt-0 p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input (input)="onGlobalFilter(dt, $event)"
+                pInputText
+                type="text"
+                placeholder="Buscar..."
+                class="w-full sm:w-auto">
+                <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom">
+                </button>
+            </span>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="id">
+                Código Interno
+                <p-sortIcon field="id"></p-sortIcon>
+            </th>
+            <th pSortableColumn="nombrecompleto">
+                Nombre Completo
+                <p-sortIcon field="nombrecompleto"></p-sortIcon>
+            </th>
+            <th pSortableColumn="numerodocumento">
+                N° Documento
+                <p-sortIcon field="numerodocumento"></p-sortIcon>
+            </th>
+            <th pSortableColumn="telefono">
+                Télefono
+                <p-sortIcon field="telefono"></p-sortIcon>
+            </th>
+            <th pSortableColumn="municipio">
+                Municipio
+                <p-sortIcon field="municipio"></p-sortIcon>
+            </th>
+            <th pSortableColumn="telefono">
+                Puesto Votación
+                <p-sortIcon field="telefono"></p-sortIcon>
+            </th>
+            <th pSortableColumn="mesa">
+                Mesa
+                <p-sortIcon field="mesa"></p-sortIcon>
+            </th>
+            <th pSortableColumn="barrio.descripcion">
+                Barrio
+                <p-sortIcon field="barrio.descripcion"></p-sortIcon>
+            </th>
+
+            <th pSortableColumn="lider">
+                Líder
+                <p-sortIcon field="lider"></p-sortIcon>
+            </th>
+            <th pSortableColumn="lider">
+                Sublíder
+                <p-sortIcon field="lider"></p-sortIcon>
+            </th>
+            <th pSortableColumn="motivollamada">
+                Motivo Llamada
+                <p-sortIcon field="motivollamada"></p-sortIcon>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item>
+        <tr [ngClass]="getStatusClass(item.tipo_persona)">
+            <td style="width: 5%; min-width: 10rem">
+                <span class="p-column-title">Código</span> {{ item.id }}
+            </td>
+            <td style="width: 15%; min-width: 10rem">
+                <span class="p-column-title">Nombre Completo</span> {{ item.nombrecompleto }}
+            </td>
+            <td style="width: 10%; min-width: 10rem">
+                <span class="p-column-title">N° Documento</span> {{ item.numerodocumento }}
+            </td>
+            <td style="width: 10%; min-width: 10rem">
+                <span class="p-column-title">Teléfono</span> {{ item.telefono }}
+            </td>
+            <td style="width: 10%; min-width: 10rem">
+                <span class="p-column-title">Municipio</span>
+                <div *ngIf="item.municipio">
+                    {{ item.municipio }}
+                </div>
+            </td>
+            <td style="width: 10%; min-width: 10rem">
+                <span class="p-column-title">Puesto Votación</span>
+                <div >
+                    {{ item.puesto }}
+                </div>
+            </td>
+            <td style="width: 10%; min-width: 10rem">
+                <span class="p-column-title">Mesa</span> {{ item.mesa }}
+            </td>
+            <td style="width: 10%; min-width: 10rem">
+                <span class="p-column-title" *ngIf="item.barrio ">Barrio</span>
+                <div *ngIf="item.barrio">
+                    {{ item.barrio }}
+                </div>
+
+            </td>
+            <td style="width: 10%; min-width: 10rem">
+                <span class="p-column-title">Líder</span>
+                <div *ngIf="item.lider">
+                    {{ item.lider }}
+                </div>
+            </td>
+
+            <td style="width: 10%; min-width: 10rem">
+                <span class="p-column-title">Sublider</span>
+                <div *ngIf="item.sublider">
+                    {{ item.sublider }}
+                </div>
+            </td>
+
+            <td style="width: 10%; min-width: 10rem">
+                <span class="p-column-title">Motivo Llamada</span>
+                <div *ngIf="item.motivollamada">
+                    {{ item.motivollamada }}
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

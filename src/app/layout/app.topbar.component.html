@@ -1,0 +1,20 @@
+<div class="layout-topbar">
+    <a class="layout-topbar-logo" routerLink="/">
+        <img src="assets/images/logo_ineda.png" alt="logo">
+        <h6>INEDA 2024</h6>
+    </a>
+    <app-menu style="width: 100%;"></app-menu>
+
+
+
+    <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+        <br>
+
+        <h6>{{ nombreUsuario }}</h6>
+        <button class="p-link layout-topbar-button" [routerLink]="'/auth'">
+            <i class="pi pi-sign-out"></i>
+            <span>Cerrar Sesión</span>
+        </button>
+    </div>
+
+</div>

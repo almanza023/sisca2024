@@ -1,0 +1,87 @@
+<div class="grid">
+    <div class="col-12">
+        <p-toast></p-toast>
+        <div class="card p-fluid">
+            <h5>Reportes</h5>
+            <div class="p-formgrid grid">
+                <div class="field col">
+                    <label htmlFor="name2">Líder</label>
+                    <!--
+                        <app-selector-lider-sublider isLider="1" (itemSeleccionado)="getLider($event)">
+
+                    </app-selector-lider-sublider>
+                    -->
+
+                </div>
+                <div class=" field col" *ngIf="filtro.lider">
+                    <label htmlFor="email2 ">SubLider</label>
+                    <!--
+                        <app-selector-sublider [lider]="filtro.lider" (itemSeleccionado)="getSubLider($event)">
+
+                    </app-selector-sublider>
+                    -->
+                </div>
+
+            </div>
+
+            <div class="p-formgrid grid">
+                <div class="field col">
+                    <p-button label="Solo Líder" [loading]="loading1" (onClick)="soloLider()"></p-button>
+                </div>
+
+                <div class="field col">
+                    <p-button label="Todos los Sublideres" styleClass="p-button-success" [loading]="loading2" (onClick)="sublideresTodos()"></p-button>
+                </div>
+
+                <div class="field col">
+                    <p-button label="Sublíder Individual" styleClass="p-button-warning" [loading]="loading3" (onClick)="consultar()"></p-button>
+                </div>
+
+            </div>
+
+            <div class="p-formgrid grid">
+                <h3>Reporte Código de Votantes</h3><br>
+                <div class="field col">
+                    <p-button label="Solo Líder" [loading]="loadingCodigo1" (onClick)="soloLiderCodigo()"></p-button>
+                </div>
+
+                <div class="field col">
+                    <p-button label="Todos los Sublideres" styleClass="p-button-success" [loading]="loadingCodigo2" (onClick)="sublideresTodosCodigo()"></p-button>
+                </div>
+
+                <div class="field col">
+                    <p-button label="Sublíder Individual" styleClass="p-button-warning" [loading]="loadingCodigo3" (onClick)="consultarCodigo()"></p-button>
+                </div>
+
+            </div>
+
+            <div class="p-formgrid grid">
+                <h3>Reporte Ticket Votantes</h3><br>
+                <div class="field col">
+                    <p-button label="Solo Líder" [loading]="loadingTicket1" (onClick)="soloLiderTicket()"></p-button>
+                </div>
+
+                <div class="field col">
+                    <p-button label="Todos los Sublideres" styleClass="p-button-success" [loading]="loadingTicket2" (onClick)="sublideresTodosTicket()"></p-button>
+                </div>
+
+                <div class="field col">
+                    <p-button label="Sublíder Individual" styleClass="p-button-warning" [loading]="loadingTicket3" (onClick)="consultarTicket()"></p-button>
+                </div>
+
+            </div>
+
+            <div class="p-formgrid grid">
+                <div class="field col">
+                    <p-button label="Puesto Votación"  (onClick)="puestosVotacion()"></p-button>
+                </div>
+                <div class="field col">
+                    <p-button label="Mesas de Votación" styleClass="p-button-info" (onClick)="mesasVotacion()"></p-button>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

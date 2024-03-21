@@ -1,0 +1,370 @@
+<div class="grid">
+    <div class="col-12">
+        <p-toast></p-toast>
+        <div class="card p-fluid">
+            <div class="grid">
+                <div class="col-12 md:col-6 lg:col-6">
+                    <h3>{{ nombreModulo }}</h3>
+                </div>
+            </div>
+
+            <form
+                [formGroup]="form"
+                (ngSubmit)="onSubmit()"
+                class="p-grid p-fluid"
+            >
+                <div class="grid">
+                    <!-- Columna 1 -->
+                    <div class="col-12 md:col-4 lg:col-4">
+                        <label for="tipo" class="label-bold">Sede</label>
+                        <app-selector-sede
+                            (itemSeleccionado)="getValores($event, 'sede')"
+                        ></app-selector-sede>
+                        <div
+                            *ngIf="
+                                form.get('sede_id').invalid &&
+                                (form.get('sede_id').dirty ||
+                                    form.get('sede_id').touched)
+                            "
+                        >
+                            <small
+                                class="text-danger"
+                                *ngIf="form.get('sede_id').errors"
+                                >La Sede es requerida</small
+                            >
+                        </div>
+                    </div>
+                    <!-- Columna 2 -->
+                    <div class="col-12 md:col-4 lg:col-4">
+                        <label for="grado" class="label-bold">Grado</label>
+                        <app-selector-grados
+                            (itemSeleccionado)="getValores($event, 'grado')"
+                        ></app-selector-grados>
+                        <div
+                            *ngIf="
+                                form.get('grado_id').invalid &&
+                                (form.get('grado_id').dirty ||
+                                    form.get('grado_id').touched)
+                            "
+                        >
+                            <small
+                                class="text-danger"
+                                *ngIf="form.get('grado_id').errors"
+                                >El Grado es requerido</small
+                            >
+                        </div>
+                    </div>
+
+                    <div class="col-12 md:col-4 lg:col-4">
+                        <label for="docente" class="label-bold">Periodo</label>
+                        <app-selector-periodo
+                            (itemSeleccionado)="getValores($event, 'periodo')"
+                        ></app-selector-periodo>
+                        <div
+                            *ngIf="
+                                form.get('periodo_id').invalid &&
+                                (form.get('periodo_id').dirty ||
+                                    form.get('periodo_id').touched)
+                            "
+                        >
+                            <small
+                                class="text-danger"
+                                *ngIf="form.get('periodo_id').errors"
+                                >El Periodo es requerido</small
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botón de enviar -->
+                <div class="grid">
+                    <div class="col-12 md:col-3 lg:col-3">
+                        <button
+                            type="submit"
+                            icon="pi pi-search"
+                            class="p-button-info"
+                            pButton
+                        >
+                            Buscar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<app-loading *ngIf="mostrarLoading"></app-loading>
+
+<div class="grid" *ngIf="data.length > 0">
+    <div class="col-12">
+        <p-toast></p-toast>
+        <div class="card px-6 py-6">
+                <p-table
+                    #dt
+                    [value]="data"
+                    [columns]="cols"
+                    [rows]="50"
+                    [globalFilterFields]="[
+                        'apellidos',
+                        'nombres',
+                        'id',
+                        'estado'
+                    ]"
+                    [rows]="10"
+                    [paginator]="false"
+                    [rowsPerPageOptions]="[10, 20, 30]"
+                    [showCurrentPageReport]="true"
+                    [rowHover]="true"
+                    responsiveLayout="scroll"
+                    currentPageReportTemplate="Mostrando {first} to {last} de {totalRecords} registros"
+                    dataKey="id"
+                >
+                    <ng-template pTemplate="caption">
+                        <div
+                            class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
+                        >
+                            <h5 class="m-0">Información General</h5>
+                            <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input
+                                    (input)="onGlobalFilter(dt, $event)"
+                                    pInputText
+                                    type="text"
+                                    placeholder="Buscar..."
+                                    class="w-full sm:w-auto"
+                                />
+                            </span>
+                        </div>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="">
+                                N°
+                                <p-sortIcon field=""></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="apellidos">
+                                Estudiante
+                                <p-sortIcon field="apellidos"></p-sortIcon>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-item let-i="rowIndex"
+                        >
+                        <tr>
+                            <td style="width: 10%; min-width: 5rem">
+                                <span class="p-column-title">Código</span>
+                                {{ i + 1 }}
+                            </td>
+                            <td style="width: 32%; min-width: 10rem">
+                                <span class="p-column-title">Estudiante</span>
+                                {{ item.apellidos + " " + item.nombres }}
+                            </td>
+                         <td>
+                                <div class="flex">
+                                    <button
+                                        (click)="openModalCalificar(item)"
+                                        pButton
+                                        pRipple
+                                        icon="pi pi-pencil"
+                                        class="p-button-rounded p-button-success mr-2"
+                                    > Calificar </button>
+
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+        </div>
+    </div>
+</div>
+
+<p-dialog position="top" [header]="nombreEstudiante"  [maximizable]="true" [(visible)]="modalDetalle" [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}">
+    <form [formGroup]="formEnviar" (ngSubmit)="onSubmitEnviar()">
+    <p-table
+    #dtdetalles
+    [value]="asignaturas"
+    [columns]="cols"
+    [rows]="50"
+    [globalFilterFields]="[
+        'descripcion'
+    ]"
+    [paginator]="false"
+    [rowsPerPageOptions]="[10, 20, 30]"
+    [showCurrentPageReport]="true"
+    [rowHover]="true"
+    responsiveLayout="scroll"
+    currentPageReportTemplate="Mostrando {first} to {last} de {totalRecords} registros"
+    dataKey="id"
+>
+    <ng-template pTemplate="caption">
+        <div
+            class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
+        >
+            <span class="block mt-2 md:mt-0 p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input
+                    (input)="onGlobalFilter(dtdetalles, $event)"
+                    pInputText
+                    type="text"
+                    placeholder="Buscar..."
+                    class="w-full sm:w-auto"
+                />
+            </span>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="descripcion">
+                Aréa/Asignatura
+                <p-sortIcon field="descripcion"></p-sortIcon>
+            </th>
+            <th pSortableColumn="">
+                Logro Disciplinario
+                <p-sortIcon field=""></p-sortIcon>
+            </th>
+            <th >
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item let-i="rowIndex"
+        >
+        <tr>
+            <td style="width: 32%; min-width: 10rem">
+                <span class="p-column-title"> Aréa/Asignatura</span>
+                {{ item.descripcion }}
+            </td>
+
+            <td style="width: 25%; min-width: 15rem">
+                <span class="p-column-title"
+                    >Nota Periodo (100%)</span>
+
+
+                    <input
+                        type="number"
+                        pInputText
+                        formControlName="logro"
+                        min="1"
+                        step="1"
+                        required
+                    />
+
+            </td>
+
+            <td style="width: 25%; min-width: 15rem">
+                <p-button
+                                        (click)="openModalLogros(i)"
+                                        icon="pi pi-check"
+                                        styleClass="p-button-rounded p-button-warning"
+                                    ></p-button>
+
+            </td>
+
+
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <tr>
+            <td >
+                <button
+                               type="submit"
+                                pButton
+                                pRipple
+                                icon="pi pi-check"
+                                class="p-button-rounded p-button-success mr-2"
+                            >Guardar</button>
+            </td>
+            <td >
+                <button
+                               (click)="modalDetalle=false;"
+                                pButton
+                                pRipple
+                                icon="pi pi-check"
+                                class="p-button-rounded p-button-danger mr-2"
+                            >Cerrar</button>
+            </td>
+        </tr>
+    </ng-template>
+
+</p-table>
+</form>
+</p-dialog>
+
+<p-dialog position="top" header="Logros Disciplinarios" [(visible)]="modalLogros" [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}">
+    <p-table
+    #dtlogros
+    [value]="listadoLogros"
+    [columns]="cols"
+    [rows]="50"
+    [globalFilterFields]="[
+        'id',
+        'descripcion'
+    ]"
+    [rows]="10"
+    [paginator]="false"
+    [rowsPerPageOptions]="[10, 20, 30]"
+    [showCurrentPageReport]="true"
+    [rowHover]="true"
+    responsiveLayout="scroll"
+    currentPageReportTemplate="Mostrando {first} to {last} de {totalRecords} registros"
+    dataKey="id"
+>
+    <ng-template pTemplate="caption">
+        <div
+            class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
+        >
+            <span class="block mt-2 md:mt-0 p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input
+                    (input)="onGlobalFilter(dtlogros, $event)"
+                    pInputText
+                    type="text"
+                    placeholder="Buscar..."
+                    class="w-full sm:w-auto"
+                />
+            </span>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="id">
+                Código
+                <p-sortIcon field="id"></p-sortIcon>
+            </th>
+            <th pSortableColumn="descripion">
+                Descripcion
+                <p-sortIcon field="descripion"></p-sortIcon>
+            </th>
+            <th></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item let-i="rowIndex"
+        >
+        <tr>
+            <td style="width: 32%; min-width: 10rem">
+                <span class="p-column-title">Código</span>
+                {{ item.id }}
+            </td>
+
+            <td style="width: 50%; min-width: 20rem">
+                <span class="p-column-title">Descripción</span>
+                {{ item.descripcion }}
+            </td>
+
+            <td>
+                <div class="flex">
+                    <button
+                        (click)="seleccionar(item)"
+                        pButton
+                        pRipple
+                        icon="pi pi-pencil"
+                        class="p-button-rounded p-button-success mr-2"
+                    ></button>
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+</p-dialog>
+
