@@ -1,14 +1,11 @@
-<div class="grid" *ngIf="rol=='2'">
+<div class="grid" *ngIf="rol=='3'">
 
             <div class="col-12 lg:col-6 xl:col-3">
                 <div class="card mb-0">
                     <div class="flex justify-content-between mb-3">
                         <div>
-                            <span class="block text-500 font-medium mb-3">Potencial Electoral</span>
-                            <div class="text-900 font-medium text-xl">{{ contadores.votantes }}</div>
-                        </div>
-                        <div class="flex align-items-center justify-content-center bg-blue-100 border-round">
-                            <i class="pi pi-shopping-cart text-blue-500 text-xl"></i>
+                            <span class="block text-500 font-medium mb-3">Sedes</span>
+                            <div class="text-900 font-medium text-xl">{{ contadores.sedes }}</div>
                         </div>
                     </div>
                 </div>
@@ -17,11 +14,8 @@
                 <div class="card mb-0">
                     <div class="flex justify-content-between mb-3">
                         <div>
-                            <span class="block text-500 font-medium mb-3">Lideres</span>
-                            <div class="text-900 font-medium text-xl">{{ contadores.lideres }}</div>
-                        </div>
-                        <div class="flex align-items-center justify-content-center bg-orange-100 border-round">
-                            <i class="pi pi-map-marker text-orange-500 text-xl"></i>
+                            <span class="block text-500 font-medium mb-3">Docentes</span>
+                            <div class="text-900 font-medium text-xl">{{ contadores.docentes }}</div>
                         </div>
                     </div>
                 </div>
@@ -30,11 +24,8 @@
                 <div class="card mb-0">
                     <div class="flex justify-content-between mb-3">
                         <div>
-                            <span class="block text-500 font-medium mb-3">Sublideres</span>
-                            <div class="text-900 font-medium text-xl">{{ contadores.sublideres }}</div>
-                        </div>
-                        <div class="flex align-items-center justify-content-center bg-cyan-100 border-round">
-                            <i class="pi pi-inbox text-cyan-500 text-xl"></i>
+                            <span class="block text-500 font-medium mb-3">Matriculas</span>
+                            <div class="text-900 font-medium text-xl">{{ contadores.matriculas }}</div>
                         </div>
                     </div>
 
@@ -48,121 +39,88 @@
                             <div class="text-900 font-medium text-xl">{{ contadores.confirmados }}</div>
                             <div class="text-900 font-medium text-xl">{{ contadores.porcentajeConfirmado }}%</div>
                         </div>
-                        <div class="flex align-items-center justify-content-center bg-purple-100 border-round">
-
-                            <i class="pi pi-comment text-purple-500 text-xl">
-                            </i>
-                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="grid">
-                <div class="col-12 lg:col-6 xl:col-6">
-                    <div class="card mb-0">
-                        <div class="flex justify-content-between mb-3">
-                            <div>
-                                <span class="block text-500 font-medium mb-3">Potencial Electoral SINCELEJO</span>
-                                <div class="text-900 font-medium text-xl">{{ contadores.potencialSincelejo }}</div>
-                            </div>
-                            <div class="flex align-items-center justify-content-center bg-blue-100 border-round">
-                                <i class="pi pi-shopping-cart text-blue-500 text-xl"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-
-                <div class="col-12 lg:col-6 xl:col-6">
-                    <div class="card mb-0">
-                        <div class="flex justify-content-between mb-3">
-                            <div>
-                                <span class="block text-500 font-medium mb-3">Potencial Electoral OTRAS CIUDADES</span>
-                                <div class="text-900 font-medium text-xl">{{ contadores.potencialOtraCiudad }}</div>
-                            </div>
-                            <div class="flex align-items-center justify-content-center bg-cyan-100 border-round">
-                                <i class="pi pi-inbox text-cyan-500 text-xl"></i>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="col-12 xl:col-9">
+            <div class="col-12 md:col-3">
                 <div class="card">
-                    <h5>Movimientos por Lideres</h5>
-                    <p-table [value]="estadisticas" [tableStyle]="{ 'min-width': '50rem' }">
+                    <h5>Total Estudiantes por Grado</h5>
+                    <p-table [value]="matriculasGrado" [tableStyle]="{ 'min-width': '25rem' }">
                         <ng-template pTemplate="header">
                             <tr>
-                                <th>Nombre</th>
-                                <th>Teléfono</th>
-                                <th>Cantidad de Votos</th>
-                                <th>Cantidad Sublíderes</th>
-                                <th>Votos Sincelejo</th>
-                                <th>Sublideres Sincelejo</th>
-                                <th>Confirmados</th>
+                                <th>Grado</th>
+                                <th>Total</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-item>
                             <tr>
-                                <td>{{ item.nombrecompleto }}</td>
-                                <td>{{ item.telefono }}</td>
-                                <td>{{ item.totalvotos }}</td>
-                                <td>{{ item.totalsublider }}</td>
-                                <td>{{ item.totalvotossincelejo }}</td>
-                                <td>{{ item.totalsublidersincelejo }}</td>
-                                <td>{{ item.confirmados }}</td>
-                            </tr>
+                                <td >{{ item.descripcion }}</td>
+                                <td>{{ item.total }}</td>
                         </ng-template>
                     </p-table>
                 </div>
 
             </div>
-            <div class="col-12 lg:col-6 xl:col-3">
-                <div class="card mb-0">
-                    <div class="flex justify-content-between mb-3">
-                        <div>
-                            <span class="block text-500 font-medium mb-3">Reporte</span>
-                            <div class="text-900 font-medium text-xl">General</div>
-                        </div>
-                        <div class="flex align-items-center justify-content-center bg-purple-100 border-round">
-                            <p-button label="Generar Reporte" (onClick)="getEstadisticaGeneral()"></p-button>
-                        </div>
-                    </div>
+
+            <div class="col-12 xl:col-3">
+                <div class="card">
+                    <h5>Total Estudiantes por Sede</h5>
+                    <p-table [value]="matriculasSede" [tableStyle]="{ 'min-width': '25rem' }">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Sede</th>
+                                <th>Total</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item>
+                            <tr>
+                                <td>{{ item.nombre }}</td>
+                                <td>{{ item.total }}</td>
+                        </ng-template>
+                    </p-table>
                 </div>
+
             </div>
+
 
 </div>
 
-<div class="grid" *ngIf="rol=='3'">
+<div class="grid" *ngIf="rol=='1' || rol=='2' || rol=='4'">
 
-    <div class="col-12 lg:col-6 xl:col-6">
+    <div class="col-12 lg:col-6 xl:col-3">
         <div class="card mb-0">
             <div class="flex justify-content-between mb-3">
                 <div>
-                    <span class="block text-500 font-medium mb-3">PUESTO VOTACION A CONFIRMAR</span>
-                    <div class="text-900 font-medium text-xl"><b>{{ puestoconfirmado }}</b></div>
-                </div>
-                <div class="flex align-items-center justify-content-center bg-blue-100 border-round">
-                    <button pButton pRipple  label="Confirmar Votantes" (click)="abrirPageConfirmacion()" class="w-full p-3 text-xl"></button>
+                    <span class="block text-500 font-medium mb-3">Sede</span>
+                    <div class="text-900 font-medium text-xl">{{ contadoresDocentes.sede }}</div>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="col-12 lg:col-6 xl:col-6">
+    <div class="col-12 lg:col-6 xl:col-3">
         <div class="card mb-0">
             <div class="flex justify-content-between mb-3">
                 <div>
-                    <span class="block text-500 font-medium mb-3">TOTAL CONFIRMADOS</span>
-                    <div class="text-900 font-medium text-xl"><b>{{ totalconfirmados }}</b></div>
-                </div>
-                <div class="flex align-items-center justify-content-center bg-blue-100 border-round">
-                    <i class="pi pi-shopping-cart text-blue-500 text-xl"></i>
+                    <span class="block text-500 font-medium mb-3">Total Asignación</span>
+                    <div class="text-900 font-medium text-xl">{{ contadoresDocentes.asignaciones }}</div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Dirección Grado</span>
+                    <div class="text-900 font-medium text-xl">{{ contadoresDocentes.direcciongrado }}</div>
+                </div>
+            </div>
+
+        </div>
     </div>
+</div>
+
+
+

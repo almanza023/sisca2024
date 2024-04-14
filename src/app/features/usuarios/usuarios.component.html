@@ -85,7 +85,7 @@
                         <td>
                             <div class="flex">
                                 <button (click)="editProduct(item)" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"></button>
-                                <p-button (click)="bloqueoCliente(item)" icon="pi pi-check" styleClass="p-button-rounded p-button-text"></p-button>
+                                <p-button (click)="bloqueoCliente(item)" icon="pi pi-check" styleClass="p-button-rounded p-button-warning"></p-button>
 
                             </div>
                         </td>
@@ -137,8 +137,8 @@
             </div>
 
             <ng-template pTemplate="footer">
-                <button (click)="saveProduct()" pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text"></button>
-                <button (click)="hideDialog()" pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text"></button>
+                <button (click)="saveProduct()" pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-success"></button>
+                <button (click)="hideDialog()" pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-danger"></button>
             </ng-template>
         </p-dialog>
 
@@ -154,8 +154,8 @@
 				</span>
             </div>
             <ng-template pTemplate="footer">
-                <button (click)="confirmDelete()" pButton pRipple icon="pi pi-check" class="p-button-text" label="Aceptar"></button>
-                <button (click)="deleteProductDialog = false" pButton pRipple icon="pi pi-times" class="p-button-text" label="Cancelar"></button>
+                <button (click)="confirmDelete()" pButton pRipple icon="pi pi-check" class="p-button-success" label="Aceptar"></button>
+                <button (click)="deleteProductDialog = false" pButton pRipple icon="pi pi-times" class="p-button-danger" label="Cancelar"></button>
 
             </ng-template>
         </p-dialog>

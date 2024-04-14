@@ -49,6 +49,9 @@ export class CargasComponent {
     asignaturasComponent: SelectorAsignaturasComponent;
     @ViewChild('docentes') docentesCompenet: SelectorAsignaturasComponent;
 
+    @ViewChild(SelectorGradosComponent) gradoComponent: SelectorGradosComponent;
+    @ViewChild(SelectorAsignaturasComponent) asignaturaComponent: SelectorAsignaturasComponent;
+
     constructor(
         private cargaService: CargaService,
         private messageService: MessageService,
@@ -86,19 +89,39 @@ export class CargasComponent {
     getValores(event, operacion) {
         switch (operacion) {
             case 'sede':
-                this.form.get('sede_id').setValue(event.id);
+                if (event != null) {
+                    this.form.get('sede_id').setValue(event.id);
+                    //this.formEnviar.get('sede_id').setValue(event.id);
+                    this.gradoComponent.getGradosBySede(event.id);
+                    this.gradosComponent.getData();
+                }
                 break;
             case 'grado':
-                this.form.get('grado_id').setValue(event.id);
+                if (event != null) {
+                    this.form.get('grado_id').setValue(event.id);
+                    //this.formEnviar.get('grado_id').setValue(event.id);
+                    this.asignaturaComponent.getAsignaturasBySedeAndGrado(
+                        this.form.get('sede_id').value,
+                        event.id
+                    );
+                    this.asignaturasComponent.getData();
+                }
                 break;
             case 'asignatura':
-                this.form.get('asignatura_id').setValue(event.id);
+                if (event != null) {
+                    this.form.get('asignatura_id').setValue(event.id);
+                    //this.formEnviar.get('asignatura_id').setValue(event.id);
+                }
                 break;
             case 'docente':
-                this.form.get('docente_id').setValue(event.id);
+                if (event != null) {
+                    this.form.get('docente_id').setValue(event.id);
+                    //this.formEnviar.get('periodo_id').setValue(event.id);
+                }
                 break;
         }
     }
+
 
     getValoresEdit(event, operacion) {
         switch (operacion) {

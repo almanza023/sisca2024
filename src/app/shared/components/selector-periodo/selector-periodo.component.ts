@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import { AperturaPeriodoService } from 'src/app/core/services/apertura-periodo.service';
 import { PeriodosService } from 'src/app/core/services/periodos.service';
 import { SedeService } from 'src/app/core/services/sede.service';
 
@@ -16,14 +17,19 @@ export class SelectorPeriodoComponent {
 
   @Output() itemSeleccionado:EventEmitter<any> =new EventEmitter<any>();
   selectedCliente:string="";
-  constructor(private periodoServicec: PeriodosService) { }
+  constructor(private periodoServicec: PeriodosService,
+        private aperturaService: AperturaPeriodoService) { }
 
   ngOnInit(): void {
-    this.getData();
+    let rol=localStorage.getItem("rol");
+    if(rol=="3"){
+        this.getData();
+    }else{
+        this.getDataAbiertos();
+    }
     this.seleccionado=[];
   }
   ngOnChanges(changes: SimpleChanges): void {
-   this.getData();
    this.seleccionado=[];
 
   }
@@ -48,6 +54,27 @@ export class SelectorPeriodoComponent {
      this.seleccionado= this.items.find(objeto => objeto['id'] === valor);
     }
    }
+
+   getDataAbiertos(){
+    let fechaFormateada = this.getFechaActual();
+    let data={
+        fecha:fechaFormateada
+    }
+    this.aperturaService.getAbiertos(data).subscribe(response => {
+      this.items=response.data;
+      } ,error => {
+        console.log( error.error)
+      });
+  }
+
+  getFechaActual(){
+    let fechaActual = new Date();
+    let año = fechaActual.getFullYear();
+    let mes = String(fechaActual.getMonth() + 1).padStart(2, '0');
+    let dia = String(fechaActual.getDate()).padStart(2, '0');
+    let fechaFormateada = `${año}-${mes}-${dia}`;
+    return fechaFormateada;
+  }
 
 
 }

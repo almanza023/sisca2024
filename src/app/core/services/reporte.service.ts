@@ -12,35 +12,31 @@ export class ReporteService {
   constructor(private http: HttpClient) { }
 
 
-  postVotante(data: any): Observable<any> {
+  reporteBoletinPeriodo(data: any): Observable<any> {
     const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
-    let url=`${environment.baseURL}/reportes/votantes`;
+    let url=`${environment.baseURL}/reportes/boletin-periodo`;
     return this.http.post<any>(url, data, {headers});
   }
 
-  postPuestos(data: any): Observable<any> {
+  reporteMatriculas(data: any): Observable<any> {
     const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
-    let url=`${environment.baseURL}/reportes/puestos`;
+    let url=`${environment.baseURL}/reportes/matriculas`;
     return this.http.post<any>(url, data, {headers});
   }
 
-  postMesas(data: any): Observable<any> {
+  reporteCalificaciones(data: any): Observable<any> {
     const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
-    let url=`${environment.baseURL}/reportes/mesasvotacion`;
+    let url=`${environment.baseURL}/reportes/calificaciones`;
     return this.http.post<any>(url, data, {headers});
   }
 
-  postVotanteCodigo(data: any): Observable<any> {
+  reporteConsolidadoPeriodo(data: any): Observable<any> {
     const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
-    let url=`${environment.baseURL}/reportes/votantes-codigo`;
+    let url=`${environment.baseURL}/reportes/consolidado-periodo`;
     return this.http.post<any>(url, data, {headers});
   }
 
-  postVotanteTicket(data: any): Observable<any> {
-    const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
-    let url=`${environment.baseURL}/reportes/votantes-ticket`;
-    return this.http.post<any>(url, data, {headers});
-  }
+
 
 
 

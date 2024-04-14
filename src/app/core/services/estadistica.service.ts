@@ -12,29 +12,32 @@ export class EstadisticaService {
   constructor(private http: HttpClient) { }
 
 
-  getEstadisticas(): Observable<any> {
+  getMatriculaGrados(): Observable<any> {
     const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
-    let url=`${environment.baseURL}/estadisticas`;
+    let url=`${environment.baseURL}/estadisticas/grados`;
     return this.http.get<any>(url, {headers});
   }
 
-  getEstadisticaLideres(): Observable<any> {
+  getMatriculasSede(): Observable<any> {
     const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
-    let url=`${environment.baseURL}/estadisticas-lideres`;
+    let url=`${environment.baseURL}/estadisticas/sedes`;
     return this.http.get<any>(url, {headers});
   }
 
-  getEstadisticaGeneral(): Observable<any> {
+  getContadores(): Observable<any> {
     const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
-    let url=`${environment.baseURL}/reportes/estadisticas`;
-    return this.http.post<any>(url, {}, {headers});
-  }
-
-  getTotalConfirmadosUsuario(usuario): Observable<any> {
-    const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
-    let url=`${environment.baseURL}/total/${usuario}`;
+    let url=`${environment.baseURL}/estadisticas/contadores`;
     return this.http.get<any>(url, {headers});
   }
+
+  getContadoresDocente(id:any): Observable<any> {
+    const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
+    let url=`${environment.baseURL}/estadisticas/contadoresDocentes/${id}`;
+    return this.http.get<any>(url, {headers});
+  }
+
+
+
 
 
 

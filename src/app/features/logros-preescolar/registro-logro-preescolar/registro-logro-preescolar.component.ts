@@ -3,20 +3,19 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { finalize } from 'rxjs';
-import { LogrosAcademicosService } from 'src/app/core/services/logros-academicos.service';
-import { LogrosDisciplinariosService } from 'src/app/core/services/logros-disciplinarios.service';
+
+import { LogrosPreescolarService } from 'src/app/core/services/logros-preescolar.service';
 import { SelectorAsignaturasComponent } from 'src/app/shared/components/selector-asignaturas/selector-asignaturas.component';
 import { SelectorGradosComponent } from 'src/app/shared/components/selector-grados/selector-grados.component';
-import { SelectorPeriodoComponent } from 'src/app/shared/components/selector-periodo/selector-periodo.component';
+
 import { SelectorSedeComponent } from 'src/app/shared/components/selector-sede/selector-sede.component';
-import { SelectorTipoLogroAcademicoComponent } from 'src/app/shared/components/selector-tipo-logro-academico/selector-tipo-logro-academico.component';
 
 @Component({
-  selector: 'app-registro-logro-disciplinario',
-  templateUrl: './registro-logro-disciplinario.component.html',
+  selector: 'app-registro-logro-preescolar',
+  templateUrl: './registro-logro-preescolar.component.html',
   providers: [MessageService],
 })
-export class RegistroLogroDisciplinarioComponent {
+export class RegistroLogroPreescolarComponent {
     clienteDialog: boolean = false;
     deleteProductDialog: boolean = false;
     deleteProductsDialog: boolean = false;
@@ -44,13 +43,14 @@ export class RegistroLogroDisciplinarioComponent {
     confirmacionModal:boolean=false;
     sede:any;
 
-    nombreModulo: string = 'Módulo Registro Logros Disciplinarios';
+    nombreModulo: string = 'Módulo Registro Valoraciones';
     @ViewChild(SelectorSedeComponent) sedeComponent: SelectorSedeComponent;
     @ViewChild(SelectorGradosComponent) gradosComponent: SelectorGradosComponent;
-    @ViewChild(SelectorPeriodoComponent) periodoComponent: SelectorPeriodoComponent;
+    @ViewChild(SelectorAsignaturasComponent) asignaturasComponent: SelectorAsignaturasComponent;
+
 
     constructor(
-        private logroService: LogrosDisciplinariosService,
+        private logroService: LogrosPreescolarService,
         private messageService: MessageService,
         private fb: FormBuilder
     ) {}
@@ -67,47 +67,35 @@ export class RegistroLogroDisciplinarioComponent {
         this.form = this.fb.group({
             sede_id: ['', Validators.required],
             grado_id: ['', Validators.required],
-            periodo_id: ['', Validators.required],
-            asignatura_id: ['29', Validators.required],
+            asignatura_id: ['', Validators.required],
             descripcion: ['', Validators.required],
         });
 
         this.formBuscar = this.fb.group({
             sede_id: ['', Validators.required],
             grado_id: ['', Validators.required],
-            periodo_id: ['', Validators.required],
-            asignatura_id: ['29', Validators.required],
+            asignatura_id: ['', Validators.required],
         });
     }
 
     getValores(event, operacion) {
         switch (operacion) {
             case 'sede':
-                if(event!=null){
-                    this.form.get('sede_id').setValue(event.id);
-                    this.formBuscar.get('sede_id').setValue(event.id);
-                    this.gradosComponent.getDireccionesGrados();
-                    this.sede=event.id;
-                }
+                this.form.get('sede_id').setValue(event.id);
+                this.formBuscar.get('sede_id').setValue(event.id);
+                this.gradosComponent.getGradosBySede(event.id);
+                this.sede=event.id;
                 break;
             case 'grado':
-                if(event!=null){
-                    this.form.get('grado_id').setValue(event.id);
-                    this.formBuscar.get('grado_id').setValue(event.id);
-                }
+                this.form.get('grado_id').setValue(event.id);
+                this.formBuscar.get('grado_id').setValue(event.id);
+                this.asignaturasComponent.getAsignaturasBySedeAndGrado(this.sede,event.id);
                 break;
             case 'asignatura':
-               if(event!=null){
                 this.form.get('asignatura_id').setValue(event.id);
                 this.formBuscar.get('asignatura_id').setValue(event.id);
-               }
                 break;
-            case 'periodo':
-               if(event!=null){
-                this.form.get('periodo_id').setValue(event.id);
-                this.formBuscar.get('periodo_id').setValue(event.id);
-               }
-                break;
+
         }
     }
 
@@ -256,7 +244,7 @@ export class RegistroLogroDisciplinarioComponent {
     reiniciaComponensHijos(): void {
         this.sedeComponent.reiniciarComponente();
         this.gradosComponent.reiniciarComponente();
-        this.periodoComponent.reiniciarComponente();
+        this.asignaturasComponent.reiniciarComponente();
     }
 
     reinicarFormulario() {
@@ -284,6 +272,7 @@ export class RegistroLogroDisciplinarioComponent {
     edit(item:any){
         this.iid=item.id;
         this.form.get('descripcion').setValue(item.descripcion);
+
     }
 
 

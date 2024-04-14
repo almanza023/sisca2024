@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { PersonasService } from '../../../core/services/personas.service';
 import { AsignaturasService } from 'src/app/core/services/asignaturas.service';
 import { CargaService } from 'src/app/core/services/carga.service';
 

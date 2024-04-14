@@ -107,6 +107,12 @@ export class AppMenuComponent implements OnInit {
                         routerLink: 'calificaciones',
                     },
                     {
+                        label: 'Calificación Individual',
+                        icon: 'pi pi-fw pi-align-justify',
+                        routerLink: 'calificaciones/registro-individual',
+
+                    },
+                    {
                         label: 'Logros Disciplinarios',
                         icon: 'pi pi-fw pi-align-justify',
                         routerLink: 'logros-disciplinarios',
@@ -116,9 +122,35 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-align-justify',
                         routerLink: 'convivencia',
                     },
+
+                    {
+                        label: 'Convivencia Escolar Individual',
+                        icon: 'pi pi-fw pi-align-justify',
+                        routerLink: 'convivencia/registro-individual',
+
+                    }
                 ]
             };
         let registro=
+            {
+                label: 'Registro',
+                icon: 'pi pi-fw pi-pencil',
+                items: [
+                    {
+                        label: 'Logros Académicos',
+                        icon: 'pi pi-fw pi-align-justify',
+                        routerLink: 'logros-academicos/registro',
+
+                    },
+                    {
+                        label: 'Notas Académicas',
+                        icon: 'pi pi-fw pi-align-justify',
+                        routerLink: 'calificaciones/registro/guardar',
+
+                    }
+                ]
+            };
+            let registroAdmin=
             {
                 label: 'Registro',
                 icon: 'pi pi-fw pi-pencil',
@@ -149,7 +181,26 @@ export class AppMenuComponent implements OnInit {
                     }
                 ]
             };
-            let consultas=
+            let actualizar=
+            {
+                label: 'Actualizar',
+                icon: 'pi pi-fw pi-pencil',
+                items: [
+                    {
+                        label: 'Logros Académicos',
+                        icon: 'pi pi-fw pi-align-justify',
+                        routerLink: 'logros-academicos/registro',
+
+                    },
+                    {
+                        label: 'Notas Académicas',
+                        icon: 'pi pi-fw pi-align-justify',
+                        routerLink: 'calificaciones/registro/editar',
+
+                    }
+                ]
+            };
+        let consultas=
             {
                 label: 'Consultas',
                 icon: 'pi pi-fw pi-search',
@@ -168,15 +219,111 @@ export class AppMenuComponent implements OnInit {
                     }
                 ]
             };
+        let migrupo=
+            {
+                label: 'Mi Grupo',
+                icon: 'pi pi-fw pi-people',
+                items: [
+                    {
+                        label: 'Logros Disciplinarios',
+                        icon: 'pi pi-fw pi-align-justify',
+                        routerLink: 'logros-disciplinarios/registro',
+
+                    },
+                    {
+                        label: 'Convivencia Escolar',
+                        icon: 'pi pi-fw pi-align-justify',
+                        routerLink: 'convivencia/registro/guardar',
+
+                    },
+                    {
+                        label: 'Boletines de Periodo',
+                        icon: 'pi pi-fw pi-align-justify',
+                        routerLink: 'reportes/boletin-periodo',
+
+                    },
+
+                ]
+            };
+            let preescolar=
+            {
+                label: 'Mi Grupo Preescolar',
+                icon: 'pi pi-fw pi-people',
+                items: [
+                    {
+                        label: 'Valoraciones',
+                        icon: 'pi pi-fw pi-align-justify',
+                        routerLink: 'valoraciones/registro',
+
+                    },
+                    {
+                        label: 'Registro Desarrollos',
+                        icon: 'pi pi-fw pi-align-justify',
+                        routerLink: 'preescolar/registro',
+
+                    },
+
+                ]
+            };
+
+            let reportes=
+            {
+                label: 'Reportes',
+                icon: 'pi pi-fw pi-people',
+                items: [
+                    {
+                        label: 'Agrupados',
+                        icon: 'pi pi-fw pi-align-justify',
+                        routerLink: 'reportes',
+
+                    },
+                    {
+                        label: 'Boletines de Periodo',
+                        icon: 'pi pi-fw pi-align-justify',
+                        routerLink: 'reportes/boletin-periodo',
+
+                    },
+
+                ]
+            };
 
 
         if(rol=="1"){
+            //Docentes Primaria y Secundaria
             this.items.push(registro);
+            this.items.push(actualizar);
             this.items.push(consultas);
-        }else{
+            let direcciones=JSON.parse(localStorage.getItem("direcciones")!);
+            if(direcciones.length>0){
+                this.items.push(migrupo);
+            }
+        }else if(rol=="2")
+        {
+            //Docentes de Preescolar
+            this.items.push(preescolar);
+
+
+        }
+        else if(rol=="3")
+        {
+            //Administrador
+            this.items.push(registroAdmin);
+            this.items.push(actualizar);
+            this.items.push(consultas);
+            this.items.push(migrupo);
+            this.items.push(preescolar);
+            this.items.push(reportes);
+        }
+        else if(rol=="4"){
+            //Docente con todos los grupos
             this.items.push(registro);
-            this.items.push(operaciones);
-            this.items.push(configuraciones);
+            this.items.push(actualizar);
+            this.items.push(consultas);
+            let direcciones=JSON.parse(localStorage.getItem("direcciones")!);
+            if(direcciones.length>0){
+                this.items.push(migrupo);
+            }
+            this.items.push(preescolar);
         }
 
 

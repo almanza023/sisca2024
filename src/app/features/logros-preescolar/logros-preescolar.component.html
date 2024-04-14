@@ -7,21 +7,60 @@
                     <h3>{{ nombreModulo }}</h3>
                 </div>
             </div>
-            <div class="field grid justify-content-start">
-                <div class="col-12 md:col-2 ">
-                    <p-button label="Crear" styleClass="p-button-success" icon="pi pi-plus" (click)="openNew()"></p-button>
+
+            <form
+            [formGroup]="form"
+            (ngSubmit)="onSubmit()"
+            class="p-grid p-fluid"
+        >
+
+            <div class="grid">
+                <!-- Columna 1 -->
+                <div class="col-12 md:col-4 lg:col-4">
+                    <label for="tipo" class="label-bold">Sede</label>
+                    <app-selector-sede
+                        (itemSeleccionado)="getValores($event, 'sede')"
+                    ></app-selector-sede>
+                </div>
+                <!-- Columna 2 -->
+                <div class="col-12 md:col-6 lg:col-4">
+                    <label for="grado" class="label-bold">Grado</label>
+                    <app-selector-grados
+                        (itemSeleccionado)="getValores($event, 'grado')"
+                    ></app-selector-grados>
+                </div>
+                <div class="col-12 md:col-6 lg:col-4">
+                    <label for="asignatura" class="label-bold">Desarrollo</label>
+                    <app-selector-asignaturas
+                        (itemSeleccionado)="getValores($event, 'asignatura')"
+                    ></app-selector-asignaturas>
+                </div>
+
+            </div>
+
+            <!-- Botón de enviar -->
+            <div class="grid">
+                <div class="col-12 md:col-3 lg:col-3">
+                    <button type="submit" icon="pi pi-search" class="p-button-info" pButton> Buscar</button>
+                </div>
+                <div class="col-12 md:col-3 lg:col-3">
+                    <p-button label="Crear" [routerLink]="['/valoraciones/registro']" routerLinkActive="router-link-active"  styleClass="p-button-success" icon="pi pi-plus" (click)="openNew()"></p-button>
                 </div>
             </div>
+        </form>
         </div>
     </div>
 </div>
 
-<div class="grid">
+<div class="grid" *ngIf="data.length>0">
     <div class="col-12">
         <div class="card px-6 py-6">
             <p-toast></p-toast>
             <p-table #dt [value]="data" [columns]="cols" [rows]="10" [globalFilterFields]="[
-                    'descripcion',
+                    'sede.nombre',
+                    'grado.descripcion',
+                    'asignatura.nombre',
+                    'docente.nombres',
                     'id',
                     'estado',
                 ]" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10, 20, 30]" [showCurrentPageReport]="true" [rowHover]="true" responsiveLayout="scroll" currentPageReportTemplate="Mostrando {first} to {last} de {totalRecords} registros" dataKey="id">
@@ -44,10 +83,23 @@
                             Código
                             <p-sortIcon field="id"></p-sortIcon>
                         </th>
+                        <th pSortableColumn="sede.nombre">
+                            Sede
+                            <p-sortIcon field="sede.nombre"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="grado.descripcion">
+                            Grado
+                            <p-sortIcon field="grado.descripcion"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="asignatura.nombre">
+                           Aréa/Asignatura
+                            <p-sortIcon field="asignatura.nombre"></p-sortIcon>
+                        </th>
                         <th pSortableColumn="descripcion">
-                            Descripcion
+                           Descripcion
                             <p-sortIcon field="descripcion"></p-sortIcon>
                         </th>
+
                         <th pSortableColumn="estado">
                             Estado
                             <p-sortIcon field="estado"></p-sortIcon>
@@ -57,10 +109,20 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-item>
                     <tr>
-                        <td style="width: 10%; min-width: 10rem">
+                        <td style="width: 10%; min-width: 5rem">
                             <span class="p-column-title">Código</span> {{ item.id }}
                         </td>
-                        <td style="width: 54%; min-width: 10rem">
+                        <td style="width: 32%; min-width: 10rem">
+                            <span class="p-column-title">Sede</span> {{ item.sede.nombre }}
+                        </td>
+                        <td style="width: 22%; min-width: 10rem">
+                            <span class="p-column-title">Grado</span> {{ item.grado.descripcion }}
+                        </td>
+                        <td style="width: 22%; min-width: 10rem">
+                            <span class="p-column-title">Aréa/Asignatura</span> {{ item.asignatura.nombre }}
+                        </td>
+
+                        <td style="width: 22%; min-width: 20rem">
                             <span class="p-column-title">Descripción</span> {{ item.descripcion }}
                         </td>
                         <td style="width: 26%; min-width: 10rem">
@@ -70,7 +132,8 @@
                         <td>
                             <div class="flex">
                                 <button (click)="editProduct(item)" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"></button>
-                                <p-button (click)="bloqueoCliente(item)" icon="pi pi-check" styleClass="p-button-rounded p-button-warning"></p-button>
+                                <p-button (click)="bloqueoCliente(item)"   icon="pi pi-check"
+                                    styleClass="p-button-rounded p-button-warning"></p-button>
 
                             </div>
                         </td>
@@ -79,7 +142,7 @@
             </p-table>
         </div>
 
-        <p-dialog [(visible)]="clienteDialog" [style]="{width: '450px'}" [modal]="true" header class="p-fluid">
+        <p-dialog [(visible)]="clienteDialog" [style]="{width: '660px'}" [modal]="true" header class="p-fluid">
             <div class="grid">
                 <div class="col-12">
                     <div class="card p-fluid">
@@ -90,23 +153,38 @@
                                 </h3>
                             </div>
                         </div>
+                        <form [formGroup]="formEdit" (ngSubmit)="onSubmitEditar()" >
+
+
                         <div class="field grid">
                             <label htmlFor="name3" class="col-12 mb-1 md:col-1 md:mb-0">
 								<b>Descripcion</b>
 							</label>
                             <div class="col-12 md:col-12">
-
-                                <input type="text" pInputText [(ngModel)]="barrio.descripcion" />
-
+                                <textarea pInputTextarea  formControlName="descripcion"></textarea>
+                            <div
+                                *ngIf="
+                                    formEdit.get('descripcion').invalid &&
+                                    (formEdit.get('descripcion').dirty ||
+                                    formEdit.get('descripcion').touched)
+                                "
+                            >
+                                <small
+                                    class="text-danger"
+                                    *ngIf="formEdit.get('descripcion').errors"
+                                    >La Descripción es requerida</small
+                                >
+                            </div>
                             </div>
                         </div>
 
+                        <button type="submit" icon="pi pi-check" class="p-button-success" pButton>Guardar</button>
+                    </form>
                     </div>
                 </div>
             </div>
 
             <ng-template pTemplate="footer">
-                <button (click)="saveProduct()" pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-success"></button>
                 <button (click)="hideDialog()" pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-danger"></button>
             </ng-template>
         </p-dialog>
@@ -114,11 +192,8 @@
         <p-dialog [(visible)]="deleteProductDialog" [modal]="true" [style]="{ width: '450px' }" header="Confirmar">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span *ngIf="barrio">
+                <span *ngIf="carga">
 					Esta seguro de Cambiar el estado al Registro
-					<b>
-						{{ barrio.descripcion }}
-					</b>
 					?
 				</span>
             </div>

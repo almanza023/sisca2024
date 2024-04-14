@@ -1,31 +1,31 @@
-import { Component, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
-import { Table } from 'primeng/table';
+import { Component, ViewChild, SimpleChanges } from '@angular/core';
 import { finalize } from 'rxjs';
-import { LogrosAcademicosService } from 'src/app/core/services/logros-academicos.service';
-import { LogrosDisciplinariosService } from 'src/app/core/services/logros-disciplinarios.service';
-import { SelectorAsignaturasComponent } from 'src/app/shared/components/selector-asignaturas/selector-asignaturas.component';
-import { SelectorGradosComponent } from 'src/app/shared/components/selector-grados/selector-grados.component';
-import { SelectorPeriodoComponent } from 'src/app/shared/components/selector-periodo/selector-periodo.component';
+
+import { Table } from 'primeng/table';
+import { MessageService } from 'primeng/api';
+
+
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SelectorSedeComponent } from 'src/app/shared/components/selector-sede/selector-sede.component';
+import { SelectorGradosComponent } from 'src/app/shared/components/selector-grados/selector-grados.component';
+import { SelectorAsignaturasComponent } from 'src/app/shared/components/selector-asignaturas/selector-asignaturas.component';
+
+import { SelectorPeriodoComponent } from 'src/app/shared/components/selector-periodo/selector-periodo.component';
 import { SelectorTipoLogroAcademicoComponent } from 'src/app/shared/components/selector-tipo-logro-academico/selector-tipo-logro-academico.component';
+import { LogrosPreescolarService } from 'src/app/core/services/logros-preescolar.service';
 
 @Component({
-  selector: 'app-registro-logro-disciplinario',
-  templateUrl: './registro-logro-disciplinario.component.html',
-  providers: [MessageService],
+    selector: 'app-logros-preescolar',
+    templateUrl: './logros-preescolar.component.html',
+    providers: [MessageService],
 })
-export class RegistroLogroDisciplinarioComponent {
+export class LogrosPreescolarComponent {
     clienteDialog: boolean = false;
     deleteProductDialog: boolean = false;
     deleteProductsDialog: boolean = false;
 
     data: any[] = [];
     carga: any = {};
-    municipio: any = {};
-    tipo: any = {};
-
     selectedProducts: any[] = [];
     submitted: boolean = false;
     cols: any[] = [];
@@ -37,26 +37,25 @@ export class RegistroLogroDisciplinarioComponent {
         { label: 'Si', value: 'SI' },
         { label: 'No', value: 'NO' },
     ];
-
     form: FormGroup;
-    formBuscar: FormGroup;
-    iid:any="";
-    confirmacionModal:boolean=false;
-    sede:any;
+    formEdit: FormGroup;
+    iid:any;
 
-    nombreModulo: string = 'Módulo Registro Logros Disciplinarios';
+    nombreModulo: string = 'Módulo de Valoraciones';
     @ViewChild(SelectorSedeComponent) sedeComponent: SelectorSedeComponent;
     @ViewChild(SelectorGradosComponent) gradosComponent: SelectorGradosComponent;
+    @ViewChild(SelectorAsignaturasComponent)  asignaturasComponent: SelectorAsignaturasComponent;
     @ViewChild(SelectorPeriodoComponent) periodoComponent: SelectorPeriodoComponent;
+    @ViewChild('tipologro') tipoLogroComponent: SelectorTipoLogroAcademicoComponent;
 
     constructor(
-        private logroService: LogrosDisciplinariosService,
+        private logroService: LogrosPreescolarService,
         private messageService: MessageService,
         private fb: FormBuilder
     ) {}
 
     ngOnInit() {
-        //this.getDataAll();
+
         this.cols = [
             { field: 'id', header: 'Código' },
             { field: 'descripcion', header: 'Descripción' },
@@ -67,70 +66,111 @@ export class RegistroLogroDisciplinarioComponent {
         this.form = this.fb.group({
             sede_id: ['', Validators.required],
             grado_id: ['', Validators.required],
-            periodo_id: ['', Validators.required],
-            asignatura_id: ['29', Validators.required],
-            descripcion: ['', Validators.required],
+            asignatura_id: ['', Validators.required],
         });
 
-        this.formBuscar = this.fb.group({
+        this.formEdit = this.fb.group({
             sede_id: ['', Validators.required],
             grado_id: ['', Validators.required],
-            periodo_id: ['', Validators.required],
-            asignatura_id: ['29', Validators.required],
+            asignatura_id: ['', Validators.required],
+            descripcion: ['', Validators.required],
         });
     }
+
+    ngOnChanges(changes: SimpleChanges): void {}
 
     getValores(event, operacion) {
         switch (operacion) {
             case 'sede':
-                if(event!=null){
+                if (event != null) {
                     this.form.get('sede_id').setValue(event.id);
-                    this.formBuscar.get('sede_id').setValue(event.id);
-                    this.gradosComponent.getDireccionesGrados();
-                    this.sede=event.id;
+                    //this.formEnviar.get('sede_id').setValue(event.id);
+                    this.gradosComponent.getGradosBySede(event.id);
                 }
                 break;
             case 'grado':
-                if(event!=null){
+                if (event != null) {
                     this.form.get('grado_id').setValue(event.id);
-                    this.formBuscar.get('grado_id').setValue(event.id);
+                    //this.formEnviar.get('grado_id').setValue(event.id);
+                    this.asignaturasComponent.getAsignaturasBySedeAndGrado(
+                        this.form.get('sede_id').value,
+                        event.id
+                    );
                 }
                 break;
             case 'asignatura':
-               if(event!=null){
-                this.form.get('asignatura_id').setValue(event.id);
-                this.formBuscar.get('asignatura_id').setValue(event.id);
-               }
+                if (event != null) {
+                    this.form.get('asignatura_id').setValue(event.id);
+                    //this.formEnviar.get('asignatura_id').setValue(event.id);
+                }
                 break;
             case 'periodo':
-               if(event!=null){
-                this.form.get('periodo_id').setValue(event.id);
-                this.formBuscar.get('periodo_id').setValue(event.id);
-               }
+                if (event != null) {
+                    this.form.get('periodo_id').setValue(event.id);
+                    //this.formEnviar.get('periodo_id').setValue(event.id);
+                }
                 break;
         }
     }
 
-    getDataAll() {
+    getValoresEdit(event, operacion) {
+        switch (operacion) {
+            case 'sede':
+                this.formEdit.get('sede_id').setValue(event.id);
+                break;
+            case 'grado':
+                this.formEdit.get('grado_id').setValue(event.id);
+                break;
+            case 'asignatura':
+                this.formEdit.get('asignatura_id').setValue(event.id);
+                break;
+            case 'periodo':
+                this.formEdit.get('periodo_id').setValue(event.id);
+                break;
+                case 'tipologro':
+                    this.formEdit.get('tipo_logro_id').setValue(event.id);
+                    break;
+        }
+    }
 
+
+
+    openNew() {
+        this.carga = {};
+        this.carga.editar = false;
+        this.submitted = false;
+        this.clienteDialog = true;
+        this.seleccionado = {};
     }
 
     deleteSelectedProducts() {
         this.deleteProductsDialog = true;
     }
 
-
-    bloqueoCliente(item: any) {
-        this.deleteProductDialog = true;
+    editProduct(item: any) {
+        console.log(item);
         this.carga = { ...item };
+        this.clienteDialog = true;
+        this.carga.editar = true;
+        this.iid=this.carga.id;
+
+        this.sedeComponent.filtrar(this.carga.sede_id);
+        this.gradosComponent.filtrar(this.carga.grado_id);
+        this.asignaturasComponent.filtrar(this.carga.asignatura_id);
+        this.formEdit.patchValue(this.carga);
+    }
+
+    bloqueoCliente(cliente: any) {
+        this.deleteProductDialog = true;
+        this.carga = { ...cliente };
         this.carga.cambio_estado = true;
     }
 
     confirmDelete() {
         this.deleteProductDialog = false;
         this.logroService
-            .delete(this.carga.id)
-            .pipe(finalize(() => this.filtrarDatos(this.form.value)))
+            .cambiarEstado(this.carga)
+            .pipe(finalize(() => this.onSubmit()))
             .subscribe(
                 (response) => {
                     this.messageService.add({
@@ -160,7 +200,7 @@ export class RegistroLogroDisciplinarioComponent {
     crear(item: any) {
         this.logroService
             .postData(item)
-            .pipe(finalize(() => this.filtrarDatos(item)))
+            .pipe(finalize(() => this.onSubmit()))
             .subscribe(
                 (response) => {
                     this.messageService.add({
@@ -184,7 +224,7 @@ export class RegistroLogroDisciplinarioComponent {
     actualizar(item: any) {
         this.logroService
             .putData(item)
-            .pipe(finalize(() => this.filtrarDatos(item)))
+            .pipe(finalize(() => this.onSubmit()))
             .subscribe(
                 (response) => {
                     this.messageService.add({
@@ -205,7 +245,7 @@ export class RegistroLogroDisciplinarioComponent {
             );
     }
 
-     onGlobalFilter(table: Table, event: Event) {
+    onGlobalFilter(table: Table, event: Event) {
         table.filterGlobal(
             (event.target as HTMLInputElement).value,
             'contains'
@@ -213,23 +253,14 @@ export class RegistroLogroDisciplinarioComponent {
     }
 
     onSubmit() {
-        console.log(this.iid)
         if(this.form.valid){
             let filtro = this.form.value;
-            if(this.iid==""){
-                this.crear(filtro);
-            }else{
-                filtro.id=this.iid;
-                this.actualizar(filtro);
-
-            }
-            this.reinicarFormulario();
-
+            this.filtrarDatos(filtro);
         }else{
             this.messageService.add({
                 severity: 'warn',
                 summary: 'Advertencia',
-                detail: 'Formulario inválido. Verifique los campos.',
+                detail: "Debe seleccionar todos los datos del formulario",
                 life: 3000,
             });
         }
@@ -252,26 +283,16 @@ export class RegistroLogroDisciplinarioComponent {
         );
     }
 
-
-    reiniciaComponensHijos(): void {
-        this.sedeComponent.reiniciarComponente();
-        this.gradosComponent.reiniciarComponente();
-        this.periodoComponent.reiniciarComponente();
-    }
-
-    reinicarFormulario() {
-        this.iid="";
-        this.form.get('descripcion').setValue("");
-        //this.reinicarFormulario();
-    }
-
-    onSubmitBuscar(){
-
-        if(this.formBuscar.valid){
-            let buscar = this.formBuscar.value;
-            this.filtrarDatos(buscar);
-
-        }else{
+    onSubmitEditar() {
+        if (this.formEdit.valid) {
+            this.carga = this.formEdit.value;
+            this.carga.id=this.iid;
+            this.actualizar(this.carga);
+            this.clienteDialog = false;
+            this.carga = {};
+            this.seleccionado = {};
+            this.iid="";
+        } else {
             this.messageService.add({
                 severity: 'warn',
                 summary: 'Advertencia',
@@ -280,13 +301,24 @@ export class RegistroLogroDisciplinarioComponent {
             });
         }
     }
-
-    edit(item:any){
-        this.iid=item.id;
-        this.form.get('descripcion').setValue(item.descripcion);
+    reiniciaComponensHijos(): void {
+        this.sedeComponent.reiniciarComponente();
+        this.gradosComponent.reiniciarComponente();
+        this.asignaturasComponent.reiniciarComponente();
+        this.periodoComponent.reiniciarComponente();
+        this.tipoLogroComponent.reiniciarComponente();
     }
 
-
+    reinicarFormulario() {
+        this.formEdit.reset();
+        this.formEdit.get('sede_id').setValue('');
+        this.formEdit.get('grado_id').setValue('');
+        this.formEdit.get('asignaturas_id').setValue('');
+        this.formEdit.get('docente_id').setValue('');
+        this.formEdit.get('ihs').setValue('');
+        this.formEdit.get('porcentaje').setValue('');
+        this.reiniciaComponensHijos();
+    }
 
 
 }

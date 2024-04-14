@@ -7,52 +7,69 @@ import { environment } from 'src/environments/environment.prod';
 @Injectable({
   providedIn: 'root'
 })
-export class AperturaPeriodoService {
+export class LogrosPreescolarService {
 
   constructor(private http: HttpClient) { }
 
+
   getAll(): Observable<any> {
     const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
-    let url=`${environment.baseURL}/apertura-periodos`;
+    let url=`${environment.baseURL}/logros-preescolar`;
     return this.http.get<any>(url, {headers});
   }
 
   getActive(): Observable<any> {
     const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
-    let url=`${environment.baseURL}/apertura-periodos-activos`;
+    let url=`${environment.baseURL}/logros-preescolar-activos`;
     return this.http.get<any>(url, {headers});
   }
 
   getById(id): Observable<any> {
     const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
-    let url=`${environment.baseURL}/apertura-periodos/${id}`;
+    let url=`${environment.baseURL}/logros-preescolar/${id}`;
     return this.http.get<any>(url, {headers});
   }
 
   postData(data: any): Observable<any> {
     const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
-    let url=`${environment.baseURL}/apertura-periodos`;
+    let url=`${environment.baseURL}/logros-preescolar`;
     console.log(url);
     return this.http.post<any>(url, data, {headers});
   }
 
   putData(data: any): Observable<any> {
     const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
-    let url=`${environment.baseURL}/apertura-periodos/${data.id}`;
+    let url=`${environment.baseURL}/logros-preescolar/${data.id}`;
     return this.http.put<any>(url, data, {headers});
   }
 
   cambiarEstado(data: any): Observable<any> {
     const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
-    let url=`${environment.baseURL}/apertura-periodos/cambiarEstado`;
+    let url=`${environment.baseURL}/logros-preescolar/cambiarEstado`;
     return this.http.post<any>(url, data, {headers});
   }
 
-  getAbiertos(data: any): Observable<any> {
+  delete(id: any): Observable<any> {
     const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
-    let url=`${environment.baseURL}/apertura-periodos-abiertos`;
+    let url=`${environment.baseURL}/logros-preescolar/${id}`;
+    return this.http.delete<any>(url, {headers});
+  }
+
+  filtrar(data: any): Observable<any> {
+    const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
+    let url=`${environment.baseURL}/logros-preescolar/filtrar`;
+    console.log(url);
     return this.http.post<any>(url, data, {headers});
   }
+
+  getFiltros(data: any): Observable<any> {
+    const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
+    let url=`${environment.baseURL}/logros-preescolar/getFiltros`;
+    console.log(url);
+    return this.http.post<any>(url, data, {headers});
+  }
+
+
 
 
 

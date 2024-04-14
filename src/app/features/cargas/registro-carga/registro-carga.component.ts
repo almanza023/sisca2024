@@ -12,7 +12,6 @@ import { SelectorSedeComponent } from 'src/app/shared/components/selector-sede/s
 @Component({
   selector: 'app-registro-carga',
   templateUrl: './registro-carga.component.html',
-  styleUrls: ['./registro-carga.component.scss'],
   providers: [MessageService],
 })
 export class RegistroCargaComponent {
@@ -75,19 +74,35 @@ export class RegistroCargaComponent {
     getValores(event, operacion) {
         switch (operacion) {
             case 'sede':
-                this.form.get('sede_id').setValue(event.id);
+                if (event != null) {
+                    this.form.get('sede_id').setValue(event.id);
+                    //this.formEnviar.get('sede_id').setValue(event.id);
+                    //this.gradosComponent.getGradosBySede(event.id);
+                }
                 break;
             case 'grado':
-                this.form.get('grado_id').setValue(event.id);
+                if (event != null) {
+                    this.form.get('grado_id').setValue(event.id);
+                    //this.formEnviar.get('grado_id').setValue(event.id);
+
+                }
                 break;
             case 'asignatura':
-                this.form.get('asignatura_id').setValue(event.id);
+                if (event != null) {
+                    this.form.get('asignatura_id').setValue(event.id);
+                    //this.formEnviar.get('asignatura_id').setValue(event.id);
+                }
                 break;
             case 'docente':
-                this.form.get('docente_id').setValue(event.id);
+                if (event != null) {
+                    this.form.get('docente_id').setValue(event.id);
+                    //this.formEnviar.get('periodo_id').setValue(event.id);
+                }
                 break;
         }
     }
+
+
 
     getDataAll() {
         this.cargaService.getAgregados().subscribe(

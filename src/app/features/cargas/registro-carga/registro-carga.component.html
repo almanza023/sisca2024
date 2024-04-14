@@ -38,7 +38,7 @@
                 <!-- Columna 2 -->
                 <div class="col-12 md:col-6 lg:col-3">
                     <label for="grado" class="label-bold">Grado</label>
-                    <app-selector-grados
+                    <app-selector-grados [mostrar]="true"
                         (itemSeleccionado)="getValores($event, 'grado')"
                     ></app-selector-grados>
                     <div
@@ -57,7 +57,7 @@
                 </div>
                 <div class="col-12 md:col-6 lg:col-3">
                     <label for="asignatura" class="label-bold">Aréa/Asignatura</label>
-                    <app-selector-asignaturas
+                    <app-selector-asignaturas [mostrar]="true"
                         (itemSeleccionado)="getValores($event, 'asignatura')"
                     ></app-selector-asignaturas>
                     <div

@@ -1,0 +1,63 @@
+<div class="grid">
+    <div class="col-12">
+        <p-toast></p-toast>
+        <div class="card p-fluid">
+            <div class="grid">
+                <div class="col-12 md:col-6 lg:col-6">
+                    <h3>{{ nombreModulo }}</h3>
+                </div>
+            </div>
+
+            <form
+            [formGroup]="form"
+            (ngSubmit)="onSubmit()"
+            class="p-grid p-fluid"
+        >
+        <div class="grid">
+            <div class="col-12 md:col-6 lg:col-3">
+                <label for="docente" class="label-bold">Tipo Reporte</label>
+                <app-selector-tipo-reporte
+                    (itemSeleccionado)="getValores($event, 'tipo')"
+                ></app-selector-tipo-reporte>
+            </div>
+        </div>
+            <div class="grid">
+                <!-- Columna 1 -->
+                <div class="col-12 md:col-6 lg:col-3">
+                    <label for="tipo" class="label-bold">Sede</label>
+                    <app-selector-sede
+                        (itemSeleccionado)="getValores($event, 'sede')"
+                    ></app-selector-sede>
+                </div>
+                <!-- Columna 2 -->
+                <div class="col-12 md:col-6 lg:col-3">
+                    <label for="grado" class="label-bold">Grado</label>
+                    <app-selector-grados
+                        (itemSeleccionado)="getValores($event, 'grado')"
+                    ></app-selector-grados>
+                </div>
+                <div class="col-12 md:col-6 lg:col-3" *ngIf="ocultarPanelAisgPer">
+                    <label for="asignatura" class="label-bold">Aréa/Asignatura</label>
+                    <app-selector-asignaturas
+                        (itemSeleccionado)="getValores($event, 'asignatura')"
+                    ></app-selector-asignaturas>
+                </div>
+
+                <div class="col-12 md:col-6 lg:col-3" *ngIf="ocultarPanelAisgPer">
+                    <label for="docente" class="label-bold">Periodo</label>
+                    <app-selector-periodo
+                        (itemSeleccionado)="getValores($event, 'periodo')"
+                    ></app-selector-periodo>
+                </div>
+            </div>
+
+            <!-- Botón de enviar -->
+            <div class="grid">
+                <div class="col-12 md:col-3 lg:col-3">
+                    <button type="submit" icon="pi pi-download" class="p-button-info" pButton> Generar PDF</button>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>

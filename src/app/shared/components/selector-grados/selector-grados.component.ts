@@ -71,7 +71,7 @@ export class SelectorGradosComponent {
    }
 
    filtrarDocente(){
-    if(this.rol=="1"){
+     if(this.rol=="1" || this.rol=="2" || this.rol=="4"){
         let grados=JSON.parse(localStorage.getItem('grados')!);
         this.items = grados;
     }
@@ -79,7 +79,7 @@ export class SelectorGradosComponent {
    }
 
    getDireccionesGrados(){
-    if(this.rol=="1"){
+    if(this.rol=="1" || this.rol=="2" || this.rol=="4"){
         this.items=JSON.parse(localStorage.getItem('direcciones')!);
     }else{
         this.getData();

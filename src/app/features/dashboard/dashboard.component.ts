@@ -13,12 +13,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
     items!: MenuItem[];
     contadores:any={};
     estadisticas:any=[];
-    pdf:string="";
+    id:string="";
     rol:string="";
     puestoconfirmado:string="";
     usuario:string="";
     totalconfirmados:string="0";
-
+    matriculasGrado:any=[];
+    matriculasSede:any=[];
+    contadoresDocentes:any={};
 
 
     constructor(private estadisticaService: EstadisticaService,
@@ -29,57 +31,55 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.rol=localStorage.getItem('rol');
+        this.id=localStorage.getItem('docente_id');
+        this.obtenerContadores();
+        this.obtenerContadoresDocente(this.id);
+        this.getMatriculasGrado();
+        this.getMatriculaSede();
 
-        this.puestoconfirmado=localStorage.getItem('puestoconfirma')
-        this.usuario=localStorage.getItem('usuarioconfirma')
-        this.getTotalConfirmadosUsuario();
-        if(this.rol != '3'){
-            this.obtenerContadores();
-        }
+
     }
 
     obtenerContadores(){
         this.estadisticaService
-            .getEstadisticas()
-            .pipe(finalize(() => this.getEstadisticaLideres()))
-            .subscribe(
-                (response) => {
-                    console.log(response.data);
-                    this.contadores = response.data;
-                },
-                (error) => {
-
-                }
-            );
+        .getContadores()
+        .subscribe(
+            (response) => {
+                console.log(response.data);
+                this.contadores = response.data;
+            },
+            (error) => {
+                this.contadores={};
+            }
+        );
     }
 
-    getEstadisticaLideres(){
+    obtenerContadoresDocente(id:any){
         this.estadisticaService
-            .getEstadisticaLideres()
-            .subscribe(
-                (response) => {
-                    console.log(response.data);
-                    this.estadisticas = response.data;
-                },
-                (error) => {
-                    this.estadisticas=[];
-                }
-            );
+        .getContadoresDocente(id)
+        .subscribe(
+            (response) => {
+                console.log(response.data);
+                this.contadoresDocentes = response.data;
+            },
+            (error) => {
+                this.contadoresDocentes={};
+            }
+        );
     }
 
-    getEstadisticaGeneral(){
+    getMatriculaSede(){
         this.estadisticaService
-            .getEstadisticaGeneral()
-            .pipe(finalize(() => this.downloadFile(this.pdf, 'ReporteGeneral.pdf')))
-            .subscribe(
-                (response) => {
-                    console.log(response.data);
-                    this.pdf = response.pdf;
-                },
-                (error) => {
-                    this.pdf="";
-                }
-            );
+        .getMatriculasSede()
+        .subscribe(
+            (response) => {
+                console.log(response.data);
+                this.matriculasSede = response.data;
+            },
+            (error) => {
+                this.matriculasSede=[];
+            }
+        );
     }
 
     downloadFile(base64:any,fileName:any){
@@ -103,16 +103,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     }
 
-    getTotalConfirmadosUsuario(){
+    getMatriculasGrado(){
         this.estadisticaService
-            .getTotalConfirmadosUsuario(this.usuario)
+            .getMatriculaGrados()
             .subscribe(
                 (response) => {
                     console.log(response.data);
-                    this.totalconfirmados = response.data;
+                    this.matriculasGrado = response.data;
                 },
                 (error) => {
-                    this.totalconfirmados="0";
+                    this.matriculasGrado=[];
                 }
             );
     }

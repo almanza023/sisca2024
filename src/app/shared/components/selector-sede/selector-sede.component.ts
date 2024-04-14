@@ -49,7 +49,7 @@ export class SelectorSedeComponent {
 
    filtrarDocente(){
     let rol=localStorage.getItem('rol')!;
-    if(rol=="1"){
+    if(rol=="1" || rol=="2" || rol=="4"){
         let sede_id=localStorage.getItem('sede_id')!;
         this.items = this.items.filter(objeto => objeto.id == sede_id);
         //this.seleccionado=this.items[0]
