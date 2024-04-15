@@ -16,6 +16,7 @@ export class SelectorTipoReporteComponent {
 
   @Output() itemSeleccionado:EventEmitter<any> =new EventEmitter<any>();
   selectedCliente:string="";
+  rol:string="";
   constructor() { }
 
   ngOnInit(): void {
@@ -26,11 +27,25 @@ export class SelectorTipoReporteComponent {
 
   }
   getData(){
-    this.items=[
-        {id:1, descripcion:"Reporte Matricula"},
-        {id:2, descripcion:"Reporte Calificaciones"},
-        {id:3, descripcion:"Consolidado de Periodo"}
-    ]
+    this.rol=localStorage.getItem("rol")!;
+    if(this.rol=="1" || this.rol=="4"){
+        this.items=[
+            {id:1, descripcion:"Reporte Matricula"},
+            {id:3, descripcion:"Consolidado de Periodo"},
+            {id:4, descripcion:"Estadisticas de Periodo"},
+            {id:5, descripcion:"Reporte Aréa"}
+        ]
+    }
+    if(this.rol=="3"){
+        this.items=[
+            {id:1, descripcion:"Reporte Matricula"},
+            {id:2, descripcion:"Reporte Calificaciones"},
+            {id:3, descripcion:"Consolidado de Periodo"},
+            {id:4, descripcion:"Estadisticas de Periodo"},
+            {id:5, descripcion:"Reporte Aréa"}
+        ]
+    }
+
   }
 
   onChange(event) {

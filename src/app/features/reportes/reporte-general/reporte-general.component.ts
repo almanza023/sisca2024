@@ -55,7 +55,7 @@ export class ReporteGeneralComponent {
                 if (event != null) {
                     this.form.get('sede_id').setValue(event.id);
                     //this.formEnviar.get('sede_id').setValue(event.id);
-                    this.gradosComponent.getGradosBySede(event.id);
+                    this.gradosComponent.getDireccionesGrados();
                 }
                 break;
             case 'grado':
@@ -86,16 +86,16 @@ export class ReporteGeneralComponent {
                     this.form.get('tipo_id').setValue(event.id);
 
                     console.log(this.tiporeporte);
-                    if(this.tiporeporte==1){
+                    if(this.tiporeporte==1 ){
                         //Habilitar asignatura y periodo
                         this.ocultarPanelAisgPer=false;
                     }
-                    if(this.tiporeporte==2 || this.tiporeporte==3){
+                    if(this.tiporeporte==2 || this.tiporeporte==3
+                        || this.tiporeporte==4 || this.tiporeporte==5){
                         //Habilitar asignatura y periodo
                         this.ocultarPanelAisgPer=true;
 
                     }
-
                     break;
         }
     }
@@ -189,11 +189,84 @@ export class ReporteGeneralComponent {
             );
     }
 
+    getDataEstadisticasPeriodo(filtro) {
+        this.reporteService
+            .reporteEstadisticaPeriodo(filtro)
+            .pipe(finalize(() => this.downloadFile(this.pdf, 'ReporteEstadisticas.pdf')))
+            .subscribe(
+                (response) => {
+                    console.log(response.pdf);
+                    this.pdf = response.pdf;
+                    if(response.code==200){
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Reporte Generado Exitosamente',
+                            detail: response.message,
+                            life: 3000,
+                        });
+                    }else{
+                        this.messageService.add({
+                            severity: 'warn',
+                            summary: 'Advertencia',
+                            detail: response.message,
+                            life: 3000,
+                        });
+                    }
+                },
+                (error) => {
+                    this.messageService.add({
+                        severity: 'warn',
+                        summary: 'Advertencia',
+                        detail: error.error.message,
+                        life: 3000,
+                    });
+
+                }
+            );
+    }
+
+
+    getDataAreaPeriodo(filtro) {
+        this.reporteService
+            .reporteAreaPeriodo(filtro)
+            .pipe(finalize(() => this.downloadFile(this.pdf, 'ReporteArea.pdf')))
+            .subscribe(
+                (response) => {
+                    console.log(response.pdf);
+                    this.pdf = response.pdf;
+                    if(response.code==200){
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Reporte Generado Exitosamente',
+                            detail: response.message,
+                            life: 3000,
+                        });
+                    }else{
+                        this.messageService.add({
+                            severity: 'warn',
+                            summary: 'Advertencia',
+                            detail: response.message,
+                            life: 3000,
+                        });
+                    }
+                },
+                (error) => {
+                    this.messageService.add({
+                        severity: 'warn',
+                        summary: 'Advertencia',
+                        detail: error.error.message,
+                        life: 3000,
+                    });
+
+                }
+            );
+    }
+
 
 
 
     downloadFile(base64:any,fileName:any){
-        if(base64!==undefined){
+        if(base64!==undefined || base64!=""){
             const src = `data:application/pdf;base64,${base64}`;
             const link = document.createElement("a")
             link.href = src
@@ -220,6 +293,12 @@ export class ReporteGeneralComponent {
             }
             if(this.tiporeporte==3){
                 this.getDatConsolidados(this.form.value);
+            }
+            if(this.tiporeporte==4){
+                this.getDataEstadisticasPeriodo(this.form.value);
+            }
+            if(this.tiporeporte==5){
+                this.getDataAreaPeriodo(this.form.value);
             }
         }else{
             this.messageService.add({

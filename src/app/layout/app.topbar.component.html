@@ -9,12 +9,7 @@
 
     <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
         <br>
-
-        <h6>{{ nombreUsuario }}</h6>
-        <button class="p-link layout-topbar-button" [routerLink]="'/auth'">
-            <i class="pi pi-sign-out"></i>
-            <span>Cerrar Sesión</span>
-        </button>
+            <small>{{ nombreUsuario }}</small>
     </div>
 
 </div>

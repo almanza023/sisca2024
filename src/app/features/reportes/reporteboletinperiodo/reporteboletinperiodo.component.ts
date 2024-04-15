@@ -66,7 +66,11 @@ export class ReporteboletinperiodoComponent {
 
         if(this.form.valid){
             let nombre="Reporte_"+this.form.get("grado_id").value;
+           if(this.form.get('grado_id').value==1 || this.form.get('grado_id').value==2){
+            this.getDataBoletinPreescolar(nombre, this.form.value)
+           }else{
             this.getDataAll(nombre, this.form.value)
+           }
         }
     }
 
@@ -97,11 +101,39 @@ export class ReporteboletinperiodoComponent {
             );
     }
 
+    getDataBoletinPreescolar(nombre:string, filtro) {
+        this.reporteService
+            .reporteBoletinPreescolar(filtro)
+            .pipe(finalize(() => this.downloadFile(this.pdf, nombre+'.pdf')))
+            .subscribe(
+                (response) => {
+                    console.log(response.pdf);
+                    this.pdf = response.pdf;
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Reporte Generado Exitosamente',
+                        detail: response.message,
+                        life: 3000,
+                    });
+                },
+                (error) => {
+                    this.messageService.add({
+                        severity: 'warn',
+                        summary: 'Advertencia',
+                        detail: error.error.message,
+                        life: 3000,
+                    });
+
+                }
+            );
+    }
+
+
 
 
 
     downloadFile(base64:any,fileName:any){
-        if(base64!==undefined){
+        if(base64!==undefined || base64!=""){
             const src = `data:application/pdf;base64,${base64}`;
             const link = document.createElement("a")
             link.href = src

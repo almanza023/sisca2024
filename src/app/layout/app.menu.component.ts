@@ -83,7 +83,7 @@ export class AppMenuComponent implements OnInit {
         let operaciones=
             {
                 label: 'Operaciones',
-                icon: 'pi pi-fw pi-pencil',
+                icon: 'pi pi-plus',
                 items: [
                     {
                         label: 'Matriculas',
@@ -95,6 +95,11 @@ export class AppMenuComponent implements OnInit {
                         label: 'Carga Académica',
                         icon: 'pi pi-fw pi-align-justify',
                         routerLink: 'cargas',
+                    },
+                    {
+                        label: 'Apertura Periodos',
+                        icon: 'pi pi-fw pi-align-justify',
+                        routerLink: 'apertura-periodos',
                     },
                     {
                         label: 'Logros Académicos',
@@ -184,7 +189,7 @@ export class AppMenuComponent implements OnInit {
             let actualizar=
             {
                 label: 'Actualizar',
-                icon: 'pi pi-fw pi-pencil',
+                icon: 'pi pi-file-edit',
                 items: [
                     {
                         label: 'Logros Académicos',
@@ -222,7 +227,7 @@ export class AppMenuComponent implements OnInit {
         let migrupo=
             {
                 label: 'Mi Grupo',
-                icon: 'pi pi-fw pi-people',
+                icon: 'pi pi-user',
                 items: [
                     {
                         label: 'Logros Disciplinarios',
@@ -242,13 +247,19 @@ export class AppMenuComponent implements OnInit {
                         routerLink: 'reportes/boletin-periodo',
 
                     },
+                    {
+                        label: 'Reportes Generales',
+                        icon: 'pi pi-fw pi-align-justify',
+                        routerLink: 'reportes',
+
+                    },
 
                 ]
             };
             let preescolar=
             {
                 label: 'Mi Grupo Preescolar',
-                icon: 'pi pi-fw pi-people',
+                icon: 'pi pi-user',
                 items: [
                     {
                         label: 'Valoraciones',
@@ -262,6 +273,12 @@ export class AppMenuComponent implements OnInit {
                         routerLink: 'preescolar/registro',
 
                     },
+                    {
+                        label: 'Boletines de Periodo',
+                        icon: 'pi pi-fw pi-align-justify',
+                        routerLink: 'reportes/boletin-periodo',
+
+                    },
 
                 ]
             };
@@ -269,7 +286,7 @@ export class AppMenuComponent implements OnInit {
             let reportes=
             {
                 label: 'Reportes',
-                icon: 'pi pi-fw pi-people',
+                icon: 'pi pi-chart-bar',
                 items: [
                     {
                         label: 'Agrupados',
@@ -286,6 +303,14 @@ export class AppMenuComponent implements OnInit {
 
                 ]
             };
+
+            let cerrar =
+                {
+                    label: 'Cerrar Sesión',
+                    icon: 'pi pi-sign-out',
+                    routerLink: 'auth',
+                };
+
 
 
         if(rol=="1"){
@@ -307,6 +332,7 @@ export class AppMenuComponent implements OnInit {
         else if(rol=="3")
         {
             //Administrador
+            this.items.push(operaciones);
             this.items.push(registroAdmin);
             this.items.push(actualizar);
             this.items.push(consultas);
@@ -325,6 +351,8 @@ export class AppMenuComponent implements OnInit {
             }
             this.items.push(preescolar);
         }
+
+        this.items.push(cerrar);
 
 
 
