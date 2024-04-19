@@ -42,11 +42,14 @@ export class matriculasComponent {
     iid:any;
     itemsSiNo:any=[];
 
-    nombreModulo: string = 'Módulo de Carga Académica';
+    nombreModulo: string = 'Módulo de Matricúlas';
     @ViewChild('sedes') sedeComponent: SelectorSedeComponent;
     @ViewChild('grados') gradosComponent: SelectorGradosComponent;
     @ViewChild('repitente') repitenteComponent: SelectorGenericoComponent;
     @ViewChild('cambioSede') cambioSedeComponent: SelectorGenericoComponent;
+
+    @ViewChild('gradosPrincipal') gradosPrincipalComponent: SelectorGradosComponent;
+
 
     constructor(
         private matriculaService: MatriculasService,
@@ -89,6 +92,7 @@ export class matriculasComponent {
         switch (operacion) {
             case 'sede':
                 this.form.get('sede_id').setValue(event.id);
+                this.gradosPrincipalComponent.getGradosBySede(event.id);
                 break;
             case 'grado':
                 this.form.get('grado_id').setValue(event.id);
@@ -116,7 +120,7 @@ export class matriculasComponent {
     getDataAll() {
         this.matriculaService.getAll().subscribe(
             (response) => {
-                console.log(response.data);
+                //console.log(response.data);
                 this.data = response.data;
             },
             (error) => {
@@ -139,7 +143,7 @@ export class matriculasComponent {
     }
 
     editProduct(item: any) {
-        console.log(item);
+        //console.log(item);
         this.matricula = { ...item };
         this.clienteDialog = true;
         this.matricula.editar = true;
@@ -252,7 +256,7 @@ export class matriculasComponent {
     filtrarDatos(filtro: any) {
         this.matriculaService.filtrar(filtro).subscribe(
             (response) => {
-                console.log(response.data);
+                //console.log(response.data);
                 this.data = response.data;
             },
             (error) => {
@@ -270,7 +274,7 @@ export class matriculasComponent {
         if (this.formEdit.valid) {
             this.matricula = this.formEdit.value;
             this.matricula.id=this.iid;
-            console.log(this.matricula);
+            //console.log(this.matricula);
             this.actualizar(this.matricula);
             this.clienteDialog = false;
             this.matricula = {};

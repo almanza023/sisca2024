@@ -31,13 +31,13 @@ export class SelectorAsignaturasComponent {
     this.asignaturaService.getActive().subscribe(response => {
       this.items=response.data;
       } ,error => {
-        console.log( error.error)
+        //console.log( error.error)
       });
   }
 
   onChange(event) {
     this.itemSeleccionado.emit(event.value);
-    console.log(event.value);
+    //console.log(event.value);
   }
 
   reiniciarComponente(): void {
@@ -63,7 +63,7 @@ export class SelectorAsignaturasComponent {
     this.cargaService.getAsignaturasBySedeAndGrasdo(sede, grado).subscribe(response => {
         this.items=response.data;
         } ,error => {
-          console.log( error.error)
+          //console.log( error.error)
         });
   }
 
@@ -71,7 +71,7 @@ export class SelectorAsignaturasComponent {
     this.cargaService.getAsignaturasByDocente(sede, grado, docente).subscribe(response => {
       this.items=response.data;
       } ,error => {
-        console.log( error.error)
+        //console.log( error.error)
       });
   }
 

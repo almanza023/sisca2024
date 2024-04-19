@@ -66,7 +66,7 @@ export class LoginComponent {
         setTimeout(() => {
             this.seguridadService.postLogin(datos).subscribe(
                 (response) => {
-                    console.log(response);
+                    //console.log(response);
                     localStorage.setItem('username', response.name);
                     localStorage.setItem('rol', response.tipo);
                     localStorage.setItem('user_id', response.user_id);

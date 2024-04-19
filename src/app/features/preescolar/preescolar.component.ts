@@ -87,7 +87,7 @@ export class PreescolarComponent {
     getDataAll(item:any) {
         this.convivenciaService.getCalificacionesPeriodo(item).subscribe(
             (response) => {
-                console.log(response.data);
+                //console.log(response.data);
                 if(response.code==300){
                     this.messageService.add({
                         severity: 'warn',
@@ -114,7 +114,7 @@ export class PreescolarComponent {
 
 
     editProduct(item: any) {
-        console.log(item);
+        //console.log(item);
         this.carga = { ...item };
         this.carga.editar = true;
         this.sedeComponent.filtrar(this.carga.sede_id);

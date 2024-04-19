@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         .getContadores()
         .subscribe(
             (response) => {
-                console.log(response.data);
+                //console.log(response.data);
                 this.contadores = response.data;
             },
             (error) => {
@@ -59,7 +59,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         .getContadoresDocente(id)
         .subscribe(
             (response) => {
-                console.log(response.data);
+                //console.log(response.data);
                 this.contadoresDocentes = response.data;
             },
             (error) => {
@@ -73,7 +73,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         .getMatriculasSede()
         .subscribe(
             (response) => {
-                console.log(response.data);
+                //console.log(response.data);
                 this.matriculasSede = response.data;
             },
             (error) => {
@@ -108,7 +108,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             .getMatriculaGrados()
             .subscribe(
                 (response) => {
-                    console.log(response.data);
+                    //console.log(response.data);
                     this.matriculasGrado = response.data;
                 },
                 (error) => {

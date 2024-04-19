@@ -85,7 +85,7 @@ export class ReporteGeneralComponent {
                     this.tiporeporte=event.id;
                     this.form.get('tipo_id').setValue(event.id);
 
-                    console.log(this.tiporeporte);
+                    //console.log(this.tiporeporte);
                     if(this.tiporeporte==1 ){
                         //Habilitar asignatura y periodo
                         this.ocultarPanelAisgPer=false;
@@ -97,6 +97,9 @@ export class ReporteGeneralComponent {
 
                     }
                     break;
+                    case 'areas':
+                        this.form.get('asignatura_id').setValue(event.code);
+                        break;
         }
     }
 
@@ -114,7 +117,7 @@ export class ReporteGeneralComponent {
             .pipe(finalize(() => this.downloadFile(this.pdf, 'ReporteMatriculas.pdf')))
             .subscribe(
                 (response) => {
-                    console.log(response.pdf);
+                    //console.log(response.pdf);
                     this.pdf = response.pdf;
                     this.messageService.add({
                         severity: 'success',
@@ -141,7 +144,7 @@ export class ReporteGeneralComponent {
             .pipe(finalize(() => this.downloadFile(this.pdf, 'ReporteCalificaciones.pdf')))
             .subscribe(
                 (response) => {
-                    console.log(response.pdf);
+                    //console.log(response.pdf);
                     this.pdf = response.pdf;
                     this.messageService.add({
                         severity: 'success',
@@ -168,7 +171,7 @@ export class ReporteGeneralComponent {
             .pipe(finalize(() => this.downloadFile(this.pdf, 'ReporteConsolidado.pdf')))
             .subscribe(
                 (response) => {
-                    console.log(response.pdf);
+                    //console.log(response.pdf);
                     this.pdf = response.pdf;
                     this.messageService.add({
                         severity: 'success',
@@ -195,7 +198,7 @@ export class ReporteGeneralComponent {
             .pipe(finalize(() => this.downloadFile(this.pdf, 'ReporteEstadisticas.pdf')))
             .subscribe(
                 (response) => {
-                    console.log(response.pdf);
+                    //console.log(response.pdf);
                     this.pdf = response.pdf;
                     if(response.code==200){
                         this.messageService.add({
@@ -232,7 +235,7 @@ export class ReporteGeneralComponent {
             .pipe(finalize(() => this.downloadFile(this.pdf, 'ReporteArea.pdf')))
             .subscribe(
                 (response) => {
-                    console.log(response.pdf);
+                    //console.log(response.pdf);
                     this.pdf = response.pdf;
                     if(response.code==200){
                         this.messageService.add({

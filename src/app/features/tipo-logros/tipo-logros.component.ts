@@ -52,7 +52,7 @@ export class TipoLogrosComponent {
             .getAll()
             .subscribe(
                 (response) => {
-                    console.log(response.data);
+                    //console.log(response.data);
                     this.data = response.data;
                 },
                 (error) => {

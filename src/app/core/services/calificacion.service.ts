@@ -33,7 +33,6 @@ export class CalificacionService {
   postData(data: any): Observable<any> {
     const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
     let url=`${environment.baseURL}/calificaciones`;
-    console.log(url);
     return this.http.post<any>(url, data, {headers});
   }
 
@@ -58,7 +57,6 @@ export class CalificacionService {
   filtrar(data: any): Observable<any> {
     const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
     let url=`${environment.baseURL}/calificaciones/filtrar`;
-    console.log(url);
     return this.http.post<any>(url, data, {headers});
   }
 

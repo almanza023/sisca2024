@@ -33,7 +33,6 @@ export class LogrosPreescolarService {
   postData(data: any): Observable<any> {
     const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
     let url=`${environment.baseURL}/logros-preescolar`;
-    console.log(url);
     return this.http.post<any>(url, data, {headers});
   }
 
@@ -58,14 +57,12 @@ export class LogrosPreescolarService {
   filtrar(data: any): Observable<any> {
     const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
     let url=`${environment.baseURL}/logros-preescolar/filtrar`;
-    console.log(url);
     return this.http.post<any>(url, data, {headers});
   }
 
   getFiltros(data: any): Observable<any> {
     const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
     let url=`${environment.baseURL}/logros-preescolar/getFiltros`;
-    console.log(url);
     return this.http.post<any>(url, data, {headers});
   }
 

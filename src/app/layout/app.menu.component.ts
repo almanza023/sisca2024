@@ -92,6 +92,18 @@ export class AppMenuComponent implements OnInit {
 
                     },
                     {
+                        label: 'Docentes',
+                        icon: 'pi pi-fw pi-align-justify',
+                        routerLink: 'docentes',
+
+                    },
+                    {
+                        label: 'Direcciones de Grado',
+                        icon: 'pi pi-fw pi-align-justify',
+                        routerLink: 'direccion-grados',
+
+                    },
+                    {
                         label: 'Carga Académica',
                         icon: 'pi pi-fw pi-align-justify',
                         routerLink: 'cargas',
@@ -133,7 +145,13 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-align-justify',
                         routerLink: 'convivencia/registro-individual',
 
-                    }
+                    },
+                    {
+                        label: 'Usuarios',
+                        icon: 'pi pi-fw pi-align-justify',
+                        routerLink: 'usuarios',
+
+                    },
                 ]
             };
         let registro=
@@ -304,6 +322,13 @@ export class AppMenuComponent implements OnInit {
                 ]
             };
 
+            let perfil =
+            {
+                label: 'Perfil',
+                icon: 'pi pi-users',
+                routerLink: 'cambiar-clave',
+            };
+
             let cerrar =
                 {
                     label: 'Cerrar Sesión',
@@ -352,6 +377,7 @@ export class AppMenuComponent implements OnInit {
             this.items.push(preescolar);
         }
 
+        this.items.push(perfil);
         this.items.push(cerrar);
 
 

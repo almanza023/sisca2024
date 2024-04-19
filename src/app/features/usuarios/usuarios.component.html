@@ -22,7 +22,7 @@
             <p-toast></p-toast>
             <p-table #dt [value]="data" [columns]="cols" [rows]="10" [globalFilterFields]="[
                     'name',
-                    'numerodocumento',
+                    'documento',
                     'username',
                     'email',
                     'estado',
@@ -105,15 +105,27 @@
                                 </h3>
                             </div>
                         </div>
+                       <div *ngIf="editar">
                         <div class="field grid">
                             <label htmlFor="name3" class="col-12 mb-1 md:col-1 md:mb-0">
 								<b>Nombre </b>
 							</label>
                             <div class="col-12 md:col-12">
-                                <input type="text" pInputText [(ngModel)]="persona.name" />
+                                <input type="text" pInputText [(ngModel)]="persona.nombre" />
 
                             </div>
                         </div>
+                        <div class="field grid">
+                            <label htmlFor="name3" class="col-12 mb-1 md:col-1 md:mb-0">
+								<b>Correo </b>
+							</label>
+                            <div class="col-12 md:col-12">
+                                <input type="text" pInputText [(ngModel)]="persona.email" />
+
+                            </div>
+                        </div>
+                       </div>
+
                         <div class="field grid">
                             <label htmlFor="name3" class="col-12 mb-1 md:col-1 md:mb-0">
 								<b>N° Documento</b>

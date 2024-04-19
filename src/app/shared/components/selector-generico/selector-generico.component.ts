@@ -20,7 +20,7 @@ export class SelectorGenericoComponent {
   ngOnInit(): void {
 
     this.seleccionado=this.valor;
-    console.log(this.seleccionado);
+    //console.log(this.seleccionado);
 
   }
 

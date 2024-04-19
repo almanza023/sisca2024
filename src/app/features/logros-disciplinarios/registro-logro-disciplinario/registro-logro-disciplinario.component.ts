@@ -213,7 +213,7 @@ export class RegistroLogroDisciplinarioComponent {
     }
 
     onSubmit() {
-        console.log(this.iid)
+        //console.log(this.iid)
         if(this.form.valid){
             let filtro = this.form.value;
             if(this.iid==""){
@@ -238,7 +238,7 @@ export class RegistroLogroDisciplinarioComponent {
     filtrarDatos(filtro: any) {
         this.logroService.filtrar(filtro).subscribe(
             (response) => {
-                console.log(response.data);
+                //console.log(response.data);
                 this.data = response.data;
             },
             (error) => {

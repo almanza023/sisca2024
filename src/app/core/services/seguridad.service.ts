@@ -15,4 +15,17 @@ export class SeguridadService {
     return this.http.post<any>(url, data);
   }
 
+  cambioClave(data: any): Observable<any> {
+    const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
+    let url=`${environment.baseURL}/cambiar-clave`;
+    return this.http.post<any>(url, data, {headers});
+  }
+
+  actualizarUsuario(data: any): Observable<any> {
+    const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
+    let url=`${environment.baseURL}/usuario/actualizar`;
+    return this.http.post<any>(url, data, {headers});
+  }
+
+
 }

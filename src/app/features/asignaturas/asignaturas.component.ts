@@ -50,7 +50,7 @@ export class AsignaturasComponent {
     getDataAll() {
         this.asignaturaService.getAll().subscribe(
             (response) => {
-                console.log(response.data);
+                //console.log(response.data);
                 this.data = response.data;
             },
             (error) => {

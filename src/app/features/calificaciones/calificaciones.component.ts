@@ -145,7 +145,7 @@ export class CalificacionesComponent {
     getDataAll(item:any) {
         this.calificacionService.getCalificacionesPeriodo(item).subscribe(
             (response) => {
-                console.log(response.data);
+                //console.log(response.data);
                 if(response.code==300){
                     this.messageService.add({
                         severity: 'warn',
@@ -230,7 +230,7 @@ export class CalificacionesComponent {
     filtrarDatos(filtro: any) {
         this.calificacionService.filtrar(filtro).subscribe(
             (response) => {
-                console.log(response.data);
+                //console.log(response.data);
                 this.data = response.data;
             },
             (error) => {

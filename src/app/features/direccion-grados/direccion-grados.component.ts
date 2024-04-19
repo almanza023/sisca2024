@@ -81,7 +81,6 @@ export class DireccionGradosComponent {
             case 'sede':
                 if (event != null) {
                     this.form.get('sede_id').setValue(event.id);
-                    this.gradoComponent.getGradosBySede(event.id);
                 }
                 break;
             case 'grado':
@@ -103,7 +102,7 @@ export class DireccionGradosComponent {
     getDataAll() {
         this.direccionService.getAll().subscribe(
             (response) => {
-                console.log(response.data);
+                //console.log(response.data);
                 this.data = response.data;
             },
             (error) => {
@@ -268,12 +267,12 @@ export class DireccionGradosComponent {
     }
 
     onSubmit() {
-        console.log(this.form.value);
+        //console.log(this.form.value);
         if (this.form.valid) {
           this.direccion=this.form.value;
           this.direccion.user = localStorage.getItem('user_id');
           if (this.iid=="" || this.iid==undefined) {
-              console.log(this.direccion);
+              //console.log(this.direccion);
               this.crear(this.direccion);
           } else {
             this.direccion.id=this.iid;

@@ -50,7 +50,6 @@ export class PreescolarService {
   getListadoEstudiantes(data:any): Observable<any> {
     const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
     let url=`${environment.baseURL}/preescolar-listado-estudiantes`;
-    console.log(url);
     return this.http.post<any>(url, data, {headers});
   }
 

@@ -137,7 +137,7 @@ export class LogrosDisciplinariosComponent {
     getDataAll() {
         this.logroService.getAll().subscribe(
             (response) => {
-                console.log(response.data);
+                //console.log(response.data);
                 this.data = response.data;
             },
             (error) => {
@@ -164,7 +164,7 @@ export class LogrosDisciplinariosComponent {
     }
 
     editProduct(item: any) {
-        console.log(item);
+        //console.log(item);
         this.carga = { ...item };
         this.clienteDialog = true;
         this.carga.editar = true;
@@ -276,7 +276,7 @@ export class LogrosDisciplinariosComponent {
     filtrarDatos(filtro: any) {
         this.logroService.filtrar(filtro).subscribe(
             (response) => {
-                console.log(response.data);
+                //console.log(response.data);
                 this.data = response.data;
             },
             (error) => {

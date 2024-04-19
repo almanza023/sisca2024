@@ -94,7 +94,7 @@ export class DocentesComponent {
     getDataAll() {
         this.docenteService.getAll().subscribe(
             (response) => {
-                console.log(response.data);
+                //console.log(response.data);
                 this.data = response.data;
             },
             (error) => {
@@ -245,7 +245,7 @@ export class DocentesComponent {
           this.docente=this.form.value;
           this.docente.user = localStorage.getItem('user_id');
           if (this.iid=="" || this.iid==undefined) {
-            console.log(this.docente);
+            //console.log(this.docente);
               this.crear(this.docente);
           } else {
             this.docente.id=this.iid;

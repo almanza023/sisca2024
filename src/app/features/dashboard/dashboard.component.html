@@ -35,9 +35,10 @@
                 <div class="card mb-0">
                     <div class="flex justify-content-between mb-3">
                         <div>
-                            <span class="block text-500 font-medium mb-3">Confirmados</span>
-                            <div class="text-900 font-medium text-xl">{{ contadores.confirmados }}</div>
-                            <div class="text-900 font-medium text-xl">{{ contadores.porcentajeConfirmado }}%</div>
+                            <span class="block text-500 font-medium mb-3">Avance Periodo</span>
+                            <div class="text-900 font-medium text-xl">Asignadas {{ contadores.asignadas }}</div>
+                            <div class="text-900 font-medium text-xl">Calificadas {{ contadores.calificadas }}</div>
+                            <div class="text-900 font-medium text-xl">Avance {{ contadores.porcentaje }}%</div>
                         </div>
                     </div>
                 </div>
@@ -87,8 +88,8 @@
 
 </div>
 
-<div class="grid" *ngIf="rol=='1' || rol=='2' || rol=='4'">
-
+<div  *ngIf="rol=='1' || rol=='2' || rol=='4'">
+<div class="grid">
     <div class="col-12 lg:col-6 xl:col-3">
         <div class="card mb-0">
             <div class="flex justify-content-between mb-3">
@@ -120,7 +121,33 @@
 
         </div>
     </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium mb-3">Información Periodo</span>
+                    <div class="text-900 font-medium text-xl">{{ contadoresDocentes.periodo }}</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
+<div class="grid">
+    <div class="col-12 lg:col-6 xl:col-3">
+    <div class="card mb-0">
+        <div class="flex justify-content-between mb-3">
+            <div>
+
+                <div class="text-900 font-medium text-xl">Asignadas: {{ contadoresDocentes.asignaciones }}</div>
+                <div class="text-900 font-medium text-xl">Calificadas: {{ contadoresDocentes.calificadas }}</div>
+                <div class="text-900 font-medium text-xl">Avance: {{ contadoresDocentes.avance }} %</div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
 
 
 

@@ -25,7 +25,7 @@ export class SelectorTipoPersonaComponent {
     this.tipoService.getActive().subscribe(response => {
       this.items=response.data;
       } ,error => {
-        console.log( error.error)
+        //console.log( error.error)
       });
   }
 

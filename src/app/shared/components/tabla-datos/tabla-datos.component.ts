@@ -61,7 +61,7 @@ getStatusClass(id){
     if(id==="3"){
         valor="#ABEBC6";
     }
-    console.log(id);
+    //console.log(id);
     return valor;
 }
 

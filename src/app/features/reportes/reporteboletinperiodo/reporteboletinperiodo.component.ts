@@ -80,7 +80,7 @@ export class ReporteboletinperiodoComponent {
             .pipe(finalize(() => this.downloadFile(this.pdf, nombre+'.pdf')))
             .subscribe(
                 (response) => {
-                    console.log(response.pdf);
+                    //console.log(response.pdf);
                     this.pdf = response.pdf;
                     this.messageService.add({
                         severity: 'success',
@@ -107,7 +107,7 @@ export class ReporteboletinperiodoComponent {
             .pipe(finalize(() => this.downloadFile(this.pdf, nombre+'.pdf')))
             .subscribe(
                 (response) => {
-                    console.log(response.pdf);
+                    //console.log(response.pdf);
                     this.pdf = response.pdf;
                     this.messageService.add({
                         severity: 'success',

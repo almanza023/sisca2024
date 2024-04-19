@@ -33,7 +33,6 @@ export class ConvivenciaService {
   postData(data: any): Observable<any> {
     const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
     let url=`${environment.baseURL}/convivencia`;
-    console.log(url);
     return this.http.post<any>(url, data, {headers});
   }
 
@@ -58,7 +57,6 @@ export class ConvivenciaService {
   filtrar(data: any): Observable<any> {
     const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
     let url=`${environment.baseURL}/convivencia/filtrar`;
-    console.log(url);
     return this.http.post<any>(url, data, {headers});
   }
 

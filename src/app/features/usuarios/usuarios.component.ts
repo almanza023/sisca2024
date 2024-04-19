@@ -30,6 +30,7 @@ export class UsuariosComponent {
     seleccionado: any = {};
     item: any = {};
     rowsPerPageOptions = [5, 10, 20];
+    editar:boolean=false;
 
 
     nombreModulo: string= "Módulo de Usuarios"
@@ -59,7 +60,7 @@ export class UsuariosComponent {
             .getAll()
             .subscribe(
                 (response) => {
-                    console.log(response.data);
+                    //console.log(response.data);
                     this.data = response.data;
                 },
                 (error) => {
@@ -80,6 +81,7 @@ export class UsuariosComponent {
         this.submitted = false;
         this.clienteDialog = true;
         this.seleccionado = {};
+        this.editar=false;
 
         }
 
@@ -88,12 +90,13 @@ export class UsuariosComponent {
     }
 
     editProduct(item: any) {
-        console.log(item)
+        //console.log(item)
         this.persona.id=item.id;
         this.persona.documento=item.documento;
         this.persona.name=item.name;
         this.clienteDialog = true;
         this.persona.editar = true;
+        this.editar=true;
 
     }
 
@@ -151,7 +154,7 @@ export class UsuariosComponent {
         this.submitted = true;
 
         this.persona.user=localStorage.getItem('user_id');
-        if (this.persona.numerodocumento == undefined) {
+        if (this.persona.documento == undefined) {
             this.messageService.add({
                 severity: 'warn',
                 summary: 'Advertencia',
@@ -160,7 +163,7 @@ export class UsuariosComponent {
             });
             return;
         }
-        if (this.persona.nombre == undefined) {
+        if (this.persona.nombre == undefined && this.editar==true ) {
             this.messageService.add({
                 severity: 'warn',
                 summary: 'Advertencia',
@@ -169,60 +172,25 @@ export class UsuariosComponent {
             });
             return;
         }
-        if (this.persona.usuario == undefined) {
-            this.messageService.add({
-                severity: 'warn',
-                summary: 'Advertencia',
-                detail: 'Debe ingresar un Usuario',
-                life: 3000,
-            });
-            return;
-        }
-        if (this.persona.password == undefined) {
-            this.messageService.add({
-                severity: 'warn',
-                summary: 'Advertencia',
-                detail: 'Debe ingresar una Clave',
-                life: 3000,
-            });
-            return;
-        }
 
-        if (this.persona.rol == undefined) {
-            this.messageService.add({
-                severity: 'warn',
-                summary: 'Advertencia',
-                detail: 'Debe seleccionar un Rol',
-                life: 3000,
-            });
-            return;
-        }
-
-        if (this.persona.rol == '3' && this.persona.puestoconfirma== undefined) {
-            this.messageService.add({
-                severity: 'warn',
-                summary: 'Advertencia',
-                detail: 'Debe seleccionar un Puesto de Confirmación',
-                life: 3000,
-            });
-            return;
-        }
-
-        if (this.persona.campanna == undefined) {
-            this.messageService.add({
-                severity: 'warn',
-                summary: 'Advertencia',
-                detail: 'Debe seleccionar una Campaña',
-                life: 3000,
-            });
-            return;
+        if(this.editar==false){
+            if (this.persona.password == undefined) {
+                this.messageService.add({
+                    severity: 'warn',
+                    summary: 'Advertencia',
+                    detail: 'Debe ingresar una Clave',
+                    life: 3000,
+                });
+                return;
+            }
         }
 
 
-        if (this.persona.id==undefined) {
+        if (this.editar==false) {
             this.crear(this.persona);
         }else{
             this.actualizar(this.persona);
+
         }
          //this.clientes = [...this.clientes];
          this.clienteDialog = false;

@@ -33,7 +33,6 @@ export class LogrosAcademicosService {
   postData(data: any): Observable<any> {
     const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
     let url=`${environment.baseURL}/logros-academicos`;
-    console.log(url);
     return this.http.post<any>(url, data, {headers});
   }
 
@@ -58,14 +57,12 @@ export class LogrosAcademicosService {
   filtrar(data: any): Observable<any> {
     const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
     let url=`${environment.baseURL}/logros-academicos/filtrar`;
-    console.log(url);
     return this.http.post<any>(url, data, {headers});
   }
 
   getFiltros(data: any): Observable<any> {
     const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
     let url=`${environment.baseURL}/logros-academicos/getFiltros`;
-    console.log(url);
     return this.http.post<any>(url, data, {headers});
   }
 

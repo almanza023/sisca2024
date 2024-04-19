@@ -27,9 +27,9 @@ export class SelectorSedeComponent {
     .pipe(finalize(()=>this.filtrarDocente()))
     .subscribe(response => {
       this.items=response.data;
-      console.log(response.data)
+      //console.log(response.data)
       } ,error => {
-        console.log( error.error)
+        //console.log( error.error)
       });
   }
 

@@ -37,7 +37,7 @@ export class SelectorPeriodoComponent {
     this.periodoServicec.getActive().subscribe(response => {
       this.items=response.data;
       } ,error => {
-        console.log( error.error)
+        //console.log( error.error)
       });
   }
 
@@ -63,7 +63,7 @@ export class SelectorPeriodoComponent {
     this.aperturaService.getAbiertos(data).subscribe(response => {
       this.items=response.data;
       } ,error => {
-        console.log( error.error)
+        //console.log( error.error)
       });
   }
 

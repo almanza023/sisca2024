@@ -25,7 +25,7 @@
                 <!-- Columna 2 -->
                 <div class="col-12 md:col-6 lg:col-3">
                     <label for="grado" class="lable-bold">Grado</label>
-                    <app-selector-grados
+                    <app-selector-grados #gradosPrincipal
                         (itemSeleccionado)="getValores($event, 'grado')"
                     ></app-selector-grados>
                 </div>

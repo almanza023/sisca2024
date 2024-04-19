@@ -150,7 +150,7 @@ export class LogrosAcademicosComponent {
     }
 
     editProduct(item: any) {
-        console.log(item);
+        //console.log(item);
         this.carga = { ...item };
         this.clienteDialog = true;
         this.carga.editar = true;
@@ -273,7 +273,7 @@ export class LogrosAcademicosComponent {
     filtrarDatos(filtro: any) {
         this.logroService.filtrar(filtro).subscribe(
             (response) => {
-                console.log(response.data);
+                //console.log(response.data);
                 this.data = response.data;
             },
             (error) => {

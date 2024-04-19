@@ -146,7 +146,7 @@ export class RegistroIndividualComponent {
             .getEstudiantes(item)
             .subscribe(
                 (response) => {
-                    console.log(response.data);
+                    //console.log(response.data);
                     this.data = response.data;
                 },
                 (error) => {
@@ -167,7 +167,7 @@ export class RegistroIndividualComponent {
             .pipe(finalize(() => this.cargarInputs()))
             .subscribe(
                 (response) => {
-                    console.log(response.data);
+                    //console.log(response.data);
                     this.asignaturas = response.data;
                 },
                 (error) => {
@@ -187,7 +187,7 @@ export class RegistroIndividualComponent {
             .pipe(finalize(() => this.cargarInputs()))
             .subscribe(
                 (response) => {
-                    console.log(response.data);
+                    //console.log(response.data);
                     this.asignaturas = response.data;
                 },
                 (error) => {
@@ -228,7 +228,7 @@ export class RegistroIndividualComponent {
                 (response) => {
 
                     this.dataNotas=response.data;
-                    console.log(response.data);
+                    //console.log(response.data);
                     this.messageService.add({
                         severity: 'success',
                         summary: 'Exitoso',
@@ -308,7 +308,7 @@ export class RegistroIndividualComponent {
     }
 
     onSubmitEnviar() {
-        console.log(this.formEnviar.value);
+        //console.log(this.formEnviar.value);
         if (this.formEnviar.valid) {
             this.modalDetalle=false;
             this.mostrarLoading=true;
@@ -316,7 +316,7 @@ export class RegistroIndividualComponent {
                 let datos = this.formEnviar.value;
                 this.cargarAsignaturas();
                 datos.asignaturas=this.asignaturasListado;
-                console.log(datos);
+                //console.log(datos);
                 this.crear(datos);
                 this.mostrarLoading=false;
 

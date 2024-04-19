@@ -50,6 +50,7 @@ import { SelectorPeriodoComponent } from './selector-periodo/selector-periodo.co
 import { SelectorTipoLogroAcademicoComponent } from './selector-tipo-logro-academico/selector-tipo-logro-academico.component';
 import { LoadingComponent } from './loading/loading.component';
 import { SelectorTipoReporteComponent } from './selector-tipo-reporte/selector-tipo-reporte.component';
+import { SelectorAreasComponent } from './selector-areas/selector-areas.component';
 
 
 
@@ -66,7 +67,7 @@ import { SelectorTipoReporteComponent } from './selector-tipo-reporte/selector-t
     SelectorEstadoComponent,SelectorTipoPersonaComponent, SelectorAsignaturasComponent,
     SelectorSedeComponent, SelectorGenericoComponent, SelectorTipoComponent,
     VerPowerbiComponent, SelectorPeriodoComponent, SelectorTipoLogroAcademicoComponent,
-    LoadingComponent, SelectorTipoReporteComponent
+    LoadingComponent, SelectorTipoReporteComponent, SelectorAreasComponent
   ],
   imports: [
     CommonModule,
@@ -91,7 +92,7 @@ import { SelectorTipoReporteComponent } from './selector-tipo-reporte/selector-t
     SelectorTipoAsignaturaComponent, SelectorDocentesComponent,
     SelectorAsignaturasComponent,SelectorSedeComponent,SelectorGenericoComponent,
     SelectorTipoComponent, SelectorPeriodoComponent,SelectorTipoLogroAcademicoComponent,
-     LoadingComponent, SelectorTipoReporteComponent
+     LoadingComponent, SelectorTipoReporteComponent, SelectorAreasComponent
 
   ]
 })

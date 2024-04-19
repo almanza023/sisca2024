@@ -38,9 +38,12 @@
                 </div>
                 <div class="col-12 md:col-6 lg:col-3" *ngIf="ocultarPanelAisgPer">
                     <label for="asignatura" class="label-bold">Aréa/Asignatura</label>
-                    <app-selector-asignaturas
+                    <app-selector-asignaturas *ngIf="tiporeporte==2"
                         (itemSeleccionado)="getValores($event, 'asignatura')"
                     ></app-selector-asignaturas>
+                    <app-selector-areas *ngIf="tiporeporte==5"
+                    (itemSeleccionado)="getValores($event, 'areas')"
+                ></app-selector-areas>
                 </div>
 
                 <div class="col-12 md:col-6 lg:col-3" *ngIf="ocultarPanelAisgPer">

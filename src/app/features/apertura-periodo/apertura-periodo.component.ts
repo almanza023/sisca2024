@@ -80,7 +80,7 @@ export class AperturaPeriodoComponent {
     getDataAll() {
         this.aperturaService.getAll().subscribe(
             (response) => {
-                console.log(response.data);
+                //console.log(response.data);
                 this.data = response.data;
             },
             (error) => {
@@ -243,12 +243,12 @@ export class AperturaPeriodoComponent {
     }
 
     onSubmit() {
-        console.log(this.form.value);
+        //console.log(this.form.value);
         if (this.form.valid) {
          this.apertura=this.form.value;
          this.apertura.user = localStorage.getItem('user_id');
           if (this.iid=="" || this.iid==undefined) {
-              console.log(this.apertura);
+              //console.log(this.apertura);
               this.crear(this.apertura);
           } else {
            this.apertura.id=this.iid;

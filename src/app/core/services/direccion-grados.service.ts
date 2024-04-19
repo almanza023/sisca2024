@@ -32,7 +32,6 @@ export class DireccionGradoService {
   postData(data: any): Observable<any> {
     const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
     let url=`${environment.baseURL}/direccion-grados`;
-    console.log(url);
     return this.http.post<any>(url, data, {headers});
   }
 

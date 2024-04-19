@@ -143,7 +143,7 @@ export class CargasComponent {
     getDataAll() {
         this.cargaService.getAll().subscribe(
             (response) => {
-                console.log(response.data);
+                //console.log(response.data);
                 this.data = response.data;
             },
             (error) => {
@@ -170,7 +170,7 @@ export class CargasComponent {
     }
 
     editProduct(item: any) {
-        console.log(item);
+        //console.log(item);
         this.carga = { ...item };
         this.clienteDialog = true;
         this.carga.editar = true;
@@ -283,7 +283,7 @@ export class CargasComponent {
     filtrarDatos(filtro: any) {
         this.cargaService.filtrar(filtro).subscribe(
             (response) => {
-                console.log(response.data);
+                //console.log(response.data);
                 this.data = response.data;
             },
             (error) => {

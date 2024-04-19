@@ -38,7 +38,7 @@ export class SelectorGradosComponent {
     this.barrioService.getActive().subscribe(response => {
       this.items=response.data;
       } ,error => {
-        console.log( error.error)
+        //console.log( error.error)
       });
   }
 
@@ -46,10 +46,10 @@ export class SelectorGradosComponent {
    if(this.rol=="3"){
     this.cargaService.getGradosBySede(sede)
     .subscribe(response => {
-        console.log(response.data);
+        //console.log(response.data);
       this.items=response.data;
       } ,error => {
-        console.log( error.error)
+        //console.log( error.error)
       });
    }else{
     this.filtrarDocente();
@@ -65,6 +65,7 @@ export class SelectorGradosComponent {
   }
 
   filtrar(valor:any) {
+    //console.log(valor);
     if(valor){
      this.seleccionado= this.items.find(objeto => objeto['id'] === valor);
     }

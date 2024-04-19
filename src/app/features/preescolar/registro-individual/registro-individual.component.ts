@@ -153,7 +153,7 @@ export class RegistroIndividualComponent {
             .getFiltros(item)
             .subscribe(
                 (response) => {
-                    console.log(response.data);
+                    //console.log(response.data);
                     this.listadoLogros = response.data;
                 },
                 (error) => {
@@ -178,7 +178,7 @@ export class RegistroIndividualComponent {
             .getListadoEstudiantes(item)
             .subscribe(
                 (response) => {
-                    console.log(response.data);
+                    //console.log(response.data);
                     this.data = response.data;
                 },
                 (error) => {
@@ -199,7 +199,7 @@ export class RegistroIndividualComponent {
             .pipe(finalize(() => this.cargarInputsEditar()))
             .subscribe(
                 (response) => {
-                    console.log(response.data);
+                    //console.log(response.data);
                     this.asignaturas = response.data;
                 },
                 (error) => {
@@ -221,7 +221,7 @@ export class RegistroIndividualComponent {
             .pipe(finalize(() => this.cargarInputs()))
             .subscribe(
                 (response) => {
-                    console.log(response.data);
+                    //console.log(response.data);
                     this.asignaturas = response.data;
                 },
                 (error) => {
@@ -274,7 +274,7 @@ export class RegistroIndividualComponent {
                 (response) => {
 
                     this.dataNotas=response.data;
-                    console.log(response.data);
+                    //console.log(response.data);
                     this.messageService.add({
                         severity: 'success',
                         summary: 'Exitoso',
@@ -361,14 +361,14 @@ export class RegistroIndividualComponent {
     }
 
     onSubmitEnviar() {
-        console.log(this.formEnviar.value);
+        //console.log(this.formEnviar.value);
         if (this.formEnviar.valid) {
             this.mostrarLoading=true;
             setTimeout(() => {
                 this.cargarDesarrollos();
                 let datos = this.formEnviar.value;
                 datos.asignaturas=this.arrayDesarrollos;
-                console.log(datos);
+                //console.log(datos);
                 this.crear(datos);
                 this.mostrarLoading=false;
             }, 2500);
@@ -386,7 +386,7 @@ export class RegistroIndividualComponent {
 
 
     openModalCalificar(item:any){
-        console.log(item);
+        //console.log(item);
         this.nombreEstudiante=item.apellidos+" "+item.nombres;
         let datos={
             matricula_id:item.id,
@@ -395,7 +395,7 @@ export class RegistroIndividualComponent {
         this.mostrarLoading=true;
         setTimeout(() => {
             //this.getCalificacionByMatricula(datos)
-            console.log(item.desarrollos==0);
+            //console.log(item.desarrollos==0);
            if(item.desarrollos==0){
             this.getDesarrollos();
            }else{

@@ -107,7 +107,7 @@ export class RegistroCargaComponent {
     getDataAll() {
         this.cargaService.getAgregados().subscribe(
             (response) => {
-                console.log(response.data);
+                //console.log(response.data);
                 this.data = response.data;
             },
             (error) => {
@@ -214,7 +214,7 @@ export class RegistroCargaComponent {
     filtrarDatos(filtro: any) {
         this.cargaService.filtrar(filtro).subscribe(
             (response) => {
-                console.log(response.data);
+                //console.log(response.data);
                 this.data = response.data;
             },
             (error) => {

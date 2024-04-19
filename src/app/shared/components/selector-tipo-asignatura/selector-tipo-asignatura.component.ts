@@ -21,14 +21,14 @@ export class SelectorTipoAsignaturaComponent {
     this.getData();
 
     this.seleccionado=this.valor;
-    console.log(this.seleccionado);
+    //console.log(this.seleccionado);
 
   }o
   getData(){
     this.tipoService.getActive().subscribe(response => {
       this.items=response.data;
       } ,error => {
-        console.log( error.error)
+        //console.log( error.error)
       });
   }
 

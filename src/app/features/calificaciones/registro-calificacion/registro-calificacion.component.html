@@ -490,14 +490,32 @@
     </ng-template>
     <ng-template pTemplate="footer">
         <tr>
-            <td colspan="2">
+            <td >
                 <button
                                 (click)="modalDetalle=false"
                                 pButton
                                 pRipple
                                 icon="pi pi-check"
                                 class="p-button-rounded p-button-warning mr-2"
-                            >Aceptar</button>
+                            > Aceptar</button>
+            </td>
+            <td >
+                <button
+                                (click)="reporteArea(dataNotas[0].sede_id, dataNotas[0].grado_id, dataNotas[0].asignatura_id, dataNotas[0].periodo_id)"
+                                pButton
+                                pRipple
+                                icon="pi pi-print"
+                                class="p-button-rounded p-button-success mr-2"
+                            > Reporte Aréa</button>
+            </td>
+            <td >
+                <button
+                                (click)="reporteNotas(dataNotas[0].sede_id, dataNotas[0].grado_id, dataNotas[0].asignatura_id, dataNotas[0].periodo_id)"
+                                pButton
+                                pRipple
+                                icon="pi pi-print"
+                                class="p-button-rounded p-button-info mr-2"
+                            > Reporte Notas</button>
             </td>
         </tr>
     </ng-template>

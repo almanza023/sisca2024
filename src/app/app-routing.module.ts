@@ -52,6 +52,8 @@ import { VerPowerbiComponent } from './shared/components/ver-powerbi/ver-powerbi
                       canActivate: [AuthGuard] },
                       { path: 'reportes', loadChildren: () => import('./features/reportes/reportes.module').then(m => m.ReportesModule),
                       canActivate: [AuthGuard] },
+                      { path: 'cambiar-clave', loadChildren: () => import('./features/cambiar-clave/cambiar-clave.module').then(m => m.CambiarClaveModule),
+                      canActivate: [AuthGuard] },
 
                 ]
             },

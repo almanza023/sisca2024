@@ -78,7 +78,7 @@ export class RegistroConvivenciaComponent {
             if(this.operacion=="editar"){
                 this.nombreModulo="Actualización de Convivencia Escolar"
             }
-            console.log(this.operacion);
+            //console.log(this.operacion);
 
         });
 
@@ -158,7 +158,7 @@ export class RegistroConvivenciaComponent {
             .pipe(finalize(() => this.cargarInputs()))
             .subscribe(
                 (response) => {
-                    console.log(response.data);
+                    //console.log(response.data);
                     this.data = response.data;
                     if(response.code==300){
                         this.messageService.add({
@@ -187,7 +187,7 @@ export class RegistroConvivenciaComponent {
             .pipe(finalize(() => this.cargarInputs()))
             .subscribe(
                 (response) => {
-                    console.log(response.data);
+                    //console.log(response.data);
                     this.data = response.data;
                     if(response.code==300){
                         this.messageService.add({
@@ -214,7 +214,7 @@ export class RegistroConvivenciaComponent {
             .getFiltros(item)
             .subscribe(
                 (response) => {
-                    console.log(response.data);
+                    //console.log(response.data);
                     this.listadoLogros = response.data;
                 },
                 (error) => {
@@ -281,7 +281,7 @@ export class RegistroConvivenciaComponent {
                 (response) => {
                     this.modalDetalle=true;
                     this.dataNotas=response.data;
-                    console.log(response.data);
+                    //console.log(response.data);
                     this.messageService.add({
                         severity: 'success',
                         summary: 'Exitoso',
@@ -309,7 +309,7 @@ export class RegistroConvivenciaComponent {
     }
 
     onSubmit() {
-        console.log(this.form.value);
+        //console.log(this.form.value);
         if (this.form.valid) {
                 this.data=[];
                 this.clearControls();
@@ -354,8 +354,8 @@ export class RegistroConvivenciaComponent {
     }
 
     onSubmitEnviar() {
-        console.log(this.formEnviar.value);
-        console.log(this.formEnviar);
+        //console.log(this.formEnviar.value);
+        //console.log(this.formEnviar);
         if (this.formEnviar.errors==null) {
             this.mostrarLoading=true;
             setTimeout(() => {
@@ -364,7 +364,7 @@ export class RegistroConvivenciaComponent {
                 datos.matriculas=this.matriculas;
                 //Asignatira de Disciplina
                 datos.asignatura_id=29;
-                console.log(datos);
+                //console.log(datos);
                 this.crear(datos);
                 this.mostrarLoading=false;
             }, 2500);

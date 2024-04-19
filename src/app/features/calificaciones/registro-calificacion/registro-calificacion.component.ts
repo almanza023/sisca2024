@@ -6,6 +6,7 @@ import { Table } from 'primeng/table';
 import { finalize } from 'rxjs';
 import { CalificacionService } from 'src/app/core/services/calificacion.service';
 import { LogrosAcademicosService } from 'src/app/core/services/logros-academicos.service';
+import { ReporteService } from 'src/app/core/services/reporte.service';
 
 import { SelectorAsignaturasComponent } from 'src/app/shared/components/selector-asignaturas/selector-asignaturas.component';
 import { SelectorGradosComponent } from 'src/app/shared/components/selector-grados/selector-grados.component';
@@ -61,11 +62,12 @@ export class RegistroCalificacionComponent {
     matriculas:any=[];
     calificacionesPeriodo:any=[];
     mostrarLoading:boolean=false;
-
+    pdf:string;
 
     constructor(
         private calificacionService: CalificacionService,
         private logroService: LogrosAcademicosService,
+        private reporteService: ReporteService,
         private messageService: MessageService,
         private router: Router,
         private route: ActivatedRoute,
@@ -81,7 +83,7 @@ export class RegistroCalificacionComponent {
             if(this.operacion=="editar"){
                 this.nombreModulo="Actualización de Notas"
             }
-            console.log(this.operacion);
+            //console.log(this.operacion);
 
         });
 
@@ -185,7 +187,7 @@ export class RegistroCalificacionComponent {
             .pipe(finalize(() => this.cargarInputs()))
             .subscribe(
                 (response) => {
-                    console.log(response.data);
+                    //console.log(response.data);
                     this.data = response.data;
                     if(response.code==300){
                         this.messageService.add({
@@ -214,7 +216,7 @@ export class RegistroCalificacionComponent {
             .pipe(finalize(() => this.cargarInputs()))
             .subscribe(
                 (response) => {
-                    console.log(response.data);
+                    //console.log(response.data);
                     this.data = response.data;
                     if(response.code==300){
                         this.messageService.add({
@@ -241,7 +243,7 @@ export class RegistroCalificacionComponent {
             .getFiltros(item)
             .subscribe(
                 (response) => {
-                    console.log(response.data);
+                    //console.log(response.data);
                     this.listadoLogros = response.data;
                 },
                 (error) => {
@@ -300,7 +302,7 @@ export class RegistroCalificacionComponent {
                     this.formEnviar.get('logro_cog').setValue(this.data[0].logro_cognitivo)
                 }
             }
-            console.log(this.form.value);
+            //console.log(this.form.value);
 
         }
     }
@@ -327,7 +329,7 @@ export class RegistroCalificacionComponent {
                 (response) => {
                     this.modalDetalle=true;
                     this.dataNotas=response.data;
-                    console.log(response.data);
+                    //console.log('detalles'+response.data);
                     this.messageService.add({
                         severity: 'success',
                         summary: 'Exitoso',
@@ -402,14 +404,14 @@ export class RegistroCalificacionComponent {
     }
 
     onSubmitEnviar() {
-        console.log(this.formEnviar.value);
+        //console.log(this.formEnviar.value);
         if (this.formEnviar.valid) {
             this.mostrarLoading=true;
             setTimeout(() => {
                 this.cargarMatriculas();
                 let datos = this.formEnviar.value;
                 datos.matriculas=this.matriculas;
-                console.log(datos);
+                //console.log(datos);
                 this.crear(datos);
                 this.mostrarLoading=false;
             }, 2500);
@@ -438,7 +440,8 @@ export class RegistroCalificacionComponent {
         switch (opcion) {
             case 1:
                 let valor= this.logro_afe.at(0).value;
-                if(valor!=""){
+                //console.log(valor);
+                if(valor!="" || valor==0){
                  for (let index = 0; index < this.data.length; index++) {
                      this.logro_afe.at(index).setValue(valor);
                  }
@@ -472,6 +475,111 @@ export class RegistroCalificacionComponent {
             break;
         }
 
+    }
+
+
+
+    reporteArea(sede:any, grado:any, asignatura:any, periodo:any) {
+        let filtro={
+            'sede_id':sede,
+            'grado_id':grado,
+            'asignatura_id':asignatura,
+            'periodo_id':periodo,
+        }
+        this.reporteService
+            .reporteAreaPeriodo(filtro)
+            .pipe(finalize(() => this.downloadFile(this.pdf, 'ReporteArea.pdf')))
+            .subscribe(
+                (response) => {
+                    //console.log(response.pdf);
+                    this.pdf = response.pdf;
+                    if(response.code==200){
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Reporte Generado Exitosamente',
+                            detail: response.message,
+                            life: 3000,
+                        });
+                    }else{
+                        this.messageService.add({
+                            severity: 'warn',
+                            summary: 'Advertencia',
+                            detail: response.message,
+                            life: 3000,
+                        });
+                    }
+                },
+                (error) => {
+                    this.messageService.add({
+                        severity: 'warn',
+                        summary: 'Advertencia',
+                        detail: error.error.message,
+                        life: 3000,
+                    });
+
+                }
+            );
+    }
+
+    reporteNotas(sede:any, grado:any, asignatura:any, periodo:any) {
+        let filtro={
+            'sede_id':sede,
+            'grado_id':grado,
+            'asignatura_id':asignatura,
+            'periodo_id':periodo,
+        }
+        let nombre='ReporteNotas_'+grado+'.pdf'
+        this.reporteService
+            .reporteCalificaciones(filtro)
+            .pipe(finalize(() => this.downloadFile(this.pdf, nombre)))
+            .subscribe(
+                (response) => {
+                    //console.log(response.pdf);
+                    this.pdf = response.pdf;
+                    if(response.code==200){
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Reporte Generado Exitosamente',
+                            detail: response.message,
+                            life: 3000,
+                        });
+                    }else{
+                        this.messageService.add({
+                            severity: 'warn',
+                            summary: 'Advertencia',
+                            detail: response.message,
+                            life: 3000,
+                        });
+                    }
+                },
+                (error) => {
+                    this.messageService.add({
+                        severity: 'warn',
+                        summary: 'Advertencia',
+                        detail: error.error.message,
+                        life: 3000,
+                    });
+
+                }
+            );
+    }
+
+    downloadFile(base64:any,fileName:any){
+        if(base64!==undefined || base64!=""){
+            const src = `data:application/pdf;base64,${base64}`;
+            const link = document.createElement("a")
+            link.href = src
+            link.download = fileName
+            link.click()
+            link.remove()
+        }else{
+            this.messageService.add({
+                severity: 'warn',
+                summary: 'Advertencia',
+                detail: "Error al Generar PDF",
+                life: 3000,
+            });
+        }
     }
 
 }
