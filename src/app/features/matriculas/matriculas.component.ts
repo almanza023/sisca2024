@@ -143,16 +143,18 @@ export class matriculasComponent {
     }
 
     editProduct(item: any) {
-        //console.log(item);
+        console.log(item);
         this.matricula = { ...item };
         this.clienteDialog = true;
         this.matricula.editar = true;
         this.iid=this.matricula.id;
 
-        this.sedeComponent.filtrar(this.matricula.sede_id);
-        this.gradosComponent.filtrar(this.matricula.grado_id);
+        this.sedeComponent.filtrar(this.matricula.sede.id);
+        this.gradosComponent.getGradosBySede(this.matricula.sede.id)
+
         this.repitenteComponent.filtrar(this.matricula.repitente);
         this.cambioSedeComponent.filtrar(this.matricula.cambio_sede);
+        this.gradosComponent.filtrar(this.matricula.grado.id);
         this.formEdit.patchValue(this.matricula);
     }
 

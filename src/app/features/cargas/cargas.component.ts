@@ -175,11 +175,11 @@ export class CargasComponent {
         this.clienteDialog = true;
         this.carga.editar = true;
         this.iid=this.carga.id;
-
-        this.sedeComponent.filtrar(this.carga.sede_id);
-        this.gradosComponent.filtrar(this.carga.grado_id);
-        this.asignaturasComponent.filtrar(this.carga.asignatura_id);
-        this.docentesCompenet.filtrar(this.carga.docente_id);
+        console.log(this.carga);
+        this.sedeComponent.filtrar(this.carga.sede.id);
+        this.gradosComponent.filtrar(this.carga.grado.id);
+        this.asignaturasComponent.filtrar(this.carga.asignatura.id);
+        this.docentesCompenet.filtrar(this.carga.docente.id);
         this.formEdit.patchValue(this.carga);
     }
 
@@ -247,7 +247,7 @@ export class CargasComponent {
     actualizar(item: any) {
         this.cargaService
             .putData(item)
-            .pipe(finalize(() => this.getDataAll()))
+            .pipe(finalize(() => this.onSubmit()))
             .subscribe(
                 (response) => {
                     this.messageService.add({

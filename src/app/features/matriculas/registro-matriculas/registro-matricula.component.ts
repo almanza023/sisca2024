@@ -95,7 +95,7 @@ export class RegistroMatriculaComponent {
             { id: 6, descripcion: 'AB+' },
             { id: 7, descripcion: 'AB-' },
         ];
-        this.gradosComponent.getData();
+        //this.gradosComponent.getData();
         this.route.paramMap.subscribe(params => {
             this.id = params.get('id');
             //console.log(this.id)
@@ -139,7 +139,7 @@ export class RegistroMatriculaComponent {
         .pipe(finalize(() =>this.setValoresForm(this.matricula)))
         .subscribe(
             (response) => {
-                //console.log(response.data);
+                console.log(response.data);
                 this.matricula = response.data;
             },
             (error) => {
@@ -157,8 +157,8 @@ export class RegistroMatriculaComponent {
 
 
        setTimeout(() => {
-        this.sedeComponent.filtrar(matricula.sede_id)
-        this.gradosComponent.filtrar(matricula.grado_id)
+        this.sedeComponent.filtrar(matricula.sede.id)
+        this.gradosComponent.filtrar(matricula.grado.id)
         this.form.get('nombres').setValue(matricula.estudiante.nombres);
         this.form.get('apellidos').setValue(matricula.estudiante.apellidos);
         this.form.get('num_doc').setValue(matricula.estudiante.num_doc);
@@ -229,7 +229,7 @@ export class RegistroMatriculaComponent {
 
         setTimeout(() => {
             if(this.id!=0){
-               //this.router.navigate(['matriculas'])
+               this.router.navigate(['matriculas'])
             }
         }, 1500);
 
