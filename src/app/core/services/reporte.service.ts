@@ -54,6 +54,11 @@ export class ReporteService {
     return this.http.post<any>(url, data, {headers});
   }
 
+  reporteValoraciones(data: any): Observable<any> {
+    const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
+    let url=`${environment.baseURL}/reportes/valoraciones`;
+    return this.http.post<any>(url, data, {headers});
+  }
 
 
 

@@ -91,7 +91,7 @@ export class ReporteGeneralComponent {
                         this.ocultarPanelAisgPer=false;
                     }
                     if(this.tiporeporte==2 || this.tiporeporte==3
-                        || this.tiporeporte==4 || this.tiporeporte==5){
+                        || this.tiporeporte==4 || this.tiporeporte==5 || this.tiporeporte==6) {
                         //Habilitar asignatura y periodo
                         this.ocultarPanelAisgPer=true;
 
@@ -265,6 +265,42 @@ export class ReporteGeneralComponent {
             );
     }
 
+    getValoraciones(filtro) {
+        this.reporteService
+            .reporteValoraciones(filtro)
+            .pipe(finalize(() => this.downloadFile(this.pdf, 'ReporteValoraciones.pdf')))
+            .subscribe(
+                (response) => {
+                    //console.log(response.pdf);
+                    this.pdf = response.pdf;
+                    if(response.code==200){
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Reporte Generado Exitosamente',
+                            detail: response.message,
+                            life: 3000,
+                        });
+                    }else{
+                        this.messageService.add({
+                            severity: 'warn',
+                            summary: 'Advertencia',
+                            detail: response.message,
+                            life: 3000,
+                        });
+                    }
+                },
+                (error) => {
+                    this.messageService.add({
+                        severity: 'warn',
+                        summary: 'Advertencia',
+                        detail: error.error.message,
+                        life: 3000,
+                    });
+
+                }
+            );
+    }
+
 
 
 
@@ -302,6 +338,9 @@ export class ReporteGeneralComponent {
             }
             if(this.tiporeporte==5){
                 this.getDataAreaPeriodo(this.form.value);
+            }
+            if(this.tiporeporte==6){
+                this.getValoraciones(this.form.value);
             }
         }else{
             this.messageService.add({

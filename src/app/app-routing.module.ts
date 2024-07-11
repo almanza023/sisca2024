@@ -42,6 +42,8 @@ import { VerPowerbiComponent } from './shared/components/ver-powerbi/ver-powerbi
                       canActivate: [AuthGuard] },
                       { path: 'calificaciones', loadChildren: () => import('./features/calificaciones/calificaciones.module').then(m => m.CalificacionesModule),
                       canActivate: [AuthGuard] },
+                      { path: 'nivelaciones', loadChildren: () => import('./features/nivelaciones/nivelaciones.module').then(m => m.NivelacionesModule),
+                        canActivate: [AuthGuard] },
                       { path: 'direccion-grados', loadChildren: () => import('./features/direccion-grados/direccion-grados.module').then(m => m.DireccionGradosModule),
                       canActivate: [AuthGuard] },
                       { path: 'apertura-periodos', loadChildren: () => import('./features/apertura-periodo/apertura-periodo.module').then(m => m.AperturaPeriodoModule),

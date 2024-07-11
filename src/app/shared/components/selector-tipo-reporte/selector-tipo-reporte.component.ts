@@ -33,7 +33,8 @@ export class SelectorTipoReporteComponent {
             {id:1, descripcion:"Reporte Matricula"},
             {id:3, descripcion:"Consolidado de Periodo"},
             {id:4, descripcion:"Estadisticas de Periodo"},
-            {id:5, descripcion:"Reporte Aréa"}
+            {id:5, descripcion:"Reporte Aréa"},
+            {id:6, descripcion:"Listado de Valoraciones"}
         ]
     }
     if(this.rol=="3"){
@@ -42,7 +43,14 @@ export class SelectorTipoReporteComponent {
             {id:2, descripcion:"Reporte Calificaciones"},
             {id:3, descripcion:"Consolidado de Periodo"},
             {id:4, descripcion:"Estadisticas de Periodo"},
-            {id:5, descripcion:"Reporte Aréa"}
+            {id:5, descripcion:"Reporte Aréa"},
+            {id:6, descripcion:"Listado de Valoraciones"}
+        ]
+    }
+    if(this.rol=="2"){
+        this.items=[
+            {id:1, descripcion:"Reporte Matricula"},
+            {id:6, descripcion:"Listado de Valoraciones"}
         ]
     }
 

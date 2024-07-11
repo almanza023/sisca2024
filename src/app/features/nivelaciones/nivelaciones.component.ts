@@ -4,31 +4,32 @@ import { finalize } from 'rxjs';
 import { Table } from 'primeng/table';
 import { MessageService } from 'primeng/api';
 
-
+import { CargaService } from 'src/app/core/services/carga.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SelectorSedeComponent } from 'src/app/shared/components/selector-sede/selector-sede.component';
 import { SelectorGradosComponent } from 'src/app/shared/components/selector-grados/selector-grados.component';
-import { MatriculasService } from 'src/app/core/services/matriculas.service';
-import { SelectorGenericoComponent } from 'src/app/shared/components/selector-generico/selector-generico.component';
-import { Router } from '@angular/router';
+import { SelectorAsignaturasComponent } from 'src/app/shared/components/selector-asignaturas/selector-asignaturas.component';
+import { LogrosAcademicosService } from 'src/app/core/services/logros-academicos.service';
+import { SelectorPeriodoComponent } from 'src/app/shared/components/selector-periodo/selector-periodo.component';
+import { SelectorTipoLogroAcademicoComponent } from 'src/app/shared/components/selector-tipo-logro-academico/selector-tipo-logro-academico.component';
+import { CalificacionService } from 'src/app/core/services/calificacion.service';
 
 @Component({
-    selector: 'app-matriculas',
-    templateUrl: './matriculas.component.html',
+    selector: 'app-nivelaciones',
+    templateUrl: './nivelaciones.component.html',
     providers: [MessageService],
 })
-export class matriculasComponent {
+export class NivelacionesComponent {
     clienteDialog: boolean = false;
     deleteProductDialog: boolean = false;
     deleteProductsDialog: boolean = false;
 
     data: any[] = [];
-    matricula: any = {};
-
+    nota: any = {};
     selectedProducts: any[] = [];
     submitted: boolean = false;
     cols: any[] = [];
-    statuses: any[] = [];
+
     seleccionado: any = {};
     item: any = {};
     rowsPerPageOptions = [5, 10, 20];
@@ -40,62 +41,83 @@ export class matriculasComponent {
     form: FormGroup;
     formEdit: FormGroup;
     iid:any;
-    itemsSiNo:any=[];
+    nombreModulo: string = 'Módulo de Nivelaciones';
+    rol:any;
 
-    nombreModulo: string = 'Módulo de Matricúlas';
-    @ViewChild('sedes') sedeComponent: SelectorSedeComponent;
-    @ViewChild('grados') gradosComponent: SelectorGradosComponent;
-    @ViewChild('repitente') repitenteComponent: SelectorGenericoComponent;
-    @ViewChild('cambioSede') cambioSedeComponent: SelectorGenericoComponent;
-
-    @ViewChild('gradosPrincipal') gradosPrincipalComponent: SelectorGradosComponent;
+    @ViewChild(SelectorSedeComponent) sedeComponent: SelectorSedeComponent;
+    @ViewChild(SelectorGradosComponent) gradosComponent: SelectorGradosComponent;
+    @ViewChild(SelectorAsignaturasComponent)  asignaturasComponent: SelectorAsignaturasComponent;
+    @ViewChild(SelectorPeriodoComponent) periodoComponent: SelectorPeriodoComponent;
 
 
     constructor(
-        private matriculaService: MatriculasService,
+        private calificacionService: CalificacionService,
         private messageService: MessageService,
-        private fb: FormBuilder,
-        private router:Router
+        private fb: FormBuilder
     ) {}
 
     ngOnInit() {
-        this.getDataAll();
         this.cols = [
             { field: 'id', header: 'Código' },
             { field: 'descripcion', header: 'Descripción' },
             { field: 'estado', header: 'Estado' },
         ];
 
-        this.statuses = [];
+        this.rol=localStorage.getItem("rol")!;
         this.form = this.fb.group({
             sede_id: [''],
             grado_id: [''],
+            periodo_id: [''],
+            asignatura_id: [''],
         });
 
         this.formEdit = this.fb.group({
             sede_id: ['', Validators.required],
             grado_id: ['', Validators.required],
-            folio: ['', Validators.required],
-            repitente: ['', Validators.required],
-            cambio_sede: ['', Validators.required],
+            periodo_id: ['', Validators.required],
+            asignatura_id: ['', Validators.required],
+            descripcion: ['', Validators.required],
+            tipo_logro_id: ['', Validators.required],
         });
 
-        this.itemsSiNo = [
-            { id: 1, descripcion: 'SI' },
-            { id: 2, descripcion: 'NO' },
-        ];
+
+
     }
+
+
 
     ngOnChanges(changes: SimpleChanges): void {}
 
     getValores(event, operacion) {
         switch (operacion) {
             case 'sede':
-                this.form.get('sede_id').setValue(event.id);
-                this.gradosPrincipalComponent.getGradosBySede(event.id);
+                if (event != null) {
+                    this.form.get('sede_id').setValue(event.id);
+                    //this.formEnviar.get('sede_id').setValue(event.id);
+                    this.gradosComponent.getGradosBySede(event.id);
+                }
                 break;
             case 'grado':
-                this.form.get('grado_id').setValue(event.id);
+                if (event != null) {
+                    this.form.get('grado_id').setValue(event.id);
+                    //this.formEnviar.get('grado_id').setValue(event.id);
+                    this.asignaturasComponent.getAsignaturasBySedeAndGrado(
+                        this.form.get('sede_id').value,
+                        event.id
+                    );
+                }
+                break;
+            case 'asignatura':
+                if (event != null) {
+                    this.form.get('asignatura_id').setValue(event.id);
+                    //this.formEnviar.get('asignatura_id').setValue(event.id);
+                }
+                break;
+            case 'periodo':
+                if (event != null) {
+                    this.form.get('periodo_id').setValue(event.id);
+                    //this.formEnviar.get('periodo_id').setValue(event.id);
+                }
                 break;
         }
     }
@@ -108,19 +130,30 @@ export class matriculasComponent {
             case 'grado':
                 this.formEdit.get('grado_id').setValue(event.id);
                 break;
-            case 'repitente':
-                this.formEdit.get('repitente').setValue(event.descripcion);
+            case 'asignatura':
+                this.formEdit.get('asignatura_id').setValue(event.id);
                 break;
-            case 'cambio_sede':
-                this.formEdit.get('cambio_sede').setValue(event.descripcion);
+            case 'periodo':
+                this.formEdit.get('periodo_id').setValue(event.id);
                 break;
+                case 'tipologro':
+                    this.formEdit.get('tipo_logro_id').setValue(event.id);
+                    break;
         }
     }
 
-    getDataAll() {
-        this.matriculaService.getAll().subscribe(
+    getDataAll(item:any) {
+        this.calificacionService.getCalificacionesPeriodo(item).subscribe(
             (response) => {
                 //console.log(response.data);
+                if(response.code==300){
+                    this.messageService.add({
+                        severity: 'warn',
+                        summary: 'Advertencia',
+                        detail: response.message,
+                        life: 3000,
+                    });
+                }
                 this.data = response.data;
             },
             (error) => {
@@ -134,40 +167,25 @@ export class matriculasComponent {
         );
     }
 
-    openNew(id:any) {
-        this.router.navigate(['/matriculas/registro/'+id])
-    }
+
 
     deleteSelectedProducts() {
         this.deleteProductsDialog = true;
     }
 
-    editProduct(item: any) {
-        this.matricula = { ...item };
-        this.clienteDialog = true;
-        this.matricula.editar = true;
-        this.iid=this.matricula.id;
 
-        this.sedeComponent.filtrar(this.matricula.sede.id);
-        this.gradosComponent.getGradosBySede(this.matricula.sede.id)
-
-        this.repitenteComponent.filtrar(this.matricula.repitente);
-        this.cambioSedeComponent.filtrar(this.matricula.cambio_sede);
-        this.gradosComponent.filtrar(this.matricula.grado.id);
-        this.formEdit.patchValue(this.matricula);
-    }
 
     bloqueoCliente(cliente: any) {
         this.deleteProductDialog = true;
-        this.matricula = { ...cliente };
-        this.matricula.cambio_estado = true;
+        this.nota = { ...cliente };
+        this.nota.cambio_estado = true;
     }
 
     confirmDelete() {
         this.deleteProductDialog = false;
-        this.matriculaService
-            .cambiarEstado(this.matricula)
-            .pipe(finalize(() => this.getDataAll()))
+        this.calificacionService
+            .delete(this.nota.id)
+            .pipe(finalize(() => this.onSubmit()))
             .subscribe(
                 (response) => {
                     this.messageService.add({
@@ -186,7 +204,7 @@ export class matriculasComponent {
                     });
                 }
             );
-        this.matricula = {};
+        this.nota = {};
     }
 
     hideDialog() {
@@ -194,53 +212,8 @@ export class matriculasComponent {
         this.submitted = false;
     }
 
-    crear(item: any) {
-        this.matriculaService
-            .postData(item)
-            .pipe(finalize(() => this.getDataAll()))
-            .subscribe(
-                (response) => {
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Exitoso',
-                        detail: response.message,
-                        life: 3000,
-                    });
-                },
-                (error) => {
-                    this.messageService.add({
-                        severity: 'warn',
-                        summary: 'Advertencia',
-                        detail: error.error.message,
-                        life: 3000,
-                    });
-                }
-            );
-    }
 
-    actualizar(item: any) {
-        this.matriculaService
-            .putData(item)
-            .pipe(finalize(() => this.getDataAll()))
-            .subscribe(
-                (response) => {
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Exitoso',
-                        detail: response.message,
-                        life: 3000,
-                    });
-                },
-                (error) => {
-                    this.messageService.add({
-                        severity: 'warn',
-                        summary: 'Advertencia',
-                        detail: error.error.message,
-                        life: 3000,
-                    });
-                }
-            );
-    }
+
 
     onGlobalFilter(table: Table, event: Event) {
         table.filterGlobal(
@@ -251,11 +224,11 @@ export class matriculasComponent {
 
     onSubmit() {
         let filtro = this.form.value;
-        this.filtrarDatos(filtro);
+        this.getDataAll(filtro);
     }
 
     filtrarDatos(filtro: any) {
-        this.matriculaService.filtrar(filtro).subscribe(
+        this.calificacionService.filtrar(filtro).subscribe(
             (response) => {
                 //console.log(response.data);
                 this.data = response.data;
@@ -273,15 +246,13 @@ export class matriculasComponent {
 
     onSubmitEditar() {
         if (this.formEdit.valid) {
-            this.matricula = this.formEdit.value;
-            this.matricula.id=this.iid;
-            //console.log(this.matricula);
-            this.actualizar(this.matricula);
+            this.nota = this.formEdit.value;
+            this.nota.id=this.iid;
+
             this.clienteDialog = false;
-            this.matricula = {};
+            this.nota = {};
             this.seleccionado = {};
             this.iid="";
-            this.reinicarFormulario();
         } else {
             this.messageService.add({
                 severity: 'warn',
@@ -294,12 +265,21 @@ export class matriculasComponent {
     reiniciaComponensHijos(): void {
         this.sedeComponent.reiniciarComponente();
         this.gradosComponent.reiniciarComponente();
-        this.repitenteComponent.reiniciarComponente();
-        this.cambioSedeComponent.reiniciarComponente();
+        this.asignaturasComponent.reiniciarComponente();
+        this.periodoComponent.reiniciarComponente();
+
     }
 
     reinicarFormulario() {
         this.formEdit.reset();
+        this.formEdit.get('sede_id').setValue('');
+        this.formEdit.get('grado_id').setValue('');
+        this.formEdit.get('asignaturas_id').setValue('');
+        this.formEdit.get('docente_id').setValue('');
+        this.formEdit.get('ihs').setValue('');
+        this.formEdit.get('porcentaje').setValue('');
         this.reiniciaComponensHijos();
     }
+
+
 }

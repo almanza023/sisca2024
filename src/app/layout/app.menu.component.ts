@@ -351,7 +351,7 @@ export class AppMenuComponent implements OnInit {
         {
             //Docentes de Preescolar
             this.items.push(preescolar);
-
+            this.items.push(reportes);
 
         }
         else if(rol=="3")
