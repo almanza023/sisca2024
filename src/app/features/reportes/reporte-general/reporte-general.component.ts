@@ -91,11 +91,17 @@ export class ReporteGeneralComponent {
                         this.ocultarPanelAisgPer=false;
                     }
                     if(this.tiporeporte==2 || this.tiporeporte==3
-                        || this.tiporeporte==4 || this.tiporeporte==5 || this.tiporeporte==6) {
+                        || this.tiporeporte==4 || this.tiporeporte==5 || this.tiporeporte==6
+                        || this.tiporeporte==7
+                        ) {
                         //Habilitar asignatura y periodo
                         this.ocultarPanelAisgPer=true;
+                        if(this.tiporeporte==7){
+                            this.periodoComponent.semestre=true;
+                        }
 
                     }
+
                     break;
                     case 'areas':
                         this.form.get('asignatura_id').setValue(event.code);
@@ -301,6 +307,33 @@ export class ReporteGeneralComponent {
             );
     }
 
+    getDatNivelaciones(filtro) {
+        this.reporteService
+            .reporteNivelaciones(filtro)
+            .pipe(finalize(() => this.downloadFile(this.pdf, 'ReporteNivelaciones.pdf')))
+            .subscribe(
+                (response) => {
+                    //console.log(response.pdf);
+                    this.pdf = response.pdf;
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Reporte Generado Exitosamente',
+                        detail: response.message,
+                        life: 3000,
+                    });
+                },
+                (error) => {
+                    this.messageService.add({
+                        severity: 'warn',
+                        summary: 'Advertencia',
+                        detail: error.error.message,
+                        life: 3000,
+                    });
+
+                }
+            );
+    }
+
 
 
 
@@ -341,6 +374,9 @@ export class ReporteGeneralComponent {
             }
             if(this.tiporeporte==6){
                 this.getValoraciones(this.form.value);
+            }
+            if(this.tiporeporte==7){
+                this.getDatNivelaciones(this.form.value);
             }
         }else{
             this.messageService.add({

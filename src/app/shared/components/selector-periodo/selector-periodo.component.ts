@@ -12,6 +12,7 @@ export class SelectorPeriodoComponent {
   items:any=[];
   seleccionado:any=[];
   arraySeleccionado:any=[];
+  @Input() semestre=false;
   @Input() valor:any={};
   @Input() lider:string;
 
@@ -22,10 +23,17 @@ export class SelectorPeriodoComponent {
 
   ngOnInit(): void {
     let rol=localStorage.getItem("rol");
-    if(rol=="3"){
-        this.getData();
+    if(!this.semestre){
+        if(rol=="3"){
+            this.getData();
+        }else{
+            this.getDataAbiertos();
+        }
     }else{
-        this.getDataAbiertos();
+        this.items=[
+            {id: 1, numero: 1},
+            {id: 2, numero: 2},
+        ]
     }
     this.seleccionado=[];
   }

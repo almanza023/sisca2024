@@ -147,6 +147,11 @@ export class AppMenuComponent implements OnInit {
 
                     },
                     {
+                        label: 'Nivelaciones',
+                        icon: 'pi pi-fw pi-align-justify',
+                        routerLink: 'nivelaciones',
+                    },
+                    {
                         label: 'Usuarios',
                         icon: 'pi pi-fw pi-align-justify',
                         routerLink: 'usuarios',
@@ -169,6 +174,12 @@ export class AppMenuComponent implements OnInit {
                         label: 'Notas Académicas',
                         icon: 'pi pi-fw pi-align-justify',
                         routerLink: 'calificaciones/registro/guardar',
+
+                    },
+                    {
+                        label: 'Nivelaciones de Semestre',
+                        icon: 'pi pi-fw pi-align-justify',
+                        routerLink: 'nivelaciones/registro/guardar',
 
                     }
                 ]
@@ -200,6 +211,12 @@ export class AppMenuComponent implements OnInit {
                         label: 'Convivencia Escolar Individual',
                         icon: 'pi pi-fw pi-align-justify',
                         routerLink: 'convivencia/registro-individual',
+
+                    },
+                    {
+                        label: 'Nivelaciones de Semestre',
+                        icon: 'pi pi-fw pi-align-justify',
+                        routerLink: 'nivelaciones/registro/guardar',
 
                     }
                 ]
@@ -239,7 +256,13 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-align-justify',
                         routerLink: 'logros-academicos',
 
-                    }
+                    },
+                    {
+                        label: 'Nivelaciones de Semestre',
+                        icon: 'pi pi-fw pi-align-justify',
+                        routerLink: 'nivelaciones',
+
+                    },
                 ]
             };
         let migrupo=

@@ -79,8 +79,9 @@
                     </div>
 
                     <div class="col-12 md:col-6 lg:col-3">
-                        <label for="docente" class="label-bold">Periodo</label>
+                        <label for="docente" class="label-bold">Semestre</label>
                         <app-selector-periodo
+                        [semestre]="true"
                             (itemSeleccionado)="getValores($event, 'periodo')"
                         ></app-selector-periodo>
                         <div
@@ -130,12 +131,7 @@
                     [columns]="cols"
                     [rows]="50"
                     [globalFilterFields]="[
-                        'sede.nombre',
-                        'grado.descripcion',
-                        'asignatura.nombre',
-                        'docente.nombres',
-                        'id',
-                        'estado'
+                        'estudiante'
                     ]"
                     [rows]="10"
                     [paginator]="false"
@@ -169,23 +165,24 @@
                                 N°
                                 <p-sortIcon field=""></p-sortIcon>
                             </th>
-                            <th pSortableColumn="apellidos">
+                            <th pSortableColumn="estudiante">
                                 Estudiante
-                                <p-sortIcon field="apellidos"></p-sortIcon>
+                                <p-sortIcon field="estudiante"></p-sortIcon>
                             </th>
                             <th pSortableColumn="">
-                                Logro Afectivo-Expresivo
-                                <p-sortIcon field=""></p-sortIcon>
-                            </th>
-                            <th></th>
-                            <th pSortableColumn="">
-                                Nota Periodo (100%)
-                                <p-sortIcon field=""></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="" *ngIf="periodo!=1 && operacion=='guardar'">
                                 Nota Periodo Anterior
                                 <p-sortIcon field=""></p-sortIcon>
                             </th>
+                            <th pSortableColumn="">
+                                Nota Periodo Actual
+                                <p-sortIcon field=""></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="">
+                                Promedio
+                                <p-sortIcon field=""></p-sortIcon>
+                            </th>
+                            <th></th>
+
 
                         </tr>
                     </ng-template>
@@ -198,39 +195,25 @@
                             </td>
                             <td style="width: 32%; min-width: 10rem">
                                 <span class="p-column-title">Estudiante</span>
-                                {{ item.apellidos + " " + item.nombres }}
+                                {{ item.estudiante }}
+                            </td>
+                            <td style="width: 15%; min-width: 10rem">
+                                <span class="p-column-title">Nota Anterior</span>
+                                {{ item.notaanterior }}
+                            </td>
+                            <td style="width: 15%; min-width: 10rem">
+                                <span class="p-column-title">Nota Actual</span>
+                                {{ item.notaperiodo }}
+                            </td>
+                            <td style="width: 15%; min-width: 10rem">
+                                <span class="p-column-title">Promedio</span>
+                                {{ item.promedio }}
                             </td>
 
-                            <td style="width: 22%; min-width: 10rem">
-                                <span class="p-column-title"
-                                    >Logro Afectivo-Expresivo</span>
-
-                                <div formArrayName="logro_afe">
-                                    <input
-                                        style="width: 70%"
-                                        type="number"
-                                        pInputText
-                                        [formControlName]="i"
-                                        step="1"
-                                        required
-                                    />
-                                    <div *ngIf="i==0">
-                                        <p-button  icon="pi pi-bookmark" styleClass="p-button-secondary" (click)="seleccionarTodo(1)"></p-button>
-                                        <p-button  icon="pi pi-times" styleClass="p-button-danger" (click)="seleccionarTodo(2)"></p-button>
-                                    </div>
-                                </div>
-                            </td>
-                            <td style="width: 5%; ">
-                                <p-button
-                                    (click)="openModalLogros(i,1)"
-                                    icon="pi pi-check"
-                                    styleClass="p-button-rounded p-button-warning"
-                                ></p-button>
-                        </td>
 
                             <td >
                                 <span class="p-column-title"
-                                    >Nota Periodo (100%)</span>
+                                    >Nota Nivelacion (100%)</span>
 
                                 <div formArrayName="notas">
                                     <input
@@ -240,55 +223,13 @@
                                         [formControlName]="i"
                                         min="1"
                                         step="0.1"
-                                        max="5"
+                                        max="3"
                                         required
                                     />
-                                    <div *ngIf="i==0">
-                                        <p-button  icon="pi pi-bookmark" styleClass="p-button-secondary" (click)="repetirNota(1)"></p-button>
-                                        <p-button  icon="pi pi-times" styleClass="p-button-danger" (click)="repetirNota(2)"></p-button>
-                                    </div>
                                 </div>
                             </td>
 
-                            <td *ngIf="periodo!=1 && operacion=='guardar' ">
-                                <span class="p-column-title">Nota Periodo Anterior</span>
-                                {{ item.notapanterior }}
-                            </td>
 
-
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="footer" >
-                        <tr>
-                            <td>Logro Cognitivo</td>
-                            <td>
-                                <input
-                                        type="number"
-                                        pInputText
-                                        formControlName="logro_cog"
-                                        step="1"
-                                        required
-                                    />
-                                    <div
-                            *ngIf="
-                                formEnviar.get('logro_cog').invalid &&
-                                (formEnviar.get('logro_cog').dirty ||
-                                    formEnviar.get('logro_cog').touched)
-                            "
-                        >
-                            <small
-                                class="text-danger"
-                                *ngIf="formEnviar.get('logro_cog').errors"
-                                >El Logro Cognitivo es requerido</small
-                            >
-                        </div>
-                            </td>
-                            <td>{{logroCognitivo}}</td>
-                            <td><p-button
-                                (click)="openModalLogros(0,2)"
-                                icon="pi pi-check"
-                                styleClass="p-button-rounded p-button-warning"
-                            ></p-button></td>
                         </tr>
                     </ng-template>
                 </p-table>
@@ -305,91 +246,7 @@
         </div>
 
 
-        <p-dialog position="top" header="Logros Académicos" [(visible)]="modalLogros" [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}">
-            <p-table
-            #dtlogros
-            [value]="dataLogros"
-            [columns]="cols"
-            [rows]="50"
-            [globalFilterFields]="[
-                'id',
-                'descripcion'
-            ]"
-            [rows]="10"
-            [paginator]="false"
-            [rowsPerPageOptions]="[10, 20, 30]"
-            [showCurrentPageReport]="true"
-            [rowHover]="true"
-            responsiveLayout="scroll"
-            currentPageReportTemplate="Mostrando {first} to {last} de {totalRecords} registros"
-            dataKey="id"
-        >
-            <ng-template pTemplate="caption">
-                <div
-                    class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
-                >
-                    <span class="block mt-2 md:mt-0 p-input-icon-left">
-                        <i class="pi pi-search"></i>
-                        <input
-                            (input)="onGlobalFilter(dtlogros, $event)"
-                            pInputText
-                            type="text"
-                            placeholder="Buscar..."
-                            class="w-full sm:w-auto"
-                        />
-                    </span>
-                </div>
-            </ng-template>
-            <ng-template pTemplate="header">
-                <tr>
-                    <th pSortableColumn="id">
-                        Código
-                        <p-sortIcon field="id"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="apellidos">
-                        Descripcion
-                        <p-sortIcon field="apellidos"></p-sortIcon>
-                    </th>
-                    <th pSortableColumn="">
-                        Tipo Logro
-                        <p-sortIcon field=""></p-sortIcon>
-                    </th>
-                    <th></th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-item let-i="rowIndex"
-                >
-                <tr>
-                    <td style="width: 32%; min-width: 10rem">
-                        <span class="p-column-title">Código</span>
-                        {{ item.id }}
-                    </td>
 
-                    <td style="width: 32%; min-width: 10rem">
-                        <span class="p-column-title">Descripción</span>
-                        {{ item.descripcion }}
-                    </td>
-
-                    <td style="width: 32%; min-width: 10rem">
-                        <span class="p-column-title">Tipo Logro</span>
-                        {{ item.tipo.nombre }}
-                    </td>
-
-                    <td>
-                        <div class="flex">
-                            <button
-                                (click)="seleccionar(item)"
-                                pButton
-                                pRipple
-                                icon="pi pi-pencil"
-                                class="p-button-rounded p-button-success mr-2"
-                            ></button>
-                        </div>
-                    </td>
-                </tr>
-            </ng-template>
-        </p-table>
-        </p-dialog>
     </div>
 </div>
 
@@ -450,15 +307,7 @@
                 <p-sortIcon field="apellidos"></p-sortIcon>
             </th>
             <th pSortableColumn="">
-                Nota
-                <p-sortIcon field=""></p-sortIcon>
-            </th>
-            <th pSortableColumn="">
-                Logro Afectivo
-                <p-sortIcon field=""></p-sortIcon>
-            </th>
-            <th pSortableColumn="">
-                Fecha Registro
+                Nota Nivelación
                 <p-sortIcon field=""></p-sortIcon>
             </th>
             <th></th>
@@ -467,7 +316,7 @@
     <ng-template pTemplate="body" let-item let-i="rowIndex"
         >
         <tr>
-            <td style="width: 32%; min-width: 10rem">
+            <td style="width: 50%; min-width: 10rem">
                 <span class="p-column-title">Estudiante</span>
                 {{ item.apellidos+" "+item.nombres }}
             </td>
@@ -475,16 +324,6 @@
             <td style="width: 32%; min-width: 10rem">
                 <span class="p-column-title">Nota</span>
                 {{ item.nota | number : '1.2-2' }}
-            </td>
-
-            <td style="width: 32%; min-width: 10rem">
-                <span class="p-column-title">Logro Afectivo-Expresivo</span>
-                {{ item.logro_afectivo }}
-            </td>
-
-            <td style="width: 32%; min-width: 10rem">
-                <span class="p-column-title">Fecha Registro</span>
-                {{ item.created_at|date:'dd/MM/yyyy hh:mm:ss' }}
             </td>
         </tr>
     </ng-template>
@@ -499,23 +338,15 @@
                                 class="p-button-rounded p-button-warning mr-2"
                             > Aceptar</button>
             </td>
+
             <td >
                 <button
-                                (click)="reporteArea(dataNotas[0].sede_id, dataNotas[0].grado_id, dataNotas[0].asignatura_id, dataNotas[0].periodo_id)"
-                                pButton
-                                pRipple
-                                icon="pi pi-print"
-                                class="p-button-rounded p-button-success mr-2"
-                            > Reporte Aréa</button>
-            </td>
-            <td >
-                <button
-                                (click)="reporteNotas(dataNotas[0].sede_id, dataNotas[0].grado_id, dataNotas[0].asignatura_id, dataNotas[0].periodo_id)"
+                                (click)="reporteNivelaciones(dataNotas[0].sede_id, dataNotas[0].grado_id, dataNotas[0].asignatura_id, dataNotas[0].periodo_id)"
                                 pButton
                                 pRipple
                                 icon="pi pi-print"
                                 class="p-button-rounded p-button-info mr-2"
-                            > Reporte Notas</button>
+                            > Reporte Nivelación</button>
             </td>
         </tr>
     </ng-template>

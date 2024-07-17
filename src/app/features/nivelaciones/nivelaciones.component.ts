@@ -4,15 +4,13 @@ import { finalize } from 'rxjs';
 import { Table } from 'primeng/table';
 import { MessageService } from 'primeng/api';
 
-import { CargaService } from 'src/app/core/services/carga.service';
+
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SelectorSedeComponent } from 'src/app/shared/components/selector-sede/selector-sede.component';
 import { SelectorGradosComponent } from 'src/app/shared/components/selector-grados/selector-grados.component';
 import { SelectorAsignaturasComponent } from 'src/app/shared/components/selector-asignaturas/selector-asignaturas.component';
-import { LogrosAcademicosService } from 'src/app/core/services/logros-academicos.service';
 import { SelectorPeriodoComponent } from 'src/app/shared/components/selector-periodo/selector-periodo.component';
-import { SelectorTipoLogroAcademicoComponent } from 'src/app/shared/components/selector-tipo-logro-academico/selector-tipo-logro-academico.component';
-import { CalificacionService } from 'src/app/core/services/calificacion.service';
+import { NivelacionService } from 'src/app/core/services/nivelacion.service';
 
 @Component({
     selector: 'app-nivelaciones',
@@ -51,7 +49,7 @@ export class NivelacionesComponent {
 
 
     constructor(
-        private calificacionService: CalificacionService,
+        private nivelacionService: NivelacionService,
         private messageService: MessageService,
         private fb: FormBuilder
     ) {}
@@ -143,7 +141,7 @@ export class NivelacionesComponent {
     }
 
     getDataAll(item:any) {
-        this.calificacionService.getCalificacionesPeriodo(item).subscribe(
+        this.nivelacionService.getCalificacionesPeriodo(item).subscribe(
             (response) => {
                 //console.log(response.data);
                 if(response.code==300){
@@ -183,7 +181,7 @@ export class NivelacionesComponent {
 
     confirmDelete() {
         this.deleteProductDialog = false;
-        this.calificacionService
+        this.nivelacionService
             .delete(this.nota.id)
             .pipe(finalize(() => this.onSubmit()))
             .subscribe(
@@ -228,7 +226,7 @@ export class NivelacionesComponent {
     }
 
     filtrarDatos(filtro: any) {
-        this.calificacionService.filtrar(filtro).subscribe(
+        this.nivelacionService.filtrar(filtro).subscribe(
             (response) => {
                 //console.log(response.data);
                 this.data = response.data;

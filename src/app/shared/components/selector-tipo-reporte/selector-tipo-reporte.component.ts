@@ -34,7 +34,8 @@ export class SelectorTipoReporteComponent {
             {id:3, descripcion:"Consolidado de Periodo"},
             {id:4, descripcion:"Estadisticas de Periodo"},
             {id:5, descripcion:"Reporte Aréa"},
-            {id:6, descripcion:"Listado de Valoraciones"}
+            {id:6, descripcion:"Listado de Valoraciones"},
+            {id:7, descripcion:"Reporte Nivelaciones"},
         ]
     }
     if(this.rol=="3"){
@@ -44,7 +45,8 @@ export class SelectorTipoReporteComponent {
             {id:3, descripcion:"Consolidado de Periodo"},
             {id:4, descripcion:"Estadisticas de Periodo"},
             {id:5, descripcion:"Reporte Aréa"},
-            {id:6, descripcion:"Listado de Valoraciones"}
+            {id:6, descripcion:"Listado de Valoraciones"},
+            {id:7, descripcion:"Reporte Nivelaciones"},
         ]
     }
     if(this.rol=="2"){

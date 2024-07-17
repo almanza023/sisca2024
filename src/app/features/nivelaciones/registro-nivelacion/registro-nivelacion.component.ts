@@ -4,8 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { finalize } from 'rxjs';
-import { CalificacionService } from 'src/app/core/services/calificacion.service';
 import { LogrosAcademicosService } from 'src/app/core/services/logros-academicos.service';
+import { NivelacionService } from 'src/app/core/services/nivelacion.service';
 import { ReporteService } from 'src/app/core/services/reporte.service';
 
 import { SelectorAsignaturasComponent } from 'src/app/shared/components/selector-asignaturas/selector-asignaturas.component';
@@ -65,7 +65,7 @@ export class RegistroNivelacionComponent {
     pdf:string;
 
     constructor(
-        private calificacionService: CalificacionService,
+        private calificacionService: NivelacionService,
         private logroService: LogrosAcademicosService,
         private reporteService: ReporteService,
         private messageService: MessageService,
@@ -81,7 +81,7 @@ export class RegistroNivelacionComponent {
             this.operacion = params.get('operacion');
 
             if(this.operacion=="editar"){
-                this.nombreModulo="Actualización de Notas"
+                this.nombreModulo="Actualización de Nivelaciones"
             }
             //console.log(this.operacion);
 
@@ -106,9 +106,11 @@ export class RegistroNivelacionComponent {
             grado_id: ['', Validators.required],
             periodo_id: ['', Validators.required],
             asignatura_id: ['29', Validators.required],
+            notasanterior: this.fb.array([], Validators.required),
+            notasperiodo: this.fb.array([], Validators.required),
+            promedio: this.fb.array([], Validators.required),
             notas: this.fb.array([], Validators.required),
-            logro_cog: ['', Validators.required],
-            logro_afe: this.fb.array([], Validators.required),
+
         });
     }
 
@@ -117,8 +119,16 @@ export class RegistroNivelacionComponent {
     }
 
 
-    get logro_afe(): FormArray {
-        return this.formEnviar.get('logro_afe') as FormArray;
+    get notasanterior(): FormArray {
+        return this.formEnviar.get('notasanterior') as FormArray;
+    }
+
+    get notasperiodo(): FormArray {
+        return this.formEnviar.get('notasperiodo') as FormArray;
+    }
+
+    get promedio(): FormArray {
+        return this.formEnviar.get('promedio') as FormArray;
     }
 
     getValores(event, operacion) {
@@ -160,17 +170,7 @@ export class RegistroNivelacionComponent {
     deleteSelectedProducts() {
         this.deleteProductsDialog = true;
     }
-    openModalLogros(index:any, tipo:any) {
-        if(tipo==1){
-            this.posicion=index;
-            this.tipologro=tipo;
-            this.dataLogros = this.listadoLogros.filter(objeto => objeto.tipo_logro_id == 3);
-        }else{
-            this.tipologro=tipo;
-            this.dataLogros = this.listadoLogros.filter(objeto => objeto.tipo_logro_id == 2);
-        }
-        this.modalLogros = true;
-    }
+
 
     bloqueoCliente(item: any) {
         this.deleteProductDialog = true;
@@ -209,60 +209,14 @@ export class RegistroNivelacionComponent {
             );
     }
 
-    getCalificaciones(item: any) {
-        this.data=[];
-        this.calificacionService
-            .getCalificacionesPeriodo(item)
-            .pipe(finalize(() => this.cargarInputs()))
-            .subscribe(
-                (response) => {
-                    //console.log(response.data);
-                    this.data = response.data;
-                    if(response.code==300){
-                        this.messageService.add({
-                            severity: 'warn',
-                            summary: 'Advertencia',
-                            detail: response.message,
-                            life: 3500,
-                        });
-                    }
-                },
-                (error) => {
-                    this.messageService.add({
-                        severity: 'warn',
-                        summary: 'Advertencia',
-                        detail: error.error.message,
-                        life: 3000,
-                    });
-                }
-            );
-    }
-
-    getLogros(item:any) {
-        this.logroService
-            .getFiltros(item)
-            .subscribe(
-                (response) => {
-                    //console.log(response.data);
-                    this.listadoLogros = response.data;
-                },
-                (error) => {
-                    this.messageService.add({
-                        severity: 'warn',
-                        summary: 'Advertencia',
-                        detail: error.error.message,
-                        life: 3000,
-                    });
-                    this.listadoLogros=[];
-                }
-            );
-    }
 
     clearControls() {
         const arrayLength = this.notas.length;
         for (let i = arrayLength - 1; i >= 0; i--) {
           this.notas.removeAt(i);
-          this.logro_afe.removeAt(i);
+          this.notasanterior.removeAt(i);
+          this.notasperiodo.removeAt(i);
+          this.promedio.removeAt(i);
         }
       }
 
@@ -278,28 +232,24 @@ export class RegistroNivelacionComponent {
                                 Validators.max(5),
                             ])
                         );
-                        this.logro_afe.push(
-                            this.fb.control('', [
+                        this.notasanterior.push(
+                            this.fb.control(this.data[index].notaanterior, [
                                 Validators.required
                             ])
                         );
-                    }else{
-                        this.notas.push(
-                            this.fb.control(this.data[index].nota, [
-                                Validators.required,
-                                Validators.min(1),
-                                Validators.max(5),
+
+                        this.notasperiodo.push(
+                            this.fb.control(this.data[index].notaperiodo, [
+                                Validators.required
                             ])
                         );
-                        this.logro_afe.push(
-                            this.fb.control(this.data[index].logro_afectivo, [
+
+                        this.promedio.push(
+                            this.fb.control(this.data[index].promedio, [
                                 Validators.required
                             ])
                         );
                     }
-                }
-                if(this.operacion=='editar'){
-                    this.formEnviar.get('logro_cog').setValue(this.data[0].logro_cognitivo)
                 }
             }
             //console.log(this.form.value);
@@ -363,11 +313,10 @@ export class RegistroNivelacionComponent {
                 this.logroCognitivo='';
                 this.formEnviar.reset();
                 let filtro = this.form.value;
-                this.getLogros(filtro);
                 if(this.operacion=='guardar'){
                     this.getEstudiantes(filtro);
                 }else{
-                    this.getCalificaciones(filtro);
+
                 }
             this.formEnviar.get('sede_id').setValue(this.form.get('sede_id').value);
             this.formEnviar.get('grado_id').setValue(this.form.get('grado_id').value);
@@ -425,57 +374,9 @@ export class RegistroNivelacionComponent {
         }
     }
 
-    edit(item: any) {}
-    seleccionar(item: any) {
-       if(this.tipologro==1){
-        this.logro_afe.at(this.posicion).setValue(item.id);
-       }else{
-        this.formEnviar.get('logro_cog').setValue(item.id);
-        this.logroCognitivo=item.descripcion;
-       }
-       this.modalLogros=false;
-    }
 
-    seleccionarTodo(opcion:any) {
-        switch (opcion) {
-            case 1:
-                let valor= this.logro_afe.at(0).value;
-                //console.log(valor);
-                if(valor!="" || valor==0){
-                 for (let index = 0; index < this.data.length; index++) {
-                     this.logro_afe.at(index).setValue(valor);
-                 }
-                }
-            break;
-            case 2:
-                 for (let index = 1; index < this.data.length; index++) {
-                     this.logro_afe.at(index).setValue('');
-                    }
 
-            break;
-        }
 
-    }
-
-    repetirNota(opcion:any) {
-        switch (opcion) {
-            case 1:
-                let valor= this.notas.at(0).value;
-                if(valor!=""){
-                 for (let index = 0; index < this.data.length; index++) {
-                     this.notas.at(index).setValue(valor);
-                 }
-                }
-            break;
-            case 2:
-                 for (let index = 1; index < this.data.length; index++) {
-                     this.notas.at(index).setValue('');
-                    }
-
-            break;
-        }
-
-    }
 
 
 
@@ -521,16 +422,16 @@ export class RegistroNivelacionComponent {
             );
     }
 
-    reporteNotas(sede:any, grado:any, asignatura:any, periodo:any) {
+    reporteNivelaciones(sede:any, grado:any, asignatura:any, periodo:any) {
         let filtro={
             'sede_id':sede,
             'grado_id':grado,
             'asignatura_id':asignatura,
             'periodo_id':periodo,
         }
-        let nombre='ReporteNotas_'+grado+'.pdf'
+        let nombre='ReporteNivelaciones_'+grado+'.pdf'
         this.reporteService
-            .reporteCalificaciones(filtro)
+            .reporteNivelaciones(filtro)
             .pipe(finalize(() => this.downloadFile(this.pdf, nombre)))
             .subscribe(
                 (response) => {
