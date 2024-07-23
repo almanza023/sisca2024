@@ -37,7 +37,7 @@
                 </div>
 
                 <div class="col-12 md:col-3 lg:col-3">
-                    <label for="docente" class="label-bold">Semestre</label>
+                    <label for="docente" class="label-bold">Periodo</label>
                     <app-selector-periodo
                     [semestre]="true"
                         (itemSeleccionado)="getValores($event, 'periodo')"
@@ -96,16 +96,8 @@
                             Estudiante
                             <p-sortIcon field="apellidos"></p-sortIcon>
                         </th>
-                        <th pSortableColumn="">
-                            Nota Anterior
-                             <p-sortIcon field=""></p-sortIcon>
-                         </th>
                          <th pSortableColumn="">
-                            Nota Periodo Actual
-                             <p-sortIcon field=""></p-sortIcon>
-                         </th>
-                         <th pSortableColumn="">
-                            Nota Promedio
+                            Nota Periodo
                              <p-sortIcon field=""></p-sortIcon>
                          </th>
                          <th pSortableColumn="">
@@ -132,14 +124,8 @@
                         <td style="width: 30%; min-width: 15rem">
                             <span class="p-column-title">Estudiante</span> {{ item.apellidos+" "+item.nombres }}
                         </td>
-                        <td style="width: 10%; min-width: 10rem">
-                            <span class="p-column-title">Nota Anterior</span> {{ item.notaanterior  | number : '1.2-2' }}
-                        </td>
                         <td style="width: 12%; min-width: 10rem">
-                            <span class="p-column-title">Nota Periodo Actual</span> {{ item.notaperiodo  | number : '1.2-2' }}
-                        </td>
-                        <td style="width: 10%; min-width: 10rem">
-                            <span class="p-column-title">Promedio</span> {{ item.promedio  | number : '1.2-2' }}
+                            <span class="p-column-title">Nota Periodo </span> {{ item.notaperiodo  | number : '1.2-2' }}
                         </td>
                         <td style="width: 12%; min-width: 10rem">
                             <span class="p-column-title">Nota Nivelación</span> {{ item.nota  | number : '1.2-2' }}

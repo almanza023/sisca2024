@@ -43,7 +43,7 @@ export class RegistroNivelacionComponent {
     sede: any;
     periodo: any;
 
-    nombreModulo: string = 'Nivelaciones de Semestre por Grado';
+    nombreModulo: string = 'Nivelaciones de Periodo por Grado';
     @ViewChild(SelectorSedeComponent) sedeComponent: SelectorSedeComponent;
     @ViewChild(SelectorGradosComponent)
     gradosComponent: SelectorGradosComponent;
@@ -106,9 +106,7 @@ export class RegistroNivelacionComponent {
             grado_id: ['', Validators.required],
             periodo_id: ['', Validators.required],
             asignatura_id: ['29', Validators.required],
-            notasanterior: this.fb.array([], Validators.required),
             notasperiodo: this.fb.array([], Validators.required),
-            promedio: this.fb.array([], Validators.required),
             notas: this.fb.array([], Validators.required),
 
         });
@@ -118,18 +116,11 @@ export class RegistroNivelacionComponent {
         return this.formEnviar.get('notas') as FormArray;
     }
 
-
-    get notasanterior(): FormArray {
-        return this.formEnviar.get('notasanterior') as FormArray;
-    }
-
     get notasperiodo(): FormArray {
         return this.formEnviar.get('notasperiodo') as FormArray;
     }
 
-    get promedio(): FormArray {
-        return this.formEnviar.get('promedio') as FormArray;
-    }
+
 
     getValores(event, operacion) {
         switch (operacion) {
@@ -214,9 +205,7 @@ export class RegistroNivelacionComponent {
         const arrayLength = this.notas.length;
         for (let i = arrayLength - 1; i >= 0; i--) {
           this.notas.removeAt(i);
-          this.notasanterior.removeAt(i);
           this.notasperiodo.removeAt(i);
-          this.promedio.removeAt(i);
         }
       }
 
@@ -232,20 +221,9 @@ export class RegistroNivelacionComponent {
                                 Validators.max(5),
                             ])
                         );
-                        this.notasanterior.push(
-                            this.fb.control(this.data[index].notaanterior, [
-                                Validators.required
-                            ])
-                        );
 
                         this.notasperiodo.push(
                             this.fb.control(this.data[index].notaperiodo, [
-                                Validators.required
-                            ])
-                        );
-
-                        this.promedio.push(
-                            this.fb.control(this.data[index].promedio, [
                                 Validators.required
                             ])
                         );

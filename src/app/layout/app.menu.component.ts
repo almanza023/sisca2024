@@ -177,7 +177,7 @@ export class AppMenuComponent implements OnInit {
 
                     },
                     {
-                        label: 'Nivelaciones de Semestre',
+                        label: 'Nivelaciones de Periodo',
                         icon: 'pi pi-fw pi-align-justify',
                         routerLink: 'nivelaciones/registro/guardar',
 
@@ -214,7 +214,7 @@ export class AppMenuComponent implements OnInit {
 
                     },
                     {
-                        label: 'Nivelaciones de Semestre',
+                        label: 'Nivelaciones de Periodo',
                         icon: 'pi pi-fw pi-align-justify',
                         routerLink: 'nivelaciones/registro/guardar',
 
@@ -258,7 +258,7 @@ export class AppMenuComponent implements OnInit {
 
                     },
                     {
-                        label: 'Nivelaciones de Semestre',
+                        label: 'Nivelaciones de Periodo',
                         icon: 'pi pi-fw pi-align-justify',
                         routerLink: 'nivelaciones',
 
