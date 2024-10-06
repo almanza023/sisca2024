@@ -67,6 +67,20 @@ export class ReporteService {
   }
 
 
+  reporteNotasAcumulativas(data: any): Observable<any> {
+    const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
+    let url=`${environment.baseURL}/reportes/acumulativos`;
+    return this.http.post<any>(url, data, {headers});
+  }
+
+  reporteConsolidado(data: any): Observable<any> {
+    const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
+    let url=`${environment.baseURL}/reportes/exportar-consolidado`;
+    return this.http.post<any>(url, data, {headers});
+  }
+
+
+
 
 
 

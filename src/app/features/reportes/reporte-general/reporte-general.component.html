@@ -38,7 +38,8 @@
                 </div>
                 <div class="col-12 md:col-6 lg:col-3" *ngIf="ocultarPanelAisgPer">
                     <label for="asignatura" class="label-bold">Aréa/Asignatura</label>
-                    <app-selector-asignaturas *ngIf="tiporeporte==2 || tiporeporte==6 || tiporeporte==7"
+                    <app-selector-asignaturas *ngIf="tiporeporte==2 || tiporeporte==6 || tiporeporte==7 || tiporeporte==8
+                    || tiporeporte==9"
                         (itemSeleccionado)="getValores($event, 'asignatura')"
                     ></app-selector-asignaturas>
                     <app-selector-areas *ngIf="tiporeporte==5"
@@ -48,7 +49,7 @@
 
                 <div class="col-12 md:col-6 lg:col-3" *ngIf="ocultarPanelAisgPer">
                     <label for="docente" class="label-bold">Periodo</label>
-                    <app-selector-periodo
+                    <app-selector-periodo *ngIf="tiporeporte==9"
                         (itemSeleccionado)="getValores($event, 'periodo')"
                     ></app-selector-periodo>
                 </div>

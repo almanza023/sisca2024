@@ -92,7 +92,7 @@ export class ReporteGeneralComponent {
                     }
                     if(this.tiporeporte==2 || this.tiporeporte==3
                         || this.tiporeporte==4 || this.tiporeporte==5 || this.tiporeporte==6
-                        || this.tiporeporte==7
+                        || this.tiporeporte==7 || this.tiporeporte==8
                         ) {
                         //Habilitar asignatura y periodo
                         this.ocultarPanelAisgPer=true;
@@ -334,6 +334,60 @@ export class ReporteGeneralComponent {
             );
     }
 
+    getNotasAcumulativas(filtro) {
+        this.reporteService
+            .reporteNotasAcumulativas(filtro)
+            .pipe(finalize(() => this.downloadFile(this.pdf, 'ReporteAcumulativos.pdf')))
+            .subscribe(
+                (response) => {
+                    //console.log(response.pdf);
+                    this.pdf = response.pdf;
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Reporte Generado Exitosamente',
+                        detail: response.message,
+                        life: 3000,
+                    });
+                },
+                (error) => {
+                    this.messageService.add({
+                        severity: 'warn',
+                        summary: 'Advertencia',
+                        detail: error.error.message,
+                        life: 3000,
+                    });
+
+                }
+            );
+    }
+
+    getConsolidado(filtro) {
+        this.reporteService
+            .reporteConsolidado(filtro)
+            .pipe(finalize(() => this.downloadFileExcel(this.pdf, 'ReporteConsolidado_'+filtro.grado_id+'.xlsx')))
+            .subscribe(
+                (response) => {
+                    //console.log(response.pdf);
+                    this.pdf = response.pdf;
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Reporte Generado Exitosamente',
+                        detail: response.message,
+                        life: 3000,
+                    });
+                },
+                (error) => {
+                    this.messageService.add({
+                        severity: 'warn',
+                        summary: 'Advertencia',
+                        detail: error.error.message,
+                        life: 3000,
+                    });
+
+                }
+            );
+    }
+
 
 
 
@@ -350,6 +404,26 @@ export class ReporteGeneralComponent {
                 severity: 'warn',
                 summary: 'Advertencia',
                 detail: "Error al Generar PDF",
+                life: 3000,
+            });
+        }
+    }
+
+    downloadFileExcel(base64: any, fileName: any) {
+        if (base64 !== undefined && base64 !== "") {
+            // Cambia el tipo de contenido a application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+            const src = `data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,${base64}`;
+            const link = document.createElement("a");
+            link.href = src;
+            link.download = fileName; // Puedes asegurarte de que el nombre de archivo termine con .xlsx
+            document.body.appendChild(link); // Añade el enlace al DOM
+            link.click(); // Simula un clic en el enlace
+            document.body.removeChild(link); // Elimina el enlace del DOM después de la descarga
+        } else {
+            this.messageService.add({
+                severity: 'warn',
+                summary: 'Advertencia',
+                detail: "Error al Generar Excel",
                 life: 3000,
             });
         }
@@ -377,6 +451,12 @@ export class ReporteGeneralComponent {
             }
             if(this.tiporeporte==7){
                 this.getDatNivelaciones(this.form.value);
+            }
+            if(this.tiporeporte==8){
+                this.getNotasAcumulativas(this.form.value);
+            }
+            if(this.tiporeporte==9){
+                this.getConsolidado(this.form.value);
             }
         }else{
             this.messageService.add({

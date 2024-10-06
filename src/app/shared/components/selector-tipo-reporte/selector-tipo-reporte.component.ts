@@ -36,6 +36,8 @@ export class SelectorTipoReporteComponent {
             {id:5, descripcion:"Reporte Aréa"},
             {id:6, descripcion:"Listado de Valoraciones"},
             {id:7, descripcion:"Reporte Nivelaciones"},
+            {id:8, descripcion:"Reporte Notas Acumulativas"},
+            {id:9, descripcion:"Consolidado General"},
         ]
     }
     if(this.rol=="3"){
@@ -47,6 +49,8 @@ export class SelectorTipoReporteComponent {
             {id:5, descripcion:"Reporte Aréa"},
             {id:6, descripcion:"Listado de Valoraciones"},
             {id:7, descripcion:"Reporte Nivelaciones"},
+            {id:8, descripcion:"Reporte Notas Acumulativas"},
+            {id:9, descripcion:"Consolidado General"},
         ]
     }
     if(this.rol=="2"){
