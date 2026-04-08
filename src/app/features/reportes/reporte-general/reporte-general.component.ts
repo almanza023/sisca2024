@@ -7,7 +7,10 @@ import { SelectorSedeComponent } from 'src/app/shared/components/selector-sede/s
 import { SelectorGradosComponent } from 'src/app/shared/components/selector-grados/selector-grados.component';
 import { SelectorAsignaturasComponent } from 'src/app/shared/components/selector-asignaturas/selector-asignaturas.component';
 import { SelectorPeriodoComponent } from 'src/app/shared/components/selector-periodo/selector-periodo.component';
-
+import { CargaService } from 'src/app/core/services/carga.service';
+import * as JSZip from 'jszip';
+import { saveAs } from 'file-saver'; // para descargar el zip
+import { PDFDocument } from 'pdf-lib';
 
 @Component({
   selector: 'app-reporte-general',
@@ -24,7 +27,10 @@ export class ReporteGeneralComponent {
     form: FormGroup;
     tiporeporte:any;
     ocultarPanelAisgPer:boolean=false;
-
+    loading:boolean=false;
+    carga:any[]=[];
+    formatos:any[]=[];
+    formatoSeleccionado:any;
 
     @ViewChild(SelectorSedeComponent) sedeComponent: SelectorSedeComponent;
     @ViewChild(SelectorGradosComponent) gradosComponent: SelectorGradosComponent;
@@ -34,6 +40,7 @@ export class ReporteGeneralComponent {
     constructor(
         private messageService: MessageService,
         private reporteService: ReporteService,
+        private cargaService: CargaService,
         private fb: FormBuilder
 
     ){}
@@ -47,6 +54,14 @@ export class ReporteGeneralComponent {
             asignatura_id: ['',],
             periodo_id: ['',],
         });
+        this.getFormatos();
+    }
+    getFormatos(){
+        this.formatos = [
+            {id: 1, nombre: 'Pdf', value: 'pdfUnificado'},
+            {id: 2, nombre: 'Zip', value: 'zip'},
+        ];
+        this.formatoSeleccionado = this.formatos[0];
     }
 
     getValores(event, operacion) {
@@ -185,6 +200,7 @@ export class ReporteGeneralComponent {
                         detail: response.message,
                         life: 3000,
                     });
+                    this.loading=false;
                 },
                 (error) => {
                     this.messageService.add({
@@ -193,12 +209,14 @@ export class ReporteGeneralComponent {
                         detail: error.error.message,
                         life: 3000,
                     });
+                    this.loading=false;
 
                 }
             );
     }
 
     getDataEstadisticasPeriodo(filtro) {
+        console.log(filtro);
         this.reporteService
             .reporteEstadisticaPeriodo(filtro)
             .pipe(finalize(() => this.downloadFile(this.pdf, 'ReporteEstadisticas.pdf')))
@@ -213,6 +231,7 @@ export class ReporteGeneralComponent {
                             detail: response.message,
                             life: 3000,
                         });
+                        this.loading=false;
                     }else{
                         this.messageService.add({
                             severity: 'warn',
@@ -220,6 +239,7 @@ export class ReporteGeneralComponent {
                             detail: response.message,
                             life: 3000,
                         });
+                        this.loading=false;
                     }
                 },
                 (error) => {
@@ -229,6 +249,7 @@ export class ReporteGeneralComponent {
                         detail: error.error.message,
                         life: 3000,
                     });
+                    this.loading=false;
 
                 }
             );
@@ -250,6 +271,7 @@ export class ReporteGeneralComponent {
                             detail: response.message,
                             life: 3000,
                         });
+                        this.loading=false;
                     }else{
                         this.messageService.add({
                             severity: 'warn',
@@ -257,6 +279,7 @@ export class ReporteGeneralComponent {
                             detail: response.message,
                             life: 3000,
                         });
+                        this.loading=false;
                     }
                 },
                 (error) => {
@@ -266,6 +289,7 @@ export class ReporteGeneralComponent {
                         detail: error.error.message,
                         life: 3000,
                     });
+                    this.loading=false;
 
                 }
             );
@@ -286,6 +310,7 @@ export class ReporteGeneralComponent {
                             detail: response.message,
                             life: 3000,
                         });
+                        this.loading=false;
                     }else{
                         this.messageService.add({
                             severity: 'warn',
@@ -293,6 +318,7 @@ export class ReporteGeneralComponent {
                             detail: response.message,
                             life: 3000,
                         });
+                        this.loading=false;
                     }
                 },
                 (error) => {
@@ -302,6 +328,7 @@ export class ReporteGeneralComponent {
                         detail: error.error.message,
                         life: 3000,
                     });
+                    this.loading=false;
 
                 }
             );
@@ -321,6 +348,7 @@ export class ReporteGeneralComponent {
                         detail: response.message,
                         life: 3000,
                     });
+                    this.loading=false;
                 },
                 (error) => {
                     this.messageService.add({
@@ -329,6 +357,7 @@ export class ReporteGeneralComponent {
                         detail: error.error.message,
                         life: 3000,
                     });
+                    this.loading=false;
 
                 }
             );
@@ -348,6 +377,7 @@ export class ReporteGeneralComponent {
                         detail: response.message,
                         life: 3000,
                     });
+                    this.loading=false;
                 },
                 (error) => {
                     this.messageService.add({
@@ -356,6 +386,7 @@ export class ReporteGeneralComponent {
                         detail: error.error.message,
                         life: 3000,
                     });
+                    this.loading=false;
 
                 }
             );
@@ -375,6 +406,7 @@ export class ReporteGeneralComponent {
                         detail: response.message,
                         life: 3000,
                     });
+                    this.loading=false;
                 },
                 (error) => {
                     this.messageService.add({
@@ -383,6 +415,36 @@ export class ReporteGeneralComponent {
                         detail: error.error.message,
                         life: 3000,
                     });
+                    this.loading=false;
+
+                }
+            );
+    }
+
+    getAnalisis(filtro) {
+        this.reporteService
+            .analisisPeriodo(filtro)
+            .pipe(finalize(() => this.downloadFile(this.pdf, 'Anilisis'+filtro.grado_id+'.pdf')))
+            .subscribe(
+                (response) => {
+                    //console.log(response.pdf);
+                    this.pdf = response.pdf;
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Reporte Generado Exitosamente',
+                        detail: response.message,
+                        life: 3000,
+                    });
+                    this.loading=false;
+                },
+                (error) => {
+                    this.messageService.add({
+                        severity: 'warn',
+                        summary: 'Advertencia',
+                        detail: error.error.message,
+                        life: 3000,
+                    });
+                    this.loading=false;
 
                 }
             );
@@ -429,35 +491,145 @@ export class ReporteGeneralComponent {
         }
     }
 
+
+    async getNotasAcumulativasGrado(filtro: any) {
+  this.loading = true;
+
+  try {
+    // 1. Obtener todas las asignaturas
+    const asignaturas = await this.getAsignaturasSedeGrado(filtro.sede_id, filtro.grado_id);
+
+    if (!asignaturas?.length) {
+      this.messageService.add({ severity: 'warn', summary: 'Advertencia', detail: 'No hay asignaturas.', life: 3000 });
+      return;
+    }
+
+    // 2. Normalizar y agrupar POR DOCENTE desde el inicio
+    const docentesMap = new Map<string, any[]>();
+
+    for (const asig of asignaturas) {
+      // Validar y normalizar docente
+      if (!asig.docente || typeof asig.docente !== 'string') continue;
+
+      let nombreDocente = asig.docente.trim();
+      if (nombreDocente === '') continue;
+
+      // Opcional: normalizar a mayúsculas o minúsculas para evitar duplicados
+      // Ej: 'Dora Luz' y 'DORA LUZ' → mismo docente
+      nombreDocente = nombreDocente.toUpperCase(); // 👈 esto evita duplicados por formato
+
+      if (!docentesMap.has(nombreDocente)) {
+        docentesMap.set(nombreDocente, []);
+      }
+      docentesMap.get(nombreDocente)!.push(asig);
+    }
+
+    if (docentesMap.size === 0) {
+      this.messageService.add({ severity: 'warn', summary: 'Advertencia', detail: 'Ninguna asignatura tiene docente válido.', life: 3000 });
+      return;
+    }
+
+    // 3. Procesar cada docente
+    let docentesConPDF = 0;
+
+    for (const [nombreDocenteNormalizado, asignaturasDocente] of docentesMap) {
+      const pdfUnificado = await PDFDocument.create();
+      let alMenosUnPDFExitoso = false;
+
+      for (const asig of asignaturasDocente) {
+        try {
+          const response = await this.reporteService
+            .reporteNotasAcumulativas({ ...filtro, asignatura_id: asig.id })
+            .toPromise();
+
+          const bytes = this.base64ToUint8Array(response.pdf);
+          const srcDoc = await PDFDocument.load(bytes);
+          const pages = await pdfUnificado.copyPages(srcDoc, srcDoc.getPageIndices());
+          pages.forEach(page => pdfUnificado.addPage(page));
+          alMenosUnPDFExitoso = true;
+        } catch (err) {
+          console.warn(`PDF fallido para asignatura ${asig.id} (${asig.nombre}) del docente ${nombreDocenteNormalizado}:`, err);
+          // Continuar con las demás asignaturas del mismo docente
+        }
+      }
+
+      // Solo guardar si al menos un PDF se generó
+      if (alMenosUnPDFExitoso) {
+        const pdfBytes = await pdfUnificado.save();
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        // Restaurar formato legible (solo primera letra en mayúscula si quieres, o dejar como vino)
+        // Aquí usamos el nombre normalizado en mayúsculas, pero puedes ajustarlo
+        const nombreArchivo = `Reporte_${nombreDocenteNormalizado.replace(/[/\\?%*:|"<>]/g, '_')}_${filtro.grado_id}.pdf`;
+        saveAs(blob, nombreArchivo);
+        docentesConPDF++;
+      } else {
+        console.warn(`Ningún PDF generado para el docente: ${nombreDocenteNormalizado}`);
+      }
+    }
+
+    if (docentesConPDF === 0) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo generar ningún PDF.', life: 5000 });
+    } else {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Listo',
+        detail: `${docentesConPDF} PDF(s) descargado(s), uno por docente.`,
+        life: 6000,
+      });
+    }
+
+  } catch (error) {
+    console.error('Error general:', error);
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: error?.error?.message || 'Error al generar los reportes.',
+      life: 6000,
+    });
+  } finally {
+    this.loading = false;
+  }
+}
+
     onSubmit(){
         if(this.form.valid){
-            if(this.tiporeporte==1){
-                this.getDatMatriculas(this.form.value);
-            }
-            if(this.tiporeporte==2){
-                this.getDatCalificaciones(this.form.value);
-            }
-            if(this.tiporeporte==3){
-                this.getDatConsolidados(this.form.value);
-            }
-            if(this.tiporeporte==4){
-                this.getDataEstadisticasPeriodo(this.form.value);
-            }
-            if(this.tiporeporte==5){
-                this.getDataAreaPeriodo(this.form.value);
-            }
-            if(this.tiporeporte==6){
-                this.getValoraciones(this.form.value);
-            }
-            if(this.tiporeporte==7){
-                this.getDatNivelaciones(this.form.value);
-            }
-            if(this.tiporeporte==8){
-                this.getNotasAcumulativas(this.form.value);
-            }
-            if(this.tiporeporte==9){
-                this.getConsolidado(this.form.value);
-            }
+            this.loading=true;
+            setTimeout(() => {
+                if(this.tiporeporte==1){
+                    this.getDatMatriculas(this.form.value);
+                }
+                if(this.tiporeporte==2){
+                    this.getDatCalificaciones(this.form.value);
+                }
+                if(this.tiporeporte==3){
+                    this.getDatConsolidados(this.form.value);
+                }
+                if(this.tiporeporte==4){
+                    this.getDataEstadisticasPeriodo(this.form.value);
+                }
+                if(this.tiporeporte==5){
+                    this.getDataAreaPeriodo(this.form.value);
+                }
+                if(this.tiporeporte==6){
+                    this.getValoraciones(this.form.value);
+                }
+                if(this.tiporeporte==7){
+                    this.getDatNivelaciones(this.form.value);
+                }
+                if(this.tiporeporte==8){
+                    this.getNotasAcumulativas(this.form.value);
+                }
+                if(this.tiporeporte==9){
+                    this.getConsolidado(this.form.value);
+                }
+                 if(this.tiporeporte==10){
+                    this.getAnalisis(this.form.value);
+                }
+                 if(this.tiporeporte==11){
+                    this.getNotasAcumulativasGrado(this.form.value);
+                }
+
+            }, 1500);
         }else{
             this.messageService.add({
                 severity: 'warn',
@@ -469,7 +641,26 @@ export class ReporteGeneralComponent {
     }
 
 
+    // Convierte base64 a Uint8Array (requerido por pdf-lib)
+private base64ToUint8Array(base64: string): Uint8Array {
+  const clean = base64.replace(/^data:application\/pdf;base64,/, '')
+                      .replace(/^application\/pdf;base64,/, '');
+  const binary = atob(clean);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  return bytes;
+}
 
+private getAsignaturasSedeGrado(sedeId: any, gradoId: any): Promise<any[]> {
+  return new Promise((resolve, reject) => {
+    this.cargaService.getAsignaturasBySedeAndGrasdo(sedeId, gradoId).subscribe({
+      next: (response) => resolve(response.data || []),
+      error: (err) => reject(err)
+    });
+  });
+}
 
 
 

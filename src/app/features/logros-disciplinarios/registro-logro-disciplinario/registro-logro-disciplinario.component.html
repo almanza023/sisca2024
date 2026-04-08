@@ -57,7 +57,7 @@
                 </div>
                 <div class="col-12 md:col-3 lg:col-4">
                     <label for="docente" class="label-bold">Periodo</label>
-                    <app-selector-periodo
+                    <app-selector-periodo [final]="true"
                         (itemSeleccionado)="getValores($event, 'periodo')"
                     ></app-selector-periodo>
                     <div

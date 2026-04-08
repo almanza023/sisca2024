@@ -315,6 +315,18 @@ export class AppMenuComponent implements OnInit {
 
                     },
                     {
+                        label: 'Logros Observaciones Finales',
+                        icon: 'pi pi-fw pi-align-justify',
+                        routerLink: 'logros-observaciones/registro',
+
+                    },
+                    {
+                        label: 'Observaciones Finales',
+                        icon: 'pi pi-fw pi-align-justify',
+                        routerLink: 'observaciones/registro/guardar',
+
+                    },
+                    {
                         label: 'Boletines de Periodo',
                         icon: 'pi pi-fw pi-align-justify',
                         routerLink: 'reportes/boletin-periodo',

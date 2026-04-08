@@ -40,6 +40,12 @@ export class SelectorAsignaturasComponent {
     //console.log(event.value);
   }
 
+  ngAfterViewInit(): void {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
+
+  }
+
   reiniciarComponente(): void {
     this.seleccionado = {}; // Reiniciar el estado del componente hijo
   }

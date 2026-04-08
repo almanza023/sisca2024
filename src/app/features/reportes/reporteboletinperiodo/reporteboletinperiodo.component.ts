@@ -24,6 +24,7 @@ export class ReporteboletinperiodoComponent {
     periodoComponent: SelectorPeriodoComponent;
 
     pdf:string;
+    loading:boolean=false;
 
     constructor(
         private reporteService: ReporteService,
@@ -65,16 +66,22 @@ export class ReporteboletinperiodoComponent {
     onSubmit(){
 
         if(this.form.valid){
+          if(this.form.get('periodo_id').value!=5){
             let nombre="Reporte_"+this.form.get("grado_id").value;
-           if(this.form.get('grado_id').value==1 || this.form.get('grado_id').value==2){
-            this.getDataBoletinPreescolar(nombre, this.form.value)
-           }else{
-            this.getDataAll(nombre, this.form.value)
-           }
+            if(this.form.get('grado_id').value==1 || this.form.get('grado_id').value==2 || this.form.get('grado_id').value==15 ){
+             this.getDataBoletinPreescolar(nombre, this.form.value)
+            }else{
+             this.getDataAll(nombre, this.form.value)
+            }
+          }else{
+            let nombre="Reporte_Final_"+this.form.get("grado_id").value;
+            this.getBoletinesFinales(nombre, this.form.value)
+          }
         }
     }
 
     getDataAll(nombre:string, filtro) {
+        this.loading=true;
         this.reporteService
             .reporteBoletinPeriodo(filtro)
             .pipe(finalize(() => this.downloadFile(this.pdf, nombre+'.pdf')))
@@ -102,6 +109,7 @@ export class ReporteboletinperiodoComponent {
     }
 
     getDataBoletinPreescolar(nombre:string, filtro) {
+        this.loading=true;
         this.reporteService
             .reporteBoletinPreescolar(filtro)
             .pipe(finalize(() => this.downloadFile(this.pdf, nombre+'.pdf')))
@@ -128,6 +136,35 @@ export class ReporteboletinperiodoComponent {
             );
     }
 
+    getBoletinesFinales(nombre:string, filtro) {
+        this.reporteService
+            .reporteBoletinesFinales(filtro)
+            .pipe(finalize(() => this.downloadFile(this.pdf, nombre+'.pdf')))
+            .subscribe(
+                (response) => {
+
+                    this.pdf = response.pdf;
+                     console.log(response.pdf);
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Reporte Generado Exitosamente',
+                        detail: response.message,
+                        life: 3000,
+                    });
+                },
+                (error) => {
+                    this.messageService.add({
+                        severity: 'warn',
+                        summary: 'Advertencia',
+                        detail: error.error.message,
+                        life: 3000,
+                    });
+
+                }
+            );
+    }
+
+
 
 
 
@@ -140,6 +177,7 @@ export class ReporteboletinperiodoComponent {
             link.download = fileName
             link.click()
             link.remove()
+            this.loading=false;
         }else{
             this.messageService.add({
                 severity: 'warn',
@@ -147,6 +185,7 @@ export class ReporteboletinperiodoComponent {
                 detail: "Error al Generar PDF",
                 life: 3000,
             });
+            this.loading=false;
         }
     }
 

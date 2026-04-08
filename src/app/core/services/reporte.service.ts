@@ -79,6 +79,18 @@ export class ReporteService {
     return this.http.post<any>(url, data, {headers});
   }
 
+  reporteBoletinesFinales(data: any): Observable<any> {
+    const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
+    let url=`${environment.baseURL}/reportes/boletin-finales`;
+    return this.http.post<any>(url, data, {headers});
+  }
+
+
+  analisisPeriodo(data: any): Observable<any> {
+    const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
+    let url=`${environment.baseURL}/analisis-reporte-periodo`;
+    return this.http.post<any>(url, data, {headers});
+  }
 
 
 

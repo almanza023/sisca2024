@@ -1,3 +1,5 @@
+
+<app-loading *ngIf="loading"></app-loading>
 <div class="grid">
     <div class="col-12">
         <p-toast></p-toast>
@@ -9,59 +11,65 @@
             </div>
 
             <form
-            [formGroup]="form"
-            (ngSubmit)="onSubmit()"
-            class="p-grid p-fluid"
-        >
-        <div class="grid">
-            <div class="col-12 md:col-6 lg:col-3">
-                <label for="docente" class="label-bold">Tipo Reporte</label>
-                <app-selector-tipo-reporte
-                    (itemSeleccionado)="getValores($event, 'tipo')"
-                ></app-selector-tipo-reporte>
-            </div>
-        </div>
-            <div class="grid">
-                <!-- Columna 1 -->
-                <div class="col-12 md:col-6 lg:col-3">
-                    <label for="tipo" class="label-bold">Sede</label>
-                    <app-selector-sede
-                        (itemSeleccionado)="getValores($event, 'sede')"
-                    ></app-selector-sede>
+                [formGroup]="form"
+                (ngSubmit)="onSubmit()"
+                class="p-grid p-fluid"
+            >
+                <div class="grid">
+                    <div class="col-12 md:col-6 lg:col-3">
+                        <label for="docente" class="label-bold">Tipo Reporte</label>
+                        <app-selector-tipo-reporte
+                            (itemSeleccionado)="getValores($event, 'tipo')"
+                        ></app-selector-tipo-reporte>
+                    </div>
                 </div>
-                <!-- Columna 2 -->
-                <div class="col-12 md:col-6 lg:col-3">
-                    <label for="grado" class="label-bold">Grado</label>
-                    <app-selector-grados
-                        (itemSeleccionado)="getValores($event, 'grado')"
-                    ></app-selector-grados>
-                </div>
-                <div class="col-12 md:col-6 lg:col-3" *ngIf="ocultarPanelAisgPer">
-                    <label for="asignatura" class="label-bold">Aréa/Asignatura</label>
-                    <app-selector-asignaturas *ngIf="tiporeporte==2 || tiporeporte==6 || tiporeporte==7 || tiporeporte==8
-                    || tiporeporte==9"
-                        (itemSeleccionado)="getValores($event, 'asignatura')"
-                    ></app-selector-asignaturas>
-                    <app-selector-areas *ngIf="tiporeporte==5"
-                    (itemSeleccionado)="getValores($event, 'areas')"
-                ></app-selector-areas>
+                <div class="grid">
+                    <!-- Columna 1 -->
+                    <div class="col-12 md:col-6 lg:col-3">
+                        <label for="tipo" class="label-bold">Sede</label>
+                        <app-selector-sede
+                            (itemSeleccionado)="getValores($event, 'sede')"
+                        ></app-selector-sede>
+                    </div>
+                    <!-- Columna 2 -->
+                    <div class="col-12 md:col-6 lg:col-3">
+                        <label for="grado" class="label-bold">Grado</label>
+                        <app-selector-grados
+                            (itemSeleccionado)="getValores($event, 'grado')"
+                        ></app-selector-grados>
+                    </div>
+                    <div class="col-12 md:col-6 lg:col-3" *ngIf="ocultarPanelAisgPer">
+                        <label for="asignatura" class="label-bold">Aréa/Asignatura</label>
+                        <app-selector-asignaturas *ngIf="tiporeporte==2 || tiporeporte==6 || tiporeporte==7 || tiporeporte==8
+                        || tiporeporte==9 "
+                            (itemSeleccionado)="getValores($event, 'asignatura')"
+                        ></app-selector-asignaturas>
+                        <app-selector-areas *ngIf="tiporeporte==5"
+                        (itemSeleccionado)="getValores($event, 'areas')"
+                        ></app-selector-areas>
+                    </div>
+
+                    <div class="col-12 md:col-6 lg:col-3" >
+                        <label for="docente" class="label-bold">Periodo</label>
+                        <app-selector-periodo [final]="true" *ngIf="tiporeporte==9 || tiporeporte==8 || tiporeporte==5 || tiporeporte==4 || tiporeporte==3 || tiporeporte==10
+                        || tiporeporte==11"
+                            (itemSeleccionado)="getValores($event, 'periodo')"
+                        ></app-selector-periodo>
+                    </div>
+
+                    <div class="col-12 md:col-6 lg:col-3" *ngIf="tiporeporte==11" >
+                        <label for="formato" class="label-bold">Formato</label>
+                        <p-dropdown [options]="formatos" [(ngModel)]="formatoSeleccionado" optionLabel="nombre" [style]="{'width':'100%'}"></p-dropdown>
+                    </div>
                 </div>
 
-                <div class="col-12 md:col-6 lg:col-3" *ngIf="ocultarPanelAisgPer">
-                    <label for="docente" class="label-bold">Periodo</label>
-                    <app-selector-periodo *ngIf="tiporeporte==9"
-                        (itemSeleccionado)="getValores($event, 'periodo')"
-                    ></app-selector-periodo>
+                <!-- Botón de enviar -->
+                <div class="grid">
+                    <div class="col-12 md:col-3 lg:col-3">
+                        <button type="submit" icon="pi pi-download" class="p-button-info" pButton> Generar PDF</button>
+                    </div>
                 </div>
-            </div>
-
-            <!-- Botón de enviar -->
-            <div class="grid">
-                <div class="col-12 md:col-3 lg:col-3">
-                    <button type="submit" icon="pi pi-download" class="p-button-info" pButton> Generar PDF</button>
-                </div>
-            </div>
-        </form>
+            </form>
         </div>
     </div>
 </div>

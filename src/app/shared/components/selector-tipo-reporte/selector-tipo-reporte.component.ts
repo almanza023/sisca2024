@@ -38,6 +38,8 @@ export class SelectorTipoReporteComponent {
             {id:7, descripcion:"Reporte Nivelaciones"},
             {id:8, descripcion:"Reporte Notas Acumulativas"},
             {id:9, descripcion:"Consolidado General"},
+            {id:10, descripcion:"Analisis de Periodo"},
+            {id:11, descripcion:"Reporte Notas Acumulativas por Docente"},
         ]
     }
     if(this.rol=="3"){
@@ -51,6 +53,10 @@ export class SelectorTipoReporteComponent {
             {id:7, descripcion:"Reporte Nivelaciones"},
             {id:8, descripcion:"Reporte Notas Acumulativas"},
             {id:9, descripcion:"Consolidado General"},
+            {id:10, descripcion:"Analisis de Periodo"},
+            {id:11, descripcion:"Reporte Notas Acumulativas por Docente"},
+
+
         ]
     }
     if(this.rol=="2"){
