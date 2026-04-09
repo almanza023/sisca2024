@@ -1,3 +1,56 @@
+<!-- ══════════════════════════════════════════════════ -->
+<!-- CARD BIENVENIDA: FECHA, HORA Y UBICACIÓN         -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="grid mb-3">
+    <div class="col-12">
+        <div class="card dashboard-welcome-card">
+            <div class="flex align-items-center justify-content-between flex-wrap gap-3">
+
+                <!-- Bloque Fecha & Hora -->
+                <div class="flex align-items-center gap-3">
+                    <div class="welcome-icon-circle">
+                        <i class="pi pi-clock"></i>
+                    </div>
+                    <div>
+                        <div class="welcome-time">{{ horaActual }}</div>
+                        <div class="welcome-date">{{ fechaActual }}</div>
+                    </div>
+                </div>
+
+                <!-- Divider vertical -->
+                <div class="welcome-divider"></div>
+
+                <!-- Bloque Ubicación IP -->
+                <div class="flex align-items-center gap-3" *ngIf="ipInfo">
+                    <div class="welcome-icon-circle welcome-icon-location">
+                        <i class="pi pi-map-marker"></i>
+                    </div>
+                    <div>
+                        <div class="welcome-location-label">Conectado desde:</div>
+                        <div class="welcome-location-city">{{ ipInfo.city }}, {{ ipInfo.region }}</div>
+                        <div class="welcome-location-detail">
+                            <i class="pi pi-globe mr-1"></i>{{ ipInfo.country }}
+                            &nbsp;·&nbsp;
+                            <i class="pi pi-wifi mr-1"></i>{{ ipInfo.ip }}
+                        </div>
+                    </div>
+                </div>
+                <div class="flex align-items-center gap-2" *ngIf="!ipInfo">
+                    <i class="pi pi-spin pi-spinner" style="color:#2e7d32"></i>
+                    <small style="color:#757575">Obteniendo ubicación...</small>
+                </div>
+
+                <!-- Bloque Bienvenida -->
+                <div class="welcome-text ml-auto">
+                    <div class="welcome-greeting">Bienvenido al sistema</div>
+                    <div class="welcome-institution">Institución Educativa Don Alonso</div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="grid" *ngIf="rol=='3'">
 
             <div class="col-12 lg:col-6 xl:col-3">

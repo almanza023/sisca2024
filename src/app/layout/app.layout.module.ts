@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InputTextModule } from 'primeng/inputtext';
@@ -19,6 +20,7 @@ import { AppSidebarComponent } from "./app.sidebar.component";
 import { AppLayoutComponent } from "./app.layout.component";
 import { MegaMenuModule } from 'primeng/megamenu';
 import { MenubarModule } from 'primeng/menubar';
+import { LoadingOverlayComponent } from './loading-overlay/loading-overlay.component';
 @NgModule({
     declarations: [
         AppMenuitemComponent,
@@ -27,9 +29,11 @@ import { MenubarModule } from 'primeng/menubar';
         AppMenuComponent,
         AppSidebarComponent,
         AppLayoutComponent,
+        LoadingOverlayComponent,
     ],
     imports: [
         BrowserModule,
+        CommonModule,
         FormsModule,
         HttpClientModule,
         BrowserAnimationsModule,

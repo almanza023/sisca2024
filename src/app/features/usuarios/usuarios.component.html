@@ -55,6 +55,11 @@
                             <p-sortIcon field="documento"></p-sortIcon>
                         </th>
 
+                        <th pSortableColumn="documento">
+                            Tipo Usuario
+                            <p-sortIcon field="documento"></p-sortIcon>
+                        </th>
+
                         <th pSortableColumn="estado">
                             Estado
                             <p-sortIcon field="estado"></p-sortIcon>
@@ -75,7 +80,7 @@
                         </td>
 
                         <td style="width: 26%; min-width: 10rem">
-                            <span class="p-column-title">Rol</span> {{ item.tipo===1?'DOCENTE':'ADMINISTRADOR'}}
+                            <span class="p-column-title">Rol</span> {{ item.tipo=='1'?'DOCENTE':'ADMINISTRADOR'}}
                         </td>
 
                         <td style="width: 26%; min-width: 10rem">

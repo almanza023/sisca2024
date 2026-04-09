@@ -3,6 +3,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 1rem;
-    border-top: 1px solid var(--surface-border);
+    padding: 1rem 1.5rem;
+    border-top: 2px solid #e8f5e9;
+    background: linear-gradient(135deg, #f0f5f1 0%, #fafffe 100%);
+    border-radius: 0 0 12px 12px;
+    margin-top: 1rem;
+
+    span {
+        color: #2e7d32;
+        font-size: 0.78rem;
+        font-weight: 500;
+        opacity: 0.85;
+    }
 }

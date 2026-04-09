@@ -1,15 +1,19 @@
 <div class="layout-topbar">
-    <a class="layout-topbar-logo" routerLink="/">
-        <img src="assets/images/logo_ineda.png" alt="logo">
-        <h6>INEDA 2025</h6>
+    <a class="layout-topbar-logo" routerLink="/dashboard">
+        <img src="assets/images/logo_ineda.png" alt="Escudo INEDA">
+        <div class="topbar-title">
+            <span class="topbar-app-name">SISCA</span>
+            <span class="topbar-app-subtitle">INEDA · Corozal · Sucre</span>
+        </div>
     </a>
     <app-menu style="width: 100%;"></app-menu>
 
-
-
     <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
-        <br>
+        <div class="topbar-user-badge">
+            <div class="topbar-user-avatar">
+                <i class="pi pi-user"></i>
+            </div>
             <small>{{ nombreUsuario }}</small>
+        </div>
     </div>
-
 </div>

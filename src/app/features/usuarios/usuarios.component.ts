@@ -91,9 +91,11 @@ export class UsuariosComponent {
 
     editProduct(item: any) {
         //console.log(item)
+        this.persona = {};
         this.persona.id=item.id;
         this.persona.documento=item.documento;
-        this.persona.name=item.name;
+        this.persona.nombre=item.name;
+        this.persona.email=item.email;
         this.clienteDialog = true;
         this.persona.editar = true;
         this.editar=true;
